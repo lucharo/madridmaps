@@ -5,7 +5,10 @@ Browse all eleven original IGN maps of Madrid in a private, touch-friendly viewe
 - [x] Recover the source web map and WMTS capabilities.
 - [x] Build a map-first viewer with A: compact controls and B: expanded catalogue as reviewable layouts.
 - [x] Verify original images, interaction and failure reporting on desktop and tablet layouts.
-- [ ] Publish privately and hand over the live URL.
+- [x] Publish privately and hand over the live URL.
+
+Published successfully: https://madrid-historical-maps-luis.lucharo-dev.chatgpt.site
+Deployment: appgdep_6ae64f32482481918b2e023081a5e050. Deployed application commit: 53a9026798302ef3c53c9bea1362323f95c7d011.
 
 ## Design
 The map fills the screen. A compact white toolbar and blue selection state leave the historical colours untouched. System sans-serif controls; large dates give the timeline hierarchy. Palette: white #ffffff, ink #182c3b, blue #165a89, pale blue #eaf2f8, grey #667480. Controls align left. A keeps the catalogue in a select; B opens a chronological rail using the same live map.
