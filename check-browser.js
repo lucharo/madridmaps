@@ -6,12 +6,17 @@
   for(const m of window.madridViewer.maps){
     const select=document.getElementById('map-select');select.value=m.id;select.dispatchEvent(new Event('change'));
     document.getElementById('fit').click();
-    await waitFor(()=>!window.madridViewer.historical.isLoading());
+    await waitFor(()=>!window.madridViewer.historical.isLoading()&&[...window.madridViewer.historical.getContainer().querySelectorAll('img')].every(i=>i.complete));
     const tiles=[...window.madridViewer.historical.getContainer().querySelectorAll('img')];
     assert(tiles.length>0,`${m.id}: no tiles requested`);
     assert(tiles.every(i=>i.complete&&i.naturalWidth===256),`${m.id}: undecoded tiles`);
     const layers=[];window.madridViewer.map.eachLayer(l=>{if(l instanceof L.TileLayer)layers.push(l._url);});
     assert(layers.length===1,`${m.id}: historical layers stacked`);
+    if(m.id==='MadozMadrid'){
+      const rejected={x:16047,y:12352,z:15},accepted={x:16047,y:12353,z:15};
+      assert(!window.madridViewer.historical._isValidTile(rejected),'Madoz requested the TileOutOfRange edge row');
+      assert(window.madridViewer.historical._isValidTile(accepted),'Madoz discarded a valid edge row');
+    }
     // Sample an actual image with CORS, not just its successful HTTP status.
     const centre=window.madridViewer.map.getCenter();const z=15,n=2**z;
     const x=Math.floor((centre.lng+180)/360*n),r=centre.lat*Math.PI/180,y=Math.floor((1-Math.asinh(Math.tan(r))/Math.PI)/2*n);

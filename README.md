@@ -4,29 +4,34 @@ Private map viewer built on 31 October 2026 for the IGN web map supplied by Luis
 
 ## Use
 
-Pick a date to display exactly one historical map. Pan and zoom, or use Fit map to show its full coverage. Compare with today adds IGN's modern raster map underneath, with an opacity slider. All maps opens the chronological catalogue. About contains original metadata and scan-download records. The URL preserves date, position, zoom and comparison state.
+All maps opens a gallery of the eleven historical sheets and today's IGN map. Select a card to explore it. Compare maps opens the same gallery with A and B selection slots; pick two different maps and choose Compare these maps. Slide shows A on the left and B on the right of a draggable divider. Overlay blends A over B with adjustable opacity. Cancel preserves the active comparison. Exit comparison returns to A alone.
 
-Default layout A is compact; `?variant=B` opens the catalogue. Both use the same live data and can be switched with All maps.
+Fill screen is the default and zooms in until the sheet bounds cover the viewport. Whole sheet contains the full original, with fractional zoom to avoid unnecessarily small maps. Comparison Fill screen uses the intersection of the selected sheets; Whole sheet uses their combined extent. Expand map removes page borders and controls. Fullscreen also requests browser fullscreen; when unavailable, expanded exploration remains usable. Exit expanded view or Escape returns to the page. Comparison controls, map names and attribution remain available while expanded.
+
+The URL preserves dates, comparison mode, split position, opacity, fit choice, centre and zoom. About contains original metadata and scan-download records.
 
 ## Sources
 
 - Web map: https://nco.ign.es/portal/sharing/rest/content/items/8eda9d617ce540778acf62c0b9fcfed1/data?f=json
 - Tile service and bounds: https://www.ign.es/wmts/planos?SERVICE=WMTS&REQUEST=GetCapabilities
 - Modern raster: https://www.ign.es/wmts/mapa-raster
+- Gallery images: original 840×560 JPEGs from IGN's historical WMS and modern raster WMS. `bun fetch-previews.mjs` fetches them using the source bounds at matching aspect ratio; it does not generate illustrations.
 - Leaflet 1.9.4, locally vendored with its licence.
 
-The source configuration enables all eleven historical maps. This viewer removes the prior historical layer when the date changes. Images are original IGN PNG tiles. Differently coloured survey sheets and source gaps remain visible, especially in the 1940–1960 mosaic. Approximate georeferencing is inherited from IGN. Attribution: CC BY 4.0 ign.es.
+The source configuration enables all eleven historical maps. Browse mounts one selected map; comparison mounts two selected maps. Historical images are original IGN PNG tiles, modern images are IGN JPEGs. Differently coloured survey sheets and source gaps remain visible, especially in the 1940–1960 mosaic. Approximate georeferencing is inherited from IGN. Attribution: CC BY 4.0 ign.es.
+
+Exact WMTS TileMatrixLimits are retained per map and zoom in maps.json. They supplement the advertised WGS84 bounds, which include invalid edge tiles for some sheets. For example, Madoz at z15 rejects row 12352 and permits only rows 12353–12357. The viewer filters requests through the pinned Leaflet 1.9.4 tile-validity hook. Below zoom 11 it scales native z11 images down instead of requesting unavailable lower-resolution historical tiles.
 
 ## Verified on 31 October 2026
 
-All eleven dates decoded live tiles; centre samples contained opaque, nonuniform imagery. The single-layer invariant held after every date switch. Browser checks exercised zoom controls, keyboard pan, Fit map, modern comparison, opacity, About, outside-coverage recovery and cold URL restoration. Actual intercepted network failures for historical and modern tiles produced persistent errors and recovered through Retry. Separate code review's three findings were fixed and checked again.
+All twelve maps, including Today, decoded live tiles at Fill screen zoom; centre samples contained opaque, nonuniform imagery. Browse retained exactly one tile layer. Gallery pair selection, Cancel, two-layer comparison, exact Slide clip boundaries through pan/zoom, Overlay opacity, Fill versus Whole-sheet extent, expanded view and exiting comparison passed browser checks. Desktop native fullscreen entered and exited successfully. The unavailable-API path retained expanded view with an explanatory message. Cold reload restored comparison state. Actual network interception exercised persistent map-B errors and Retry, including error visibility in expanded view. Independent review found no outstanding issues, including the tile-limits correction.
 
-Responsive layout checked at desktop, 1024px tablet at device pixel ratio 2 and 390px phone. No horizontal page overflow. Native iPad Safari and physical pinch gestures have not been exercised. Availability of IGN and CNIG remains outside this viewer's control. CNIG links are record searches, not bundled offline originals.
+Responsive layout checked at desktop, 1024px tablet at device pixel ratio 2 and 390px phone. Whole sheet fits the largest 1940–1960 sheet on the phone at zoom 10.9. No horizontal page overflow. CDP-generated touch events exercised dragging the divider, subsequent map pan and two-finger pinch zoom in the isolated Chromium test browser. Native iPad Safari has not been exercised. Availability of IGN and CNIG remains outside this viewer's control. CNIG links are record searches, not bundled offline originals.
 
 ## Local preview and checks
 
 Run `BROWSER=/usr/bin/true bun preview.mjs` from this directory, then open http://127.0.0.1:18894/. The loopback preview validates Host and Origin and permits read methods only.
 
-With an owned `agent-browser` session open on that URL, run `agent-browser --session <session> eval --stdin < check-browser.js` and `agent-browser --session <session> eval --stdin < check-interactions.js`. The checks use the real tile service. Close the owned browser session afterwards.
+With an owned `agent-browser` session open on that URL, run `agent-browser --session <session> eval --stdin < check-browser.js` and `agent-browser --session <session> eval --stdin < check-interactions.js`. The checks use the real tile service. `bun check-touch.mjs <owned-local-cdp-url>` exercises touch input against that isolated viewer only. Close the owned browser session afterwards. When testing cold hash restoration, reload the page after navigating; a fragment-only navigation otherwise retains the running page.
 
 Session: 01a193a1-1209-76b0-b5aa-ee6b98dfa3b3. Source: /Users/luis/.local/share/madrid-maps-2026-10-31. Hosted identity: .openai/hosting.json.

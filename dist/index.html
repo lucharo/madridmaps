@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Explore eleven original IGN maps of Madrid, from 1622 to 1960. One historical map at a time, with optional modern-map comparison.">
+<meta name="description" content="Explore original IGN maps of Madrid, from 1622 to today. Choose maps in a gallery, compare with a sliding divider or an overlay, and explore fullscreen.">
 <meta name="theme-color" content="#ffffff"><title>Madrid, through time</title>
 <link rel="stylesheet" href="vendor/leaflet.css"><link rel="stylesheet" href="style.css">
 <script defer src="vendor/leaflet.js"></script><script defer src="app.js"></script>
@@ -10,21 +10,30 @@
 <body>
 <header>
   <div class="identity"><h1>Madrid, through time</h1><span>IGN historical maps, 1622–1960</span></div>
-  <div class="tools"><button id="catalogue-toggle" aria-expanded="false" aria-controls="catalogue">All maps</button><button id="info-toggle" aria-haspopup="dialog">About</button><button id="theme">Theme: System</button></div>
+  <div class="tools"><button id="catalogue-toggle" aria-haspopup="dialog">All maps</button><button id="compare-open" aria-haspopup="dialog">Compare maps</button><button id="fullscreen">Fullscreen</button><button id="info-toggle" aria-haspopup="dialog">About</button><button id="theme">Theme: System</button></div>
 </header>
 <main>
-  <aside id="catalogue" hidden aria-label="Historical map catalogue"><h2>Choose a map</h2><nav id="map-list"></nav></aside>
   <section class="workspace" aria-label="Map viewer">
     <div class="toolbar">
-      <div class="date-picker"><button id="previous" aria-label="Previous historical map">‹</button><label class="sr-only" for="map-select">Historical map</label><select id="map-select"></select><button id="next" aria-label="Next historical map">›</button></div>
-      <div class="view-tools"><button id="fit">Fit map</button><label class="compare"><input type="checkbox" id="modern"> Compare with today</label><label id="opacity-control" hidden>Historical map <input type="range" id="opacity" min="0" max="100" value="70" aria-label="Historical map opacity"><output id="opacity-value">70%</output></label></div>
+      <div id="browse-picker" class="date-picker"><button id="previous" aria-label="Previous map">‹</button><label class="sr-only" for="map-select">Map</label><select id="map-select"></select><button id="next" aria-label="Next map">›</button></div>
+      <div id="compare-controls" hidden><button id="pair-a" aria-label="Choose map A"></button><span class="versus">compared with</span><button id="pair-b" aria-label="Choose map B"></button><button id="end-compare">Exit comparison</button></div>
+      <div class="view-tools"><button id="fit" aria-pressed="true" title="Zoom in until the map covers the viewport">Fill screen</button><button id="whole" aria-pressed="false" title="Show every edge of the original map">Whole sheet</button></div>
     </div>
-    <div id="map" aria-label="Interactive historical map of Madrid"></div>
-    <div class="map-caption"><strong id="map-year"></strong><span id="map-name"></span></div>
-    <div class="status-bar"><span id="status" role="status" aria-live="polite">Loading catalogue…</span><button id="retry" hidden>Retry tiles</button><span id="outside" hidden>Outside this map’s coverage. Use Fit map.</span></div>
+    <div id="map-stage">
+      <div id="map" aria-label="Interactive historical map of Madrid"></div>
+      <div class="explore-controls"><button id="expand" aria-pressed="false">Expand map</button><button id="expanded-maps">All maps</button><button id="expanded-compare">Compare</button></div>
+      <div id="comparison-panel"><div id="mode-switch"><button id="mode-slide" aria-pressed="false">Slide</button><button id="mode-overlay" aria-pressed="false">Overlay</button></div><label id="overlay-control" hidden>Map A <input type="range" id="opacity" min="0" max="100" value="70" aria-label="Map A opacity"><output id="opacity-value">70%</output></label></div>
+      <div id="swipe" hidden><button id="swipe-handle" role="slider" aria-label="Comparison divider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" title="Drag to compare maps">‹ ›</button></div>
+      <label class="sr-only" for="split-range">Comparison divider position</label><input class="sr-only" id="split-range" type="range" min="0" max="100" value="50" tabindex="-1" aria-hidden="true">
+      <div class="map-caption caption-a"><strong id="map-year"></strong><span id="map-name"></span></div>
+      <div id="caption-b" class="map-caption caption-b" hidden><strong id="year-b"></strong><span id="name-b"></span></div>
+      <button id="view-note" hidden></button>
+    </div>
+    <div id="status-bar" class="status-bar"><span id="status" role="status" aria-live="polite">Loading catalogue…</span><button id="retry" hidden>Retry tiles</button><span id="outside" hidden></span></div>
   </section>
 </main>
+<dialog id="gallery" aria-labelledby="gallery-title" aria-describedby="gallery-hint"><div class="gallery-header"><div><h2 id="gallery-title">Explore the maps</h2><p id="gallery-hint">Pick a map to explore it.</p></div><button id="gallery-close">Cancel</button></div><div id="selection" hidden><button id="slot-0" aria-pressed="true"></button><button id="slot-1" aria-pressed="false"></button></div><div id="map-gallery"></div><div class="gallery-footer"><span>Original IGN cartography · CC BY 4.0 ign.es</span><button id="gallery-apply" hidden disabled>Compare these maps</button></div></dialog>
 <footer><span>Original cartography <a href="https://www.ign.es/" target="_blank" rel="noopener">CC BY 4.0 ign.es</a></span><span>31 Oct 2026 <span class="provenance">· Madrid viewer · private</span></span></footer>
-<dialog id="info"><button id="close-info" class="close" aria-label="Close map information">×</button><h2 id="info-title">About this map</h2><p id="description"></p><p>Historical maps cover different areas and may only be approximately aligned with today’s streets. Blank areas outside a sheet are part of its original coverage.</p><p><a id="metadata" target="_blank" rel="noopener">IGN catalogue metadata</a></p><p><a id="downloads" target="_blank" rel="noopener">Original scans at CNIG</a></p><details><summary>Sources and viewer</summary><p>This viewer loads the original PNG tiles from IGN’s WMTS, with Leaflet 1.9.4. It does not reconstruct or alter the historical images. The original ArcGIS configuration enables all eleven historical layers at once; this viewer displays only your selected date.</p><p><a href="https://www.ign.es/wmts/planos?SERVICE=WMTS&amp;REQUEST=GetCapabilities" target="_blank" rel="noopener">IGN map service</a> · <a href="https://nco.ign.es/portal/home/webmap/viewer.html?webmap=8eda9d617ce540778acf62c0b9fcfed1" target="_blank" rel="noopener">Original viewer</a></p><p>Source: Madrid historical WMTS and web map 8eda9d617ce540778acf62c0b9fcfed1. Built 31 October 2026. Local source: /Users/luis/.local/share/madrid-maps-2026-10-31. Session 01a193a1.</p></details></dialog>
+<dialog id="info"><button id="close-info" class="close" aria-label="Close map information">×</button><h2 id="info-title">About this map</h2><p id="description"></p><p>Fill screen zooms in to cover the viewing area. Whole sheet shows the complete original, with space around it when its shape differs from the screen. Expand map hides the page controls; Fullscreen also asks your browser to hide its own bars.</p><p>Historical maps cover different areas and may only be approximately aligned with today’s streets. Blank areas and differently coloured survey sheets are part of the originals.</p><p><a id="metadata" target="_blank" rel="noopener">IGN catalogue metadata</a></p><p><a id="downloads" target="_blank" rel="noopener">Original scans at CNIG</a></p><details><summary>Sources and viewer</summary><p>This viewer loads original IGN tiles with Leaflet 1.9.4. Gallery previews are original IGN WMS images. Browse displays one map; comparison displays your two selected maps. Slide shows A on the left and B on the right. Overlay blends A over B.</p><p><a href="https://www.ign.es/wmts/planos?SERVICE=WMTS&amp;REQUEST=GetCapabilities" target="_blank" rel="noopener">IGN map service</a> · <a href="https://nco.ign.es/portal/home/webmap/viewer.html?webmap=8eda9d617ce540778acf62c0b9fcfed1" target="_blank" rel="noopener">Original viewer</a></p><p>Source: Madrid historical WMTS and web map 8eda9d617ce540778acf62c0b9fcfed1. Updated 31 October 2026. Local source: /Users/luis/.local/share/madrid-maps-2026-10-31. Session 01a193a1.</p></details></dialog>
 <noscript>This map viewer needs JavaScript. Enable JavaScript or use the IGN source website.</noscript>
 </body></html>

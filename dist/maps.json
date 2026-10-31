@@ -15,7 +15,135 @@
     ],
     "description": "Plano de Madrid realizado por  Antonio Mancelli, que entregó el original al Concejo de la Villa en 1622. Se considera el plano impreso más antiguo de Madrid. La imagen digital corresponde con el ejemplar que se conserva en Cartoteca del IGN, se trata de una edición facsímil realizada en 1923 por el Instituto Geográfico Catastral (Referencia: 32-A-1).",
     "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0001484-marc21.xml",
-    "url": "https://www.ign.es/wmts/planos?layer=MancelliMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=MancelliMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        6,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        12,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        24,
+        24
+      ],
+      "7": [
+        62,
+        62,
+        48,
+        48
+      ],
+      "8": [
+        125,
+        125,
+        96,
+        96
+      ],
+      "9": [
+        250,
+        250,
+        193,
+        193
+      ],
+      "10": [
+        501,
+        501,
+        386,
+        386
+      ],
+      "11": [
+        1002,
+        1003,
+        772,
+        772
+      ],
+      "12": [
+        2005,
+        2006,
+        1544,
+        1544
+      ],
+      "13": [
+        4011,
+        4012,
+        3088,
+        3089
+      ],
+      "14": [
+        8022,
+        8024,
+        6177,
+        6178
+      ],
+      "15": [
+        16044,
+        16048,
+        12354,
+        12357
+      ],
+      "16": [
+        32089,
+        32097,
+        24708,
+        24714
+      ],
+      "17": [
+        64179,
+        64194,
+        49417,
+        49428
+      ],
+      "18": [
+        128358,
+        128388,
+        98834,
+        98857
+      ],
+      "19": [
+        256716,
+        256777,
+        197669,
+        197714
+      ],
+      "20": [
+        513432,
+        513555,
+        395339,
+        395429
+      ]
+    }
   },
   {
     "id": "Texeira",
@@ -33,7 +161,135 @@
     ],
     "description": "Reproducción que en 1881 realizó el Instituto Geográfico y Estadístico del plano Topographia de la villa de Madrid, elaborado por  Pedro Texeira en 1656. El plano tiene una escala aproximada de 1:1.840 y está compuesto por 20 hojas. Representa la planta de la Villa de Madrid, a la que se le añadieron los alzados de la fachada sur de los edificios en diferentes perspectivas. Se ha realizado el mosaico de las 20 hojas que componen el plano  y se ha  georreferenciado de forma aproximada.",
     "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0001488-marc21.xml",
-    "url": "https://www.ign.es/wmts/planos?layer=Texeira&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=Texeira&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        2,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        5,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        11,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        23,
+        24
+      ],
+      "7": [
+        62,
+        63,
+        47,
+        48
+      ],
+      "8": [
+        124,
+        126,
+        95,
+        97
+      ],
+      "9": [
+        248,
+        252,
+        190,
+        195
+      ],
+      "10": [
+        497,
+        505,
+        381,
+        390
+      ],
+      "11": [
+        995,
+        1011,
+        763,
+        780
+      ],
+      "12": [
+        1990,
+        2023,
+        1526,
+        1560
+      ],
+      "13": [
+        3981,
+        4047,
+        3052,
+        3121
+      ],
+      "14": [
+        7962,
+        8095,
+        6104,
+        6243
+      ],
+      "15": [
+        15925,
+        16190,
+        12209,
+        12487
+      ],
+      "16": [
+        31850,
+        32381,
+        24418,
+        24975
+      ],
+      "17": [
+        63701,
+        64762,
+        48836,
+        49950
+      ],
+      "18": [
+        127402,
+        129524,
+        97673,
+        99901
+      ],
+      "19": [
+        254804,
+        259048,
+        195347,
+        199802
+      ],
+      "20": [
+        509608,
+        518096,
+        390695,
+        399604
+      ]
+    }
   },
   {
     "id": "ChalmadrierMadrid",
@@ -51,7 +307,135 @@
     ],
     "description": "Plano de población de Madrid realizado por el grabador francés Nicolas Chalmandrier por encargo de Carlos III. Refleja el estado de la capital al comienzo del reinado de Carlos III, con las mejoras llevadas a cabo por Fernando VI. En el plano aparece por primera vez el Palacio Real, construido sobre el emplazamiento del Palacio viejo, destruido en un incendio en 1734. Se trata de un plano en cuatro hojas, la escala aproximada es 1:2.600. Presenta un excelente grabado, los principales edificios están en perpectiva caballera. La imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: 10-C-2). Se ha realizado el mosaico con las cuatro hojas y se ha georreferenciado.",
     "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0031304-marc21.xml",
-    "url": "https://www.ign.es/wmts/planos?layer=ChalmadrierMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=ChalmadrierMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        6,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        12,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        24,
+        24
+      ],
+      "7": [
+        62,
+        62,
+        48,
+        48
+      ],
+      "8": [
+        125,
+        125,
+        96,
+        96
+      ],
+      "9": [
+        250,
+        250,
+        193,
+        193
+      ],
+      "10": [
+        501,
+        501,
+        386,
+        386
+      ],
+      "11": [
+        1002,
+        1003,
+        772,
+        772
+      ],
+      "12": [
+        2005,
+        2006,
+        1544,
+        1544
+      ],
+      "13": [
+        4010,
+        4012,
+        3088,
+        3089
+      ],
+      "14": [
+        8021,
+        8024,
+        6176,
+        6179
+      ],
+      "15": [
+        16043,
+        16049,
+        12353,
+        12358
+      ],
+      "16": [
+        32086,
+        32099,
+        24706,
+        24716
+      ],
+      "17": [
+        64173,
+        64199,
+        49412,
+        49432
+      ],
+      "18": [
+        128346,
+        128398,
+        98824,
+        98864
+      ],
+      "19": [
+        256692,
+        256797,
+        197649,
+        197728
+      ],
+      "20": [
+        513385,
+        513595,
+        395299,
+        395456
+      ]
+    }
   },
   {
     "id": "EspinosaMadrid",
@@ -69,7 +453,135 @@
     ],
     "description": "Plano de Madrid realizado por Antonio Espinosa de los Monteros, académico de la Real Academia de San Fernando, por orden del Conde de Aranda. El plano está compuesto por nueve hojas, y tiene una escala aproximada de 1:1.900. Se basa en la Planimetría General de madrid, catastro urbano realizado en el s. XVIII a propuesta del Marqués de la Ensenada, que consta de 557 planos de manzanas y tres libros de asientos con información textual. La numeración de las 557 manzanas aparece en el plano. La imagen digital corresponde con la reproduciión del pano que se conserva en la Cartoteca del IGN (Referencia: 10-H-19). Se ha realizado el mosaico con las nueve hojas y se ha georreferenciado.",
     "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0023354-marc21.xml",
-    "url": "https://www.ign.es/wmts/planos?layer=EspinosaMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=EspinosaMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        6,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        12,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        24,
+        24
+      ],
+      "7": [
+        62,
+        62,
+        48,
+        48
+      ],
+      "8": [
+        125,
+        125,
+        96,
+        96
+      ],
+      "9": [
+        250,
+        250,
+        193,
+        193
+      ],
+      "10": [
+        501,
+        501,
+        386,
+        386
+      ],
+      "11": [
+        1002,
+        1003,
+        772,
+        772
+      ],
+      "12": [
+        2005,
+        2006,
+        1544,
+        1544
+      ],
+      "13": [
+        4011,
+        4012,
+        3088,
+        3089
+      ],
+      "14": [
+        8022,
+        8024,
+        6176,
+        6178
+      ],
+      "15": [
+        16044,
+        16049,
+        12353,
+        12357
+      ],
+      "16": [
+        32089,
+        32099,
+        24707,
+        24715
+      ],
+      "17": [
+        64178,
+        64198,
+        49414,
+        49430
+      ],
+      "18": [
+        128356,
+        128397,
+        98828,
+        98860
+      ],
+      "19": [
+        256712,
+        256794,
+        197657,
+        197721
+      ],
+      "20": [
+        513424,
+        513589,
+        395314,
+        395443
+      ]
+    }
   },
   {
     "id": "GeometricoMadrid",
@@ -87,7 +599,135 @@
     ],
     "description": "Plano de Madrid realizado por el cartógrafo Tomás López, dedicado a Carlos III. Para su formación acude a diversas fuentes, tal como: el plano de Texeira, el de Espinosa de los Monteros o el de Chalmandrier. El plano muestra la expansión urbana a finales del siglo XVIII, delimitada por la cerca construida por Felipe IV, y recoge las reformas urbanas ordenadas por Carlos III. En los laterales del plano se añade un callejero donde situar calles mediante una cuadrícula. La escala aproximada es de 1:5.500. La imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: 10-H-24).",
     "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0001649-marc21.xml",
-    "url": "https://www.ign.es/wmts/planos?layer=GeometricoMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=GeometricoMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        6,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        12,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        24,
+        24
+      ],
+      "7": [
+        62,
+        62,
+        48,
+        48
+      ],
+      "8": [
+        125,
+        125,
+        96,
+        96
+      ],
+      "9": [
+        250,
+        250,
+        193,
+        193
+      ],
+      "10": [
+        501,
+        501,
+        386,
+        386
+      ],
+      "11": [
+        1002,
+        1003,
+        772,
+        772
+      ],
+      "12": [
+        2005,
+        2006,
+        1544,
+        1544
+      ],
+      "13": [
+        4011,
+        4012,
+        3088,
+        3089
+      ],
+      "14": [
+        8022,
+        8025,
+        6176,
+        6178
+      ],
+      "15": [
+        16044,
+        16050,
+        12353,
+        12357
+      ],
+      "16": [
+        32088,
+        32100,
+        24706,
+        24715
+      ],
+      "17": [
+        64176,
+        64200,
+        49413,
+        49430
+      ],
+      "18": [
+        128352,
+        128400,
+        98827,
+        98861
+      ],
+      "19": [
+        256704,
+        256800,
+        197655,
+        197722
+      ],
+      "20": [
+        513408,
+        513601,
+        395310,
+        395444
+      ]
+    }
   },
   {
     "id": "MadozMadrid",
@@ -105,7 +745,135 @@
     ],
     "description": "Plano de Madrid publicado en el Atlas de España y sus Posesiones de Ultramar por Francisco Coello y Pascual Madoz, declarado Plano Oficial de la Villa. Este plano a escala 1:5.000 es una reducción del realizado a 1:1.250 por los Ingenieros de Caminos Juan Merlo, Fernando Gutiérrez y Juan Ribera entre los años 1841 y 1846. El plano incluye un callejero para localizar sitios de interés como: academias, bibliotecas, museos, etc. La imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: 32-A-5).",
     "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/html/001526.html",
-    "url": "https://www.ign.es/wmts/planos?layer=MadozMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=MadozMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        6,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        12,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        24,
+        24
+      ],
+      "7": [
+        62,
+        62,
+        48,
+        48
+      ],
+      "8": [
+        125,
+        125,
+        96,
+        96
+      ],
+      "9": [
+        250,
+        250,
+        193,
+        193
+      ],
+      "10": [
+        501,
+        501,
+        386,
+        386
+      ],
+      "11": [
+        1002,
+        1003,
+        772,
+        772
+      ],
+      "12": [
+        2005,
+        2006,
+        1544,
+        1544
+      ],
+      "13": [
+        4011,
+        4012,
+        3088,
+        3089
+      ],
+      "14": [
+        8022,
+        8025,
+        6176,
+        6178
+      ],
+      "15": [
+        16044,
+        16050,
+        12353,
+        12357
+      ],
+      "16": [
+        32088,
+        32100,
+        24706,
+        24715
+      ],
+      "17": [
+        64176,
+        64200,
+        49413,
+        49430
+      ],
+      "18": [
+        128352,
+        128400,
+        98827,
+        98861
+      ],
+      "19": [
+        256704,
+        256800,
+        197655,
+        197722
+      ],
+      "20": [
+        513408,
+        513601,
+        395310,
+        395444
+      ]
+    }
   },
   {
     "id": "IbanezMadrid",
@@ -123,7 +891,135 @@
     ],
     "description": "Plano de población de Madrid realizado por Carlos Ibáñez e Ibáñez de Íbero, militar y geógrafo que fundó el Instituto Geográfico en 1870. Está formado a partir de las hojas kilométricas realizadas por la Junta General de Estadística del casco urbano de Madird. Consta de dieciséis hojas en blanco y negro, tiene una leyenda con una relación de calles y locaclización de edificios públicos en una cuadrícula. La imagen digital corresponde con el original que se converva en la Cartoreca del IGN (Referencia: 32-A-12). Se ha realizado el mosaico con las dieciséis hojas y se ha georrefernciado.",
     "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0001494-marc21.xml",
-    "url": "https://www.ign.es/wmts/planos?layer=IbanezMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=IbanezMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        6,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        12,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        24,
+        24
+      ],
+      "7": [
+        62,
+        62,
+        48,
+        48
+      ],
+      "8": [
+        125,
+        125,
+        96,
+        96
+      ],
+      "9": [
+        250,
+        250,
+        192,
+        193
+      ],
+      "10": [
+        501,
+        501,
+        385,
+        386
+      ],
+      "11": [
+        1002,
+        1003,
+        771,
+        772
+      ],
+      "12": [
+        2005,
+        2006,
+        1543,
+        1544
+      ],
+      "13": [
+        4011,
+        4012,
+        3087,
+        3089
+      ],
+      "14": [
+        8022,
+        8024,
+        6175,
+        6178
+      ],
+      "15": [
+        16044,
+        16049,
+        12351,
+        12357
+      ],
+      "16": [
+        32089,
+        32099,
+        24703,
+        24715
+      ],
+      "17": [
+        64178,
+        64198,
+        49407,
+        49431
+      ],
+      "18": [
+        128357,
+        128396,
+        98814,
+        98863
+      ],
+      "19": [
+        256715,
+        256793,
+        197629,
+        197727
+      ],
+      "20": [
+        513430,
+        513587,
+        395258,
+        395454
+      ]
+    }
   },
   {
     "id": "FacundoMadrid",
@@ -141,7 +1037,135 @@
     ],
     "description": "Plano realizado por el cartógrafo militar español Facundo Cañada con el título \"Plano de Madrid y pueblos colindantes al empezar el siglo XX\". Está datado en 1900 y consta de seis hojas a una escala 1:7.500. Fue dibujado por Andrés Bonilla e impreso en ocho colores. Por este plano le concedieron a Facundo Cañada el \"Premio de Honor de la Cámara Internacional de Industria, Comercio y Ciencias de Madrid de 1902\". Un elemento muy significativo del plano es que aparece, por primera vez, el valor económico aproximado del terreno por metro cuadrado para la ciudad de Madrid. En torno al plano de Madrid se sitúan en recuadros los planos de los pueblos colindantes. La imagen digital corresponde con el original que se consrva en la Biblioteca Tomás Navarro Tomás del CSIC.",
     "metadata": null,
-    "url": "https://www.ign.es/wmts/planos?layer=FacundoMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=FacundoMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        6,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        12,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        24,
+        24
+      ],
+      "7": [
+        62,
+        62,
+        48,
+        48
+      ],
+      "8": [
+        125,
+        125,
+        96,
+        96
+      ],
+      "9": [
+        250,
+        250,
+        192,
+        193
+      ],
+      "10": [
+        501,
+        501,
+        385,
+        386
+      ],
+      "11": [
+        1002,
+        1003,
+        771,
+        772
+      ],
+      "12": [
+        2005,
+        2006,
+        1543,
+        1545
+      ],
+      "13": [
+        4010,
+        4013,
+        3086,
+        3090
+      ],
+      "14": [
+        8021,
+        8026,
+        6173,
+        6180
+      ],
+      "15": [
+        16042,
+        16053,
+        12347,
+        12361
+      ],
+      "16": [
+        32085,
+        32107,
+        24695,
+        24722
+      ],
+      "17": [
+        64170,
+        64215,
+        49391,
+        49445
+      ],
+      "18": [
+        128341,
+        128431,
+        98782,
+        98891
+      ],
+      "19": [
+        256682,
+        256862,
+        197565,
+        197782
+      ],
+      "20": [
+        513365,
+        513724,
+        395131,
+        395565
+      ]
+    }
   },
   {
     "id": "NunezMadrid",
@@ -159,7 +1183,135 @@
     ],
     "description": "Plano de Madrid y de su término municipal a escala 1:10.000 realizado en 1910 por el Ingeniero Director de Vías Públicas Pedro Núñez Granés. El original se formó, según se menciona en le plano, con los datos proporcionados por el Instituto Geográfico Estadístico, con los existentes en las dependencias municipales y por los que se tomaron directamente en el terreno. La reproducción, por medio de heliograbado, sobre planchas de cobre y su estampación, se realizó en la Sección de Artes Gráficas de la Dirección General del Instituto Geográfico. En el plano aparece una leyenda explicativa con localización de los edificios públicos más importantes, hasta un total de 294 cuya planta aparece destacada en color rojo. También hay una leyenda explicativa con los tipos de suelo, plantas cultivos, espacios verdes, comunicaciones, etc. la imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: 22-F-6).",
     "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0001632-marc21.xml",
-    "url": "https://www.ign.es/wmts/planos?layer=NunezMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=NunezMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        6,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        12,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        24,
+        24
+      ],
+      "7": [
+        62,
+        62,
+        48,
+        48
+      ],
+      "8": [
+        125,
+        125,
+        96,
+        96
+      ],
+      "9": [
+        250,
+        250,
+        192,
+        193
+      ],
+      "10": [
+        501,
+        501,
+        385,
+        386
+      ],
+      "11": [
+        1002,
+        1003,
+        771,
+        772
+      ],
+      "12": [
+        2004,
+        2006,
+        1543,
+        1545
+      ],
+      "13": [
+        4009,
+        4013,
+        3087,
+        3090
+      ],
+      "14": [
+        8018,
+        8027,
+        6174,
+        6180
+      ],
+      "15": [
+        16036,
+        16054,
+        12348,
+        12361
+      ],
+      "16": [
+        32073,
+        32109,
+        24696,
+        24723
+      ],
+      "17": [
+        64147,
+        64218,
+        49393,
+        49446
+      ],
+      "18": [
+        128294,
+        128436,
+        98786,
+        98892
+      ],
+      "19": [
+        256588,
+        256873,
+        197572,
+        197784
+      ],
+      "20": [
+        513177,
+        513747,
+        395145,
+        395568
+      ]
+    }
   },
   {
     "id": "AyuntamientoMadrid",
@@ -177,7 +1329,135 @@
     ],
     "description": "Plano publicado por el Ayuntamiento de Madrid en 1929 a escala 1:2.000. Está formado por ochenta y cinco hojas. Fue publicado junto a la Memoria de Información sobre la ciudad que establecía las bases de un concurso de anteproyectos, cuyo fin era la ordenación y urbanización de la zona comprendida entre el límite del Ensanche de Madrid y su término municipal. La imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: 23-B-1). Se ha realizado un mosaico con las ochenta y cinco hojas y se ha georreferenciado.",
     "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0030241-marc21.xml",
-    "url": "https://www.ign.es/wmts/planos?layer=AyuntamientoMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=AyuntamientoMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        6,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        12,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        24,
+        24
+      ],
+      "7": [
+        62,
+        62,
+        48,
+        48
+      ],
+      "8": [
+        125,
+        125,
+        96,
+        96
+      ],
+      "9": [
+        250,
+        250,
+        192,
+        193
+      ],
+      "10": [
+        501,
+        501,
+        385,
+        386
+      ],
+      "11": [
+        1002,
+        1003,
+        771,
+        772
+      ],
+      "12": [
+        2005,
+        2006,
+        1543,
+        1545
+      ],
+      "13": [
+        4010,
+        4013,
+        3086,
+        3090
+      ],
+      "14": [
+        8020,
+        8027,
+        6172,
+        6180
+      ],
+      "15": [
+        16041,
+        16055,
+        12345,
+        12360
+      ],
+      "16": [
+        32083,
+        32111,
+        24690,
+        24720
+      ],
+      "17": [
+        64167,
+        64222,
+        49380,
+        49441
+      ],
+      "18": [
+        128334,
+        128444,
+        98760,
+        98882
+      ],
+      "19": [
+        256669,
+        256889,
+        197520,
+        197764
+      ],
+      "20": [
+        513338,
+        513779,
+        395040,
+        395529
+      ]
+    }
   },
   {
     "id": "ParcelarioMadrid",
@@ -195,6 +1475,134 @@
     ],
     "description": "Plano parcelario de Madrid a escala 1:1.000 realizado por el Instituto Geográfico y Catastral entre los años 1940 y 1960 a propuesta del Ayuntamiento de Madrid. Está formado por 939 hojas divididas en cuatro cuartos. Se trata de la 4ª edición que comenzó en 1944. Se representa la planimetría y la altimetría. La imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: S2-22-21). Se ha realizado un mosaico de todas las hojas y se ha georreferenciado.",
     "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0030552-marc21.xml",
-    "url": "https://www.ign.es/wmts/planos?layer=ParcelarioMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+    "url": "https://www.ign.es/wmts/planos?layer=ParcelarioMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}",
+    "limits": {
+      "0": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7,
+        6,
+        6
+      ],
+      "5": [
+        15,
+        15,
+        12,
+        12
+      ],
+      "6": [
+        31,
+        31,
+        24,
+        24
+      ],
+      "7": [
+        62,
+        62,
+        48,
+        48
+      ],
+      "8": [
+        125,
+        125,
+        96,
+        96
+      ],
+      "9": [
+        250,
+        250,
+        192,
+        193
+      ],
+      "10": [
+        501,
+        501,
+        385,
+        386
+      ],
+      "11": [
+        1002,
+        1003,
+        771,
+        772
+      ],
+      "12": [
+        2004,
+        2007,
+        1542,
+        1545
+      ],
+      "13": [
+        4008,
+        4014,
+        3085,
+        3091
+      ],
+      "14": [
+        8017,
+        8029,
+        6171,
+        6182
+      ],
+      "15": [
+        16034,
+        16059,
+        12343,
+        12365
+      ],
+      "16": [
+        32068,
+        32118,
+        24687,
+        24731
+      ],
+      "17": [
+        64137,
+        64237,
+        49375,
+        49463
+      ],
+      "18": [
+        128274,
+        128475,
+        98750,
+        98926
+      ],
+      "19": [
+        256548,
+        256950,
+        197501,
+        197852
+      ],
+      "20": [
+        513096,
+        513900,
+        395002,
+        395705
+      ]
+    }
   }
 ]
