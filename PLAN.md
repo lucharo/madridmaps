@@ -6,7 +6,11 @@ Load sharper tiles during a held pinch, add Madrid address suggestions and pins,
 - [x] Add live Madrid address suggestions, result selection and a removable pin.
 - [x] Replace primary action labels with accessible icons and simplify About.
 - [x] Review and test touch, search, comparisons, responsive layout and caching.
-- [ ] Deploy the exact verified build to Cloudflare at madrid.luischav.es behind owner access.
+- [x] Deploy the exact verified build to Cloudflare at madrid.luischav.es behind owner access.
+
+Published 31 October 2026 at 21:29 Europe/London. Cloudflare Worker version d3c55108-c4f3-4394-9358-005a1926fb0b serves the verified dist from 50cfc3c at https://madrid.luischav.es . Independent public Cloudflare and Google DNS both return the domain's A records. HTTPS and the certificate work; root, app.js, search.js and tile-cache.js all reject anonymous reads with 302 to the existing Cloudflare Access login. The login page returns 200 with an email/PIN form. workers.dev and version previews are disabled. The physical iPad and authenticated Cloudflare browser session were not exercised. The host machine retained an initial negative DNS cache, so edge checks used a one-request address override from the independently verified public DNS answers.
+
+The original owner-private Site was also updated successfully: deployment appgdep_6ae65db1a9c481918f7f39ad443a97ec, source 9cf78f7eb4a9cde6242c7d5eea5a499814a8fb7c, with identical dist assets. The source helper briefly captured Wrangler-generated temporary stub files; they were removed and .wrangler/ is now ignored. Those files did not change either deployed application.
 
 ## Current acceptance and verification
 During an uninterrupted two-finger gesture, pausing for about one second must load decoded tiles at the new integer zoom, then allow zooming back out without lifting either finger. Search must suggest real Madrid streets, addresses and places without an API key; selecting a result must move to its coordinates and show a pin, including resolving street suggestions whose initial coordinates are 0,0. Stale responses must not replace newer searches. Icons retain accessible names, tooltips and 44px touch targets. About uses neutral public descriptions and no internal paths or session identifiers. Custom-domain deployment must serve the same build and reject anonymous access. Native physical-iPad Safari remains unverified.
