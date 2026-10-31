@@ -1,10 +1,10 @@
-// Cache only public IGN images, never the private site's HTML or authentication.
+// Cache only public IGN images, never application HTML or authentication.
 const CACHE='madrid-ign-tiles-v1';
 // A sampled 256px PNG is 137 KB: 64 MiB retains roughly ten 48-tile views.
 const BUDGET=64*1024*1024;
 // Keep upstream work within the common six-connection HTTP/1 browser budget.
 const CONCURRENCY=6;
-let active=0,writeChain=Promise.resolve();
+let active=0,generation=0,writeChain=Promise.resolve();
 const waiting=[],inflight=new Map(),refreshed=new Set();
 const metrics={hits:0,misses:0,retries:0,peak:0};
 const storage=caches.open(CACHE).catch(()=>null);
@@ -20,11 +20,12 @@ async function limited(task,signal){
   try{if(signal?.aborted)throw new DOMException('Cancelled','AbortError');return await task();}
   finally{const next=waiting.shift();if(next)next();else active--;}
 }
-async function store(url,response){
+async function store(url,response,startedGeneration){
   const cache=await storage;if(!cache)return;
   // Serialize writes and eviction so parallel downloads cannot overrun the budget.
   writeChain=writeChain.catch(()=>{}).then(async()=>{
     try{
+      if(startedGeneration!==generation)return;
       const entries=await index;
       const size=Number(response.headers.get('X-Madrid-Bytes'));
       await cache.put(url,response);entries.set(url,size);
@@ -34,13 +35,24 @@ async function store(url,response){
   });
   await writeChain;
 }
+async function clearTiles(){
+  // Invalidate older downloads before waiting for queued writes to finish.
+  generation++;
+  const cleared=writeChain.catch(()=>{}).then(async()=>{
+    const cache=await storage;
+    if(cache)for(const key of await cache.keys())await cache.delete(key);
+    (await index).clear();refreshed.clear();
+    return {ok:true,bytes:0,tiles:0,budget:BUDGET};
+  });
+  writeChain=cleared;return cleared;
+}
 function validImage(bytes,type){
   const b=new Uint8Array(bytes);
   if(type.includes('image/png'))return b.length>24&&b[0]===137&&b[1]===80&&b[2]===78&&b[3]===71&&new DataView(bytes).getUint32(16)===256&&new DataView(bytes).getUint32(20)===256;
   return type.includes('image/jpeg')&&b.length>3&&b[0]===255&&b[1]===216&&b[b.length-2]===255&&b[b.length-1]===217;
 }
 async function download(url,signal){
-  let failure;
+  const startedGeneration=generation;let failure;
   // One automatic retry for transport errors, 408/429, or upstream 5xx; never loop.
   for(let attempt=0;attempt<2;attempt++){
     try{
@@ -59,7 +71,7 @@ async function download(url,signal){
         }
         return new Response(bytes,{headers:{'Content-Type':type,'X-Madrid-Bytes':String(bytes.byteLength),'X-Madrid-Decoded':decoded?'1':'0'}});
       },signal);
-      if(response.headers.get('X-Madrid-Decoded')==='1')await store(url,response.clone());
+      if(response.headers.get('X-Madrid-Decoded')==='1')await store(url,response.clone(),startedGeneration);
       return response;
     }catch(error){failure=error;if(error.name==='AbortError'||error.retryable===false||attempt===1)break;metrics.retries++;}
   }
@@ -90,5 +102,6 @@ self.addEventListener('fetch',event=>{
   })());
 });
 self.addEventListener('message',event=>{
-  if(event.data?.type==='tile-metrics')event.ports[0]?.postMessage({...metrics,active,queued:waiting.length});
+  if(event.data?.type==='clear-tiles')event.waitUntil(clearTiles().then(result=>event.ports[0]?.postMessage(result)).catch(()=>event.ports[0]?.postMessage({ok:false})));
+  if(event.data?.type==='tile-metrics')event.waitUntil(index.then(entries=>event.ports[0]?.postMessage({...metrics,active,queued:waiting.length,bytes:[...entries.values()].reduce((a,b)=>a+b,0),tiles:entries.size,budget:BUDGET})));
 });

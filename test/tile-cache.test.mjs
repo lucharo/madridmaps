@@ -9,7 +9,7 @@ function worker(fetch){
   const cache={async match(key){return entries.get(typeof key==='string'?key:key.url)?.clone();},async put(key,response){entries.set(String(key),response.clone());},async keys(){return [...entries.keys()].map(url=>new Request(url));},async delete(key){return entries.delete(typeof key==='string'?key:key.url);}};
   const decode=async blob=>{if(blob.size!==image.byteLength)throw new Error('Decoder rejected truncated fixture');return{width:256,height:256,close(){}};};
   vm.runInNewContext(source,{self:{createImageBitmap:decode,addEventListener:(type,fn)=>events[type]=fn,skipWaiting:async()=>{},clients:{claim:async()=>{}}},caches:{open:async()=>cache},fetch,Response,Request,Blob,URL,DOMException,Map,Set,Uint8Array,DataView,Promise});
-  return{entries,async request(target=url){let result;const background=[];events.fetch({request:new Request(target),respondWith(p){result=p;},waitUntil(p){background.push(p);}});const response=await result;await Promise.all(background);return response;}};
+  return{entries,async message(type){let reply;const work=[];events.message({data:{type},ports:[{postMessage(value){reply=value;}}],waitUntil(p){work.push(p);}});await Promise.all(work);if(!reply)throw new Error('Worker did not acknowledge '+type);return reply;},async request(target=url){let result;const background=[];events.fetch({request:new Request(target),respondWith(p){result=p;},waitUntil(p){background.push(p);}});const response=await result;await Promise.all(background);return response;}};
 }
 const good=()=>new Response(image.slice(0),{headers:{'Content-Type':'image/png'}});
 test('visited historical tile is served without another upstream request',async()=>{
@@ -53,4 +53,19 @@ test('failed modern refresh keeps the last good cached image',async()=>{
   const modern='https://www.ign.es/wmts/mapa-raster?layer=MTN&tilematrix=17&tilecol=64187&tilerow=49422';
   await w.request(modern);fail=true;
   const response=await w.request(modern);expect(response.status).toBe(200);expect(w.entries.has(modern)).toBe(true);
+});
+test('clear saved tiles removes stored images and forces the next visit to fetch',async()=>{
+  let calls=0;const w=worker(async()=>{calls++;return good();});await w.request();
+  expect(w.entries.size).toBe(1);
+  expect(await w.message('clear-tiles')).toEqual({ok:true,bytes:0,tiles:0,budget:64*1024*1024});
+  expect(w.entries.size).toBe(0);
+  await w.request();expect(calls).toBe(2);
+});
+test('a download already in flight cannot refill tiles after clearing',async()=>{
+  let release,started=false;const gate=new Promise(r=>{release=r;});
+  const w=worker(async()=>{started=true;await gate;return good();}),pending=w.request();
+  for(let i=0;i<20&&!started;i++)await new Promise(r=>setTimeout(r,1));
+  expect(started).toBe(true);
+  await w.message('clear-tiles');release();await pending;
+  expect(w.entries.size).toBe(0);
 });

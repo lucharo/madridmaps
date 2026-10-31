@@ -1,7 +1,18 @@
 ## tldr
-Load sharper tiles during a held pinch, add Madrid address suggestions and pins, simplify the controls and About text, then deploy at madrid.luischav.es with private access preserved.
+Make madrid.luischav.es and its GitHub repository public and shareable. Diagnose the DNS failure, retain the 64 MiB browser tile limit Luis approved, and add a way to clear saved tiles.
 
-## Current tasks
+## Public sharing tasks
+- [ ] Diagnose and fix normal DNS resolution and remove the owner sign-in restriction.
+- [x] Retain the 64 MiB limit and add verified cache clearing without an in-flight refill race.
+- [ ] Check the repository for credentials, update public documentation and publish it.
+- [ ] Verify anonymous cold-load, live maps/search and cache bounds/clearing; get review and deploy.
+
+## Public sharing acceptance
+Anonymous visitors can open the exact domain without an address override or login, and load the real maps and address search. GitHub reports PUBLIC. Existing caching remains bounded to 64 MiB of image bodies per browser, evicts oldest images and can be cleared without old in-flight downloads writing themselves back. No keys or authentication material are published. Native physical-iPad confirmation remains separate from isolated browser QA.
+
+Public rollout evidence: the Tailscale resolver and its AdGuard upstream returned the same cached NXDOMAIN with a decreasing SOA lifetime, while Cloudflare and Google returned the domain's two correct A records and a neighbouring hostname resolved through the VPN. The negative cache should expire around 21:56 Europe/London. No VPN or DNS-provider configuration was changed. Removing only this hostname's Cloudflare Access app changed its edge response from login302 to anonymous200. Gitleaks8.30.1 scanned all13 existing commits with no detected secrets. Nineteen unit tests pass, including manual clearing and preventing old in-flight downloads from refilling storage. A real browser cleared2,211,277 cached image bytes to zero and received the UI acknowledgement. Bounded source review found no concrete issue.
+
+## Earlier private-release tasks
 - [x] Reproduce held-pinch loading and test a bounded refresh against Leaflet 1.9.4.
 - [x] Add live Madrid address suggestions, result selection and a removable pin.
 - [x] Replace primary action labels with accessible icons and simplify About.
@@ -12,7 +23,7 @@ Published 31 October 2026 at 21:29 Europe/London. Cloudflare Worker version d3c5
 
 The original owner-private Site was also updated successfully: deployment appgdep_6ae65db1a9c481918f7f39ad443a97ec, source 9cf78f7eb4a9cde6242c7d5eea5a499814a8fb7c, with identical dist assets. The source helper briefly captured Wrangler-generated temporary stub files; they were removed and .wrangler/ is now ignored. Those files did not change either deployed application.
 
-## Current acceptance and verification
+## Earlier private-release acceptance and verification
 During an uninterrupted two-finger gesture, pausing for about one second must load decoded tiles at the new integer zoom, then allow zooming back out without lifting either finger. Search must suggest real Madrid streets, addresses and places without an API key; selecting a result must move to its coordinates and show a pin, including resolving street suggestions whose initial coordinates are 0,0. Stale responses must not replace newer searches. Icons retain accessible names, tooltips and 44px touch targets. About uses neutral public descriptions and no internal paths or session identifiers. Custom-domain deployment must serve the same build and reject anonymous access. Native physical-iPad Safari remains unverified.
 
 ## Tasks

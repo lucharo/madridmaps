@@ -219,7 +219,7 @@ async function init(){
   if(!window.L)throw new Error('The map library could not load. Reload this page.');
   const response=await fetch('maps.json');if(!response.ok)throw new Error('The map catalogue could not load. Reload this page.');
   maps=await response.json();
-  // Only public IGN tile images enter this cache. The private application is never cached.
+  // Only public IGN tile images enter this cache. Application files are never cached here.
   if('serviceWorker' in navigator){
     try{
       const registration=await navigator.serviceWorker.register('tile-cache.js');
@@ -267,6 +267,21 @@ async function init(){
   // Recreate at the same view: Leaflet 1.9.4 redraw() can request fractional tile z (#9930).
   $('retry').onclick=()=>renderLayers();
   $('info-toggle').onclick=()=>$('info').showModal();$('close-info').onclick=()=>$('info').close();
+  $('clear-tiles').onclick=async()=>{
+    const button=$('clear-tiles'),status=$('cache-status');button.disabled=true;status.textContent='Clearing saved tiles…';
+    try{
+      const worker=navigator.serviceWorker?.controller||(await navigator.serviceWorker?.getRegistration())?.active;
+      if(!worker){status.textContent='This browser is not saving map tiles.';return;}
+      const result=await new Promise((resolve,reject)=>{
+        const channel=new MessageChannel();
+        const timeout=setTimeout(()=>{channel.port1.close();reject(new Error('Clearing took too long. Try again.'));},5000);
+        channel.port1.onmessage=event=>{clearTimeout(timeout);channel.port1.close();resolve(event.data);};
+        worker.postMessage({type:'clear-tiles'},[channel.port2]);
+      });
+      status.textContent=result.ok?'Saved map tiles cleared.':'Could not clear saved tiles. Try again.';
+    }catch(error){status.textContent=error.message;}
+    finally{button.disabled=false;}
+  };
   $('expand').onclick=()=>expanded?leaveExpanded():setExpanded(true);$('fullscreen').onclick=fullscreen;
   $('view-note').onclick=()=>{$('view-note').hidden=true;};
   const fullscreenChanged=()=>{if(nativeRequested&&!document.fullscreenElement&&!document.webkitFullscreenElement){nativeRequested=false;setExpanded(false);}resizeMap();};

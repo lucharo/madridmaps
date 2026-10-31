@@ -1,79 +1,43 @@
 # Madrid, through time
 
-Private map viewer built on 31 October 2026 for the IGN web map supplied by Luis.
+[Explore the maps at madrid.luischav.es](https://madrid.luischav.es)
 
-Canonical repository: https://github.com/lucharo/madridmaps (private). Local checkout: `~/Projects/github.com/lucharo/madridmaps`. The original application history is preserved. Run `roborev init` after cloning to install local review hooks.
+Browse eleven historical maps of Madrid from 1622 to 1960, compare any two with a sliding divider or overlay, and search for present-day streets, addresses and neighbourhoods. No account is required.
+
+![Madrid's 1929 survey, provided by IGN](dist/previews/AyuntamientoMadrid.jpg)
 
 ## Use
 
-All maps opens a gallery of the eleven historical sheets and today's IGN map. Select a card to explore it. Compare maps opens the same gallery with A and B selection slots; pick two different maps and choose Compare these maps. Slide shows A on the left and B on the right of a draggable divider. Overlay blends A over B with adjustable opacity. Cancel preserves the active comparison. Exit comparison returns to A alone.
+The gallery icon opens all maps. The comparison icon lets you choose two dates. Use the magnifier to find an address, the expand icon to explore without page borders, and the fit controls to fill the screen or show the whole sheet.
 
-Fill screen is the default and zooms in until the sheet bounds cover the viewport. Whole sheet contains the full original, with fractional zoom to avoid unnecessarily small maps. Comparison Fill screen uses the intersection of the selected sheets; Whole sheet uses their combined extent. Expand map removes page borders and controls. Fullscreen also requests browser fullscreen; when unavailable, expanded exploration remains usable. Exit expanded view or Escape returns to the page. Comparison controls, map names and attribution remain available while expanded.
+## Saved tiles
 
-The URL preserves dates, comparison mode, split position, opacity, fit choice, centre and zoom. About contains original metadata and scan-download records.
+Tiles download directly from IGN as you explore. Each browser saves up to **64 MiB** of image data, discarding older tiles when full. There is no server-side tile archive or bulk download. Up to six new tile downloads run at once.
 
-## Loading and device caching
-
-The iPad downloads visible tiles directly from IGN. Complete maps are not downloaded or hosted by this private site. A service worker saves successfully decoded 256px tiles in device-local CacheStorage, capped at 64 MiB, evicting oldest entries first. Historical cache hits need no IGN request. Modern cache hits display immediately and refresh once per worker lifetime while in use. Storage/browser restrictions can disable persistence; browsing still works directly. Private HTML, cookies and authentication are never cached. Saved map tiles are usable offline while the page remains open; this is not a full offline application.
-
-New downloads use at most six concurrent upstream requests, share identical pending URLs, and retry a transient failure once. XML exceptions, non-images and undecodable images are not cached. Existing decoded tiles remain while zooming; smooth zoom/fades are enabled. Leaflet's native `updateWhenZooming: true` loads detail when a pinch crosses an integer tile level, including while both fingers remain held down. Fractional intermediate zooms scale that imagery rather than requesting fractional tile URLs. New visible tiles start loading during a pan at Leaflet's existing update interval. Camera restoration happens before mounting the first tile layer. Only comparison clips are updated on movement, without rewriting every control.
-
-## Address search and controls
-
-The magnifier opens a search field with live suggestions. CartoCiudad supplies Madrid municipality streets and precise house-number addresses; Photon supplies fuzzy OpenStreetMap neighbourhood and place matches within the Madrid area. Numeric queries prefer CartoCiudad results, other queries prefer OSM. Selecting an official street with initial coordinates 0,0 resolves its exact ID through CartoCiudad's find endpoint before moving the map. A single removable pin marks the result. Search uses present-day names, sends no browser credentials, waits 500ms after typing, cancels obsolete requests, ignores late responses and bounds each provider request to five seconds. Public provider availability remains external to the viewer. There is no paid geocoding key.
-
-Primary actions use inline icons with accessible names, tooltips and 44px targets. Dates, map selection and comparison mode retain descriptive text. About gives a neutral description of the maps, approximate alignment, sources and selected-map metadata without internal paths or session details.
-
-Search sources and API contracts: https://github.com/IDEESpain/Cartociudad and https://github.com/komoot/photon . Pinned zoom behaviour: https://github.com/Leaflet/Leaflet/blob/v1.9.4/src/layer/tile/GridLayer.js .
-
-Error counts now describe failed tiles intersecting the current view, rather than accumulating failures from previous locations. The failure cause on Luis's physical iPad is not established from a screenshot alone. A controlled transport failure reproduced the stale count: 18 failures remained after panning to a view with zero broken images. The corrected path clears those stale errors.
-
-## 1940–1960 collection
-
-This is an incomplete 939-sheet collection at 1:1,000, not a single city-wide drawing. IGN's own overview is pale and blocky when fetched without this viewer. Original z17–19 tiles around Puerta del Sol resolve streets, parcels and handwritten labels. The gallery now uses an untouched detail preview, generated by the same script, and selection/Fill screen opens at verified readable z17 around 40.4167, -3.7033. Whole sheet still shows the collection's extent and gaps. This retains the exact date range and series.
-
-Source record: https://www.ign.es/web/catalogo-cartoteca/resources/html/030552.html
-
-The record's Ver obra resource was unavailable, and the CNIG catalogue failed through multiple readers on 31 October. No verified single-file whole-original download was recovered. A separate municipal 1940 WMS contains only seven northern sheets and was not substituted. This is evidence of readable original detail, not proof that every sheet in the collection is undamaged.
+Saved tiles can survive closing the browser. Use **About → Clear saved tiles** to remove them. Browser storage settings may also clear or disable the cache.
 
 ## Sources
 
-- Web map: https://nco.ign.es/portal/sharing/rest/content/items/8eda9d617ce540778acf62c0b9fcfed1/data?f=json
-- Tile service and bounds: https://www.ign.es/wmts/planos?SERVICE=WMTS&REQUEST=GetCapabilities
-- Modern raster: https://www.ign.es/wmts/mapa-raster
-- Gallery images: original 840×560 JPEGs from IGN's historical WMS and modern raster WMS. `bun fetch-previews.mjs` fetches them using the source bounds at matching aspect ratio; it does not generate illustrations.
-- Leaflet 1.9.4, locally vendored with its licence.
+Cartography and previews are original [IGN](https://www.ign.es/) images, credited **CC BY 4.0 ign.es**. Geographic alignment comes from IGN and is approximate for older surveys. The 1940–1960 collection contains gaps between sheets.
 
-The source configuration enables all eleven historical maps. Browse mounts one selected map; comparison mounts two selected maps. Historical images are original IGN PNG tiles, modern images are IGN JPEGs. Differently coloured survey sheets and source gaps remain visible, especially in the 1940–1960 mosaic. Approximate georeferencing is inherited from IGN. Attribution: CC BY 4.0 ign.es.
+Search uses [CartoCiudad](https://www.cartociudad.es/) addresses and [OpenStreetMap](https://www.openstreetmap.org/copyright) places through [Photon](https://github.com/komoot/photon). Availability depends on those public services. Leaflet 1.9.4 is vendored with its licence.
 
-Exact WMTS TileMatrixLimits are retained per map and zoom in maps.json. They supplement the advertised WGS84 bounds, which include invalid edge tiles for some sheets. For example, Madoz at z15 rejects row 12352 and permits only rows 12353–12357. The viewer filters requests through the pinned Leaflet 1.9.4 tile-validity hook. Below zoom 11 it scales native z11 images down instead of requesting unavailable lower-resolution historical tiles.
+<details>
+<summary>Development and deployment</summary>
 
-## Verified on 31 October 2026
+Requires Bun. Run from the repository root:
 
-All twelve maps, including Today, decoded live tiles at Fill screen zoom; centre samples contained opaque, nonuniform imagery. Browse retained exactly one tile layer. Gallery pair selection, Cancel, two-layer comparison, exact Slide clip boundaries through pan/zoom, Overlay opacity, Fill versus Whole-sheet extent, expanded view and exiting comparison passed browser checks. Desktop native fullscreen entered and exited successfully. The unavailable-API path retained expanded view with an explanatory message. Cold reload restored comparison state. Actual network interception exercised persistent map-B errors and Retry, including error visibility in expanded view. Independent review found no outstanding issues, including the tile-limits correction.
+```sh
+BROWSER=/usr/bin/true bun preview.mjs
+bun test
+```
 
-Responsive layout checked at desktop, 1024px tablet at device pixel ratio 2 and 390px phone. Whole sheet fits the largest 1940–1960 sheet on the phone at zoom 10.9. No horizontal page overflow. CDP-generated touch events exercised dragging the divider, subsequent map pan and two-finger pinch zoom in the isolated Chromium test browser. Native iPad Safari has not been exercised. Availability of IGN and CNIG remains outside this viewer's control. CNIG links are record searches, not bundled offline originals.
+Open `http://127.0.0.1:18894/`. The preview accepts only local read requests. `roborev init` installs local review hooks after cloning.
 
-Loading update: seven worker tests cover cache reuse, one retry, permanent failures, corrupt-image rejection, six-request concurrency, coalescing, eviction and keeping last-good modern imagery. A real browser decoded 32 cached tiles with HTTP caching bypassed and the network offline, representing 4,630,054 image bytes. The worker recorded cache hits and peak upstream concurrency six. A controlled browser transport failure followed by panning changed the status from 18 visible failures to loaded; six new tile requests started during the pan. Gallery/comparison/expanded view, rapid zoom and touch divider/pan/pinch regressions passed after enabling smooth rendering. These tests do not measure physical iPad network latency.
+Deploy static assets with `bunx wrangler deploy`, using an existing `CLOUDFLARE_API_TOKEN` in the shell. Never commit credentials. `wrangler.jsonc` configures the custom domain; workers.dev and version previews are disabled.
 
-Held-pinch update: baseline touch input at map zoom16.85 retained level16 tiles until release. The same uninterrupted gesture now loads decoded level17 tiles, then returns to level16 while both fingers remain down. Live search checks verify Gran Vía28 at40.42022995491958,-3.7019733413068066, unaccented Malasaña, exact Calle Alcalá resolution, one pin, removing the pin, keyboard-focus restoration and ignoring late obsolete responses. Final unit verification passes17 tests with33 assertions, including both a stalled provider and a stalled exact-coordinate lookup. Three isolated source mutations were rejected for address ordering, street resolution and abort suppression. A controlled browser stall displays an actionable timeout message. Primary controls and Retry measure44×44, search fits inside the390px map, and there is no horizontal overflow. Review findings were corrected within two bounded rounds.
+The browser scripts exercise live tiles, gallery/comparisons, address search, cache clearing and held pinch zoom in an isolated browser. `bun test` covers search and the tile worker, including cache bounds, retries and clearing while downloads are in flight. Native physical-iPad Safari remains a separate device check.
 
-## Local preview and checks
+The map catalogue comes from [the original IGN web map](https://nco.ign.es/portal/home/webmap/viewer.html?webmap=8eda9d617ce540778acf62c0b9fcfed1) and [WMTS capabilities](https://www.ign.es/wmts/planos?SERVICE=WMTS&REQUEST=GetCapabilities). `bun fetch-previews.mjs` retrieves genuine WMS previews. `PLAN.md` retains the implementation and deployment history.
 
-Run `BROWSER=/usr/bin/true bun preview.mjs` from this directory, then open http://127.0.0.1:18894/. The loopback preview validates Host and Origin and permits read methods only.
-
-With an owned `agent-browser` session open on that URL, run `agent-browser --session <session> eval --stdin < check-browser.js` and `agent-browser --session <session> eval --stdin < check-interactions.js`. The checks use the real tile service. `bun check-touch.mjs <owned-local-cdp-url>` exercises touch input against that isolated viewer only. Close the owned browser session afterwards. When testing cold hash restoration, reload the page after navigating; a fragment-only navigation otherwise retains the running page.
-
-`bun test test/tile-cache.test.mjs` checks the worker. `check-cache.js` runs in the owned browser after tiles have loaded; turn its network offline for the cache proof, then restore it. `bun check-visible-errors.mjs <owned-local-cdp-url>` exercises failures, recovery and requests during pan. `check-navigation.js` checks rapid zoom/pan. Fixture `test/fixtures/tile.png` is the original IGN CC BY 4.0 ParcelarioMadrid WMTS tile z17/x64187/y49422.
-
-`bun test` also exercises search providers, error handling, cancellation and exact street resolution. `bun check-held-pinch.mjs <owned-local-cdp-url>` checks decoded detail while the actual touch gesture remains held. `agent-browser --session <session> eval --stdin < check-search.js` checks the live search UI.
-
-## Cloudflare hosting
-
-`wrangler.jsonc` deploys the same `dist` assets to the new Worker `madrid-historical-maps` at https://madrid.luischav.es . Both workers.dev and preview URLs are disabled. Cloudflare Access application `8c9b4e12-0f2b-4782-8d18-3a2dbf3e02d3` protects the entire hostname with the existing email-only Allow Luis policy. This preserves private access independently of the original owner-private ChatGPT Site. No key is bundled in the application or saved in this repository. `bunx wrangler deploy` uses the shell's existing CLOUDFLARE_API_TOKEN. There are no scheduled jobs or databases.
-
-Tile caches are per browser origin, so the new hostname starts with an empty local cache. The original Site remains private and available. Cloudflare asset responses use private cache revalidation; the service worker caches public IGN tiles only.
-
-Published 31 October 2026: Cloudflare version d3c55108-c4f3-4394-9358-005a1926fb0b, application source 50cfc3c. Public Cloudflare/Google DNS resolve the domain, HTTPS works, and anonymous reads of the root and all JavaScript return 302 to Access. Its email/PIN page returns 200. The matching private Site deployment is appgdep_6ae65db1a9c481918f7f39ad443a97ec from source 9cf78f7eb4a9cde6242c7d5eea5a499814a8fb7c with identical dist. A full signed-in Cloudflare session and physical iPad remain unverified; local Chromium exercises the real application and live providers.
-
-Session: 01a193a1-1209-76b0-b5aa-ee6b98dfa3b3. Original Sites checkout: /Users/luis/.local/share/madrid-maps-2026-10-31. Hosted identity: .openai/hosting.json.
+</details>
