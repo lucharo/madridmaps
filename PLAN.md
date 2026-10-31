@@ -1,5 +1,15 @@
 ## tldr
-Fix tile failures and zoom blinking, cache visited tiles on the device, and load ahead during panning. Verify the 1940–1960 source against detailed originals and make its first view useful. Preserve gallery, comparison, fullscreen and private access.
+Load sharper tiles during a held pinch, add Madrid address suggestions and pins, simplify the controls and About text, then deploy at madrid.luischav.es with private access preserved.
+
+## Current tasks
+- [x] Reproduce held-pinch loading and test a bounded refresh against Leaflet 1.9.4.
+- [x] Add live Madrid address suggestions, result selection and a removable pin.
+- [x] Replace primary action labels with accessible icons and simplify About.
+- [x] Review and test touch, search, comparisons, responsive layout and caching.
+- [ ] Deploy the exact verified build to Cloudflare at madrid.luischav.es behind owner access.
+
+## Current acceptance and verification
+During an uninterrupted two-finger gesture, pausing for about one second must load decoded tiles at the new integer zoom, then allow zooming back out without lifting either finger. Search must suggest real Madrid streets, addresses and places without an API key; selecting a result must move to its coordinates and show a pin, including resolving street suggestions whose initial coordinates are 0,0. Stale responses must not replace newer searches. Icons retain accessible names, tooltips and 44px touch targets. About uses neutral public descriptions and no internal paths or session identifiers. Custom-domain deployment must serve the same build and reject anonymous access. Native physical-iPad Safari remains unverified.
 
 ## Tasks
 - [x] Inspect live site, reconcile source, and retain owner-only access.

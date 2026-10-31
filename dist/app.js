@@ -1,5 +1,27 @@
 'use strict';
 const $ = id => document.getElementById(id);
+// Small inline symbols keep the controls usable without an icon font or network request.
+const glyphs={
+  maps:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  compare:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 2v20M6 12h3m6 0h3"/>',
+  fullscreen:'<path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/>',
+  expand:'<path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M9 9 3 3m12 6 6-6M9 15l-6 6m12-6 6 6"/>',
+  collapse:'<path d="M3 9h6V3m6 0v6h6M9 21v-6H3m12 6v-6h6M3 3l6 6m12-6-6 6M3 21l6-6m12 6-6-6"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>',
+  theme:'<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" stroke="none"/>',
+  fill:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m8 10-4-4m0 4V6h4m8 8 4 4m0-4v4h-4"/>',
+  whole:'<path d="M3 8V3h5m8 0h5v5M3 16v5h5m13-5v5h-5"/><rect x="7" y="7" width="10" height="10" rx="1"/>',
+  left:'<path d="m15 5-7 7 7 7"/>',right:'<path d="m9 5 7 7-7 7"/>',
+  close:'<path d="m6 6 12 12M6 18 18 6"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',
+  retry:'<path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a7 7 0 0 1 12-1l2 3M4 15l2 3a7 7 0 0 0 12-1"/>'
+};
+function iconAction(id,glyph,label){const button=$(id);button.classList.add('icon-button');button.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${glyphs[glyph]}</svg>`;button.setAttribute('aria-label',label);button.title=label;}
+for(const [id,glyph,label] of [
+  ['catalogue-toggle','maps','All maps'],['compare-open','compare','Compare maps'],['fullscreen','fullscreen','Browser fullscreen'],['info-toggle','info','About the maps'],
+  ['previous','left','Previous map'],['next','right','Next map'],['fit','fill','Fill screen'],['whole','whole','Whole sheet'],['end-compare','close','Exit comparison'],
+  ['expand','expand','Expand map'],['expanded-maps','maps','All maps'],['expanded-compare','compare','Compare maps'],['gallery-close','close','Cancel'],['close-info','close','Close map information'],
+  ['search-toggle','search','Search Madrid'],['search-submit','search','Search'],['search-close','close','Close search'],['retry','retry','Retry tiles']
+])iconAction(id,glyph,label);
 const initial = new URLSearchParams(location.hash.slice(1));
 const state = {a:initial.get('map')||'Texeira', b:initial.get('b')||'Today', mode:initial.get('mode')||(initial.get('modern')==='1'?'overlay':'browse'),split:50,opacity:70,fit:initial.get('fit')==='whole'?'whole':'fill'};
 const themes = ['System','Light','Dark'];
@@ -14,7 +36,7 @@ if(!themes.includes(theme))theme='System';
 function applyTheme(){
   if(theme==='System')delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme=theme.toLowerCase();
-  $('theme').textContent=`Theme: ${theme}`;
+  iconAction('theme','theme',`Theme: ${theme}`);
 }
 applyTheme();
 $('theme').onclick=()=>{theme=themes[(themes.indexOf(theme)+1)%themes.length];applyTheme();try{localStorage.setItem('madrid-theme',theme);}catch{}};
@@ -76,7 +98,7 @@ function makeLayer(id,key){
     const limit=this.options.limits?.[coords.z];
     return !limit||(coords.x>=limit[0]&&coords.x<=limit[1]&&coords.y>=limit[2]&&coords.y<=limit[3]);
   }});
-  const layer=new LimitedTiles(m.url,{minZoom:0,minNativeZoom:11,maxZoom:20,maxNativeZoom:20,bounds:m.bounds,limits:m.limits,noWrap:true,updateWhenIdle:false,updateWhenZooming:false,keepBuffer:2,pane:key==='a'?'mapA':'mapB',attribution:'<a href="https://www.ign.es/">CC BY 4.0 ign.es</a>'});
+  const layer=new LimitedTiles(m.url,{minZoom:0,minNativeZoom:11,maxZoom:20,maxNativeZoom:20,bounds:m.bounds,limits:m.limits,noWrap:true,updateWhenIdle:false,updateWhenZooming:true,keepBuffer:2,pane:key==='a'?'mapA':'mapB',attribution:'<a href="https://www.ign.es/">CC BY 4.0 ign.es</a>'});
   layer.on('tileload tileunload tileabort',event=>{if((key==='a'?layerA:layerB)===layer){stats[key].failed.delete(event.tile);updateStatus();}});
   layer.on('tileerror',event=>{if((key==='a'?layerA:layerB)===layer){stats[key].failed.set(event.tile,event.coords);updateStatus();}});
   layer.on('loading load',()=>{if((key==='a'?layerA:layerB)===layer)updateStatus();});
@@ -109,7 +131,7 @@ function syncUI(){
   $('pair-a').textContent=`A · ${a.year}`;$('pair-b').textContent=`B · ${b.year}`;
   $('compare-controls').hidden=!comparing();$('browse-picker').hidden=comparing();
   $('comparison-panel').hidden=!comparing();
-  $('compare-open').textContent=comparing()?'Change maps':'Compare maps';
+  iconAction('compare-open','compare',comparing()?'Change maps':'Compare maps');
   $('end-compare').hidden=!comparing();
   $('mode-slide').setAttribute('aria-pressed',String(state.mode==='slide'));
   $('mode-overlay').setAttribute('aria-pressed',String(state.mode==='overlay'));
@@ -164,7 +186,7 @@ function resizeMap(){requestAnimationFrame(()=>{map.invalidateSize({pan:false});
 function setExpanded(on){
   expanded=on;document.body.classList.toggle('expanded',on);
   if(!on)$('view-note').hidden=true;
-  $('expand').textContent=on?'Exit expanded view':'Expand map';
+  iconAction('expand',on?'collapse':'expand',on?'Exit expanded view':'Expand map');
   $('expand').setAttribute('aria-pressed',String(on));resizeMap();
 }
 async function leaveExpanded(){
@@ -252,6 +274,7 @@ async function init(){
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&expanded&&!document.querySelector('dialog[open]'))leaveExpanded();});
   new ResizeObserver(resizeMap).observe($('map-stage'));
   wireDivider();syncUI();saveView();
+  const {initSearch}=await import('./search.js');initSearch(map);
   window.madridViewer={map,state,get current(){return item(state.a);},get historical(){return layerA;},get secondary(){return layerB;},get maps(){return maps;}};
 }
 init().catch(error=>{$('status').textContent=error.message;});

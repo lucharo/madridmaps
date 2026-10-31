@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+  "name": "madrid-historical-maps",
+  "account_id": "2e2dcb5a3a7d378eaa6a9250c12d70d4",
+  "compatibility_date": "2026-10-31",
+  "assets": { "directory": "./dist" },
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "madrid.luischav.es", "custom_domain": true }]
+}
