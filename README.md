@@ -2,6 +2,8 @@
 
 Private map viewer built on 31 October 2026 for the IGN web map supplied by Luis.
 
+Canonical repository: https://github.com/lucharo/madridmaps (private). Local checkout: `~/Projects/github.com/lucharo/madridmaps`. The original application history is preserved. Run `roborev init` after cloning to install local review hooks.
+
 ## Use
 
 All maps opens a gallery of the eleven historical sheets and today's IGN map. Select a card to explore it. Compare maps opens the same gallery with A and B selection slots; pick two different maps and choose Compare these maps. Slide shows A on the left and B on the right of a draggable divider. Overlay blends A over B with adjustable opacity. Cancel preserves the active comparison. Exit comparison returns to A alone.
@@ -74,4 +76,4 @@ Tile caches are per browser origin, so the new hostname starts with an empty loc
 
 Published 31 October 2026: Cloudflare version d3c55108-c4f3-4394-9358-005a1926fb0b, application source 50cfc3c. Public Cloudflare/Google DNS resolve the domain, HTTPS works, and anonymous reads of the root and all JavaScript return 302 to Access. Its email/PIN page returns 200. The matching private Site deployment is appgdep_6ae65db1a9c481918f7f39ad443a97ec from source 9cf78f7eb4a9cde6242c7d5eea5a499814a8fb7c with identical dist. A full signed-in Cloudflare session and physical iPad remain unverified; local Chromium exercises the real application and live providers.
 
-Session: 01a193a1-1209-76b0-b5aa-ee6b98dfa3b3. Source: /Users/luis/.local/share/madrid-maps-2026-10-31. Hosted identity: .openai/hosting.json.
+Session: 01a193a1-1209-76b0-b5aa-ee6b98dfa3b3. Original Sites checkout: /Users/luis/.local/share/madrid-maps-2026-10-31. Hosted identity: .openai/hosting.json.
