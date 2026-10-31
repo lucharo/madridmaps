@@ -1,0 +1,200 @@
+[
+  {
+    "id": "MancelliMadrid",
+    "title": "Plano de Mancelli, 1622",
+    "year": "1622",
+    "bounds": [
+      [
+        40.402,
+        -3.727
+      ],
+      [
+        40.426,
+        -3.685
+      ]
+    ],
+    "description": "Plano de Madrid realizado por  Antonio Mancelli, que entregó el original al Concejo de la Villa en 1622. Se considera el plano impreso más antiguo de Madrid. La imagen digital corresponde con el ejemplar que se conserva en Cartoteca del IGN, se trata de una edición facsímil realizada en 1923 por el Instituto Geográfico Catastral (Referencia: 32-A-1).",
+    "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0001484-marc21.xml",
+    "url": "https://www.ign.es/wmts/planos?layer=MancelliMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  },
+  {
+    "id": "Texeira",
+    "title": "Plano de Texeira, 1656",
+    "year": "1656",
+    "bounds": [
+      [
+        40.4033,
+        -3.73601
+      ],
+      [
+        40.4336,
+        -3.67692
+      ]
+    ],
+    "description": "Reproducción que en 1881 realizó el Instituto Geográfico y Estadístico del plano Topographia de la villa de Madrid, elaborado por  Pedro Texeira en 1656. El plano tiene una escala aproximada de 1:1.840 y está compuesto por 20 hojas. Representa la planta de la Villa de Madrid, a la que se le añadieron los alzados de la fachada sur de los edificios en diferentes perspectivas. Se ha realizado el mosaico de las 20 hojas que componen el plano  y se ha  georreferenciado de forma aproximada.",
+    "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0001488-marc21.xml",
+    "url": "https://www.ign.es/wmts/planos?layer=Texeira&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  },
+  {
+    "id": "ChalmadrierMadrid",
+    "title": "Plano de Nicolás Chalmandrier, 1761",
+    "year": "1761",
+    "bounds": [
+      [
+        40.3966,
+        -3.74295
+      ],
+      [
+        40.4375,
+        -3.67106
+      ]
+    ],
+    "description": "Plano de población de Madrid realizado por el grabador francés Nicolas Chalmandrier por encargo de Carlos III. Refleja el estado de la capital al comienzo del reinado de Carlos III, con las mejoras llevadas a cabo por Fernando VI. En el plano aparece por primera vez el Palacio Real, construido sobre el emplazamiento del Palacio viejo, destruido en un incendio en 1734. Se trata de un plano en cuatro hojas, la escala aproximada es 1:2.600. Presenta un excelente grabado, los principales edificios están en perpectiva caballera. La imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: 10-C-2). Se ha realizado el mosaico con las cuatro hojas y se ha georreferenciado.",
+    "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0031304-marc21.xml",
+    "url": "https://www.ign.es/wmts/planos?layer=ChalmadrierMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  },
+  {
+    "id": "EspinosaMadrid",
+    "title": "Plano de Espinosa de los Monteros, 1769",
+    "year": "1769",
+    "bounds": [
+      [
+        40.4002,
+        -3.72985
+      ],
+      [
+        40.433,
+        -3.67301
+      ]
+    ],
+    "description": "Plano de Madrid realizado por Antonio Espinosa de los Monteros, académico de la Real Academia de San Fernando, por orden del Conde de Aranda. El plano está compuesto por nueve hojas, y tiene una escala aproximada de 1:1.900. Se basa en la Planimetría General de madrid, catastro urbano realizado en el s. XVIII a propuesta del Marqués de la Ensenada, que consta de 557 planos de manzanas y tres libros de asientos con información textual. La numeración de las 557 manzanas aparece en el plano. La imagen digital corresponde con la reproduciión del pano que se conserva en la Cartoteca del IGN (Referencia: 10-H-19). Se ha realizado el mosaico con las nueve hojas y se ha georreferenciado.",
+    "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0023354-marc21.xml",
+    "url": "https://www.ign.es/wmts/planos?layer=EspinosaMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  },
+  {
+    "id": "GeometricoMadrid",
+    "title": "Plano Geométrico de Madrid de Tomás López, 1785",
+    "year": "1785",
+    "bounds": [
+      [
+        40.3998,
+        -3.73531
+      ],
+      [
+        40.4348,
+        -3.66893
+      ]
+    ],
+    "description": "Plano de Madrid realizado por el cartógrafo Tomás López, dedicado a Carlos III. Para su formación acude a diversas fuentes, tal como: el plano de Texeira, el de Espinosa de los Monteros o el de Chalmandrier. El plano muestra la expansión urbana a finales del siglo XVIII, delimitada por la cerca construida por Felipe IV, y recoge las reformas urbanas ordenadas por Carlos III. En los laterales del plano se añade un callejero donde situar calles mediante una cuadrícula. La escala aproximada es de 1:5.500. La imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: 10-H-24).",
+    "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0001649-marc21.xml",
+    "url": "https://www.ign.es/wmts/planos?layer=GeometricoMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  },
+  {
+    "id": "MadozMadrid",
+    "title": "Plano de Madoz y Coello, 1848",
+    "year": "1848",
+    "bounds": [
+      [
+        40.3998,
+        -3.73398
+      ],
+      [
+        40.4399,
+        -3.66604
+      ]
+    ],
+    "description": "Plano de Madrid publicado en el Atlas de España y sus Posesiones de Ultramar por Francisco Coello y Pascual Madoz, declarado Plano Oficial de la Villa. Este plano a escala 1:5.000 es una reducción del realizado a 1:1.250 por los Ingenieros de Caminos Juan Merlo, Fernando Gutiérrez y Juan Ribera entre los años 1841 y 1846. El plano incluye un callejero para localizar sitios de interés como: academias, bibliotecas, museos, etc. La imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: 32-A-5).",
+    "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/html/001526.html",
+    "url": "https://www.ign.es/wmts/planos?layer=MadozMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  },
+  {
+    "id": "IbanezMadrid",
+    "title": "Plano parcelario de Ibáñez Íbero, 1875",
+    "year": "1875",
+    "bounds": [
+      [
+        40.3972,
+        -3.72774
+      ],
+      [
+        40.4483,
+        -3.67373
+      ]
+    ],
+    "description": "Plano de población de Madrid realizado por Carlos Ibáñez e Ibáñez de Íbero, militar y geógrafo que fundó el Instituto Geográfico en 1870. Está formado a partir de las hojas kilométricas realizadas por la Junta General de Estadística del casco urbano de Madird. Consta de dieciséis hojas en blanco y negro, tiene una leyenda con una relación de calles y locaclización de edificios públicos en una cuadrícula. La imagen digital corresponde con el original que se converva en la Cartoreca del IGN (Referencia: 32-A-12). Se ha realizado el mosaico con las dieciséis hojas y se ha georrefernciado.",
+    "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0001494-marc21.xml",
+    "url": "https://www.ign.es/wmts/planos?layer=IbanezMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  },
+  {
+    "id": "FacundoMadrid",
+    "title": "Plano de Facundo Cañada, 1900",
+    "year": "1900",
+    "bounds": [
+      [
+        40.3689,
+        -3.74909
+      ],
+      [
+        40.4806,
+        -3.62686
+      ]
+    ],
+    "description": "Plano realizado por el cartógrafo militar español Facundo Cañada con el título \"Plano de Madrid y pueblos colindantes al empezar el siglo XX\". Está datado en 1900 y consta de seis hojas a una escala 1:7.500. Fue dibujado por Andrés Bonilla e impreso en ocho colores. Por este plano le concedieron a Facundo Cañada el \"Premio de Honor de la Cámara Internacional de Industria, Comercio y Ciencias de Madrid de 1902\". Un elemento muy significativo del plano es que aparece, por primera vez, el valor económico aproximado del terreno por metro cuadrado para la ciudad de Madrid. En torno al plano de Madrid se sitúan en recuadros los planos de los pueblos colindantes. La imagen digital corresponde con el original que se consrva en la Biblioteca Tomás Navarro Tomás del CSIC.",
+    "metadata": null,
+    "url": "https://www.ign.es/wmts/planos?layer=FacundoMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  },
+  {
+    "id": "NunezMadrid",
+    "title": "Plano de Nuñez Granés, 1910",
+    "year": "1910",
+    "bounds": [
+      [
+        40.3674,
+        -3.81451
+      ],
+      [
+        40.4779,
+        -3.61878
+      ]
+    ],
+    "description": "Plano de Madrid y de su término municipal a escala 1:10.000 realizado en 1910 por el Ingeniero Director de Vías Públicas Pedro Núñez Granés. El original se formó, según se menciona en le plano, con los datos proporcionados por el Instituto Geográfico Estadístico, con los existentes en las dependencias municipales y por los que se tomaron directamente en el terreno. La reproducción, por medio de heliograbado, sobre planchas de cobre y su estampación, se realizó en la Sección de Artes Gráficas de la Dirección General del Instituto Geográfico. En el plano aparece una leyenda explicativa con localización de los edificios públicos más importantes, hasta un total de 294 cuya planta aparece destacada en color rojo. También hay una leyenda explicativa con los tipos de suelo, plantas cultivos, espacios verdes, comunicaciones, etc. la imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: 22-F-6).",
+    "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0001632-marc21.xml",
+    "url": "https://www.ign.es/wmts/planos?layer=NunezMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  },
+  {
+    "id": "AyuntamientoMadrid",
+    "title": "Plano parcelario del Ayuntamiento de Madrid, 1929",
+    "year": "1929",
+    "bounds": [
+      [
+        40.3775,
+        -3.75905
+      ],
+      [
+        40.5054,
+        -3.60786
+      ]
+    ],
+    "description": "Plano publicado por el Ayuntamiento de Madrid en 1929 a escala 1:2.000. Está formado por ochenta y cinco hojas. Fue publicado junto a la Memoria de Información sobre la ciudad que establecía las bases de un concurso de anteproyectos, cuyo fin era la ordenación y urbanización de la zona comprendida entre el límite del Ensanche de Madrid y su término municipal. La imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: 23-B-1). Se ha realizado un mosaico con las ochenta y cinco hojas y se ha georreferenciado.",
+    "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0030241-marc21.xml",
+    "url": "https://www.ign.es/wmts/planos?layer=AyuntamientoMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  },
+  {
+    "id": "ParcelarioMadrid",
+    "title": "Plano Parcelario de Madrid, 1940-1960",
+    "year": "1940-1960",
+    "bounds": [
+      [
+        40.3324,
+        -3.84074
+      ],
+      [
+        40.5141,
+        -3.56742
+      ]
+    ],
+    "description": "Plano parcelario de Madrid a escala 1:1.000 realizado por el Instituto Geográfico y Catastral entre los años 1940 y 1960 a propuesta del Ayuntamiento de Madrid. Está formado por 939 hojas divididas en cuatro cuartos. Se trata de la 4ª edición que comenzó en 1944. Se representa la planimetría y la altimetría. La imagen digital corresponde con el original que se conserva en la Cartoteca del IGN (Referencia: S2-22-21). Se ha realizado un mosaico de todas las hojas y se ha georreferenciado.",
+    "metadata": "https://www.ign.es/web/catalogo-cartoteca/resources/xml/0030552-marc21.xml",
+    "url": "https://www.ign.es/wmts/planos?layer=ParcelarioMadrid&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/png&tilematrix={z}&tilecol={x}&tilerow={y}"
+  }
+]
