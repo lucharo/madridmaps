@@ -7,7 +7,9 @@ Fix tile failures and zoom blinking, cache visited tiles on the device, and load
 - [x] Add bounded persistent caching and responsive loading without changing the chosen map.
 - [x] Verify detailed 1940–1960 originals and improve its initial view and gallery preview.
 - [x] Exercise offline revisits, transient failures, rapid zoom/pan and comparisons, and get review.
-- [ ] Publish and explain client versus server loading with measured verification limits.
+- [x] Publish and explain client versus server loading with measured verification limits.
+
+Loading update published successfully on 31 October 2026 at 21:10 Europe/London. Deployment appgdep_6ae6593ed8048191af9deab5a18afe2e serves commit bf4b3515080adf2183d0f70586e4faf85e356517 with owner-only access. Authenticated production reads returned200 and expected v3 JavaScript for app.js and tile-cache.js. Browser/source verification limits and offline-cache evidence are recorded in README.md.
 
 Updated private publication succeeded on 31 October 2026 at 20:43 Europe/London. Deployment appgdep_6ae652de6e648191b7c4c80e8a3284b4 serves commit 216651da344a316f843c526f2f7070851e333299. The native Sites operation confirmed success and retained owner-only access.
 
