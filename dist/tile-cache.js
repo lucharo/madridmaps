@@ -51,8 +51,8 @@ function validImage(bytes,type){
   if(type.includes('image/png'))return b.length>24&&b[0]===137&&b[1]===80&&b[2]===78&&b[3]===71&&new DataView(bytes).getUint32(16)===256&&new DataView(bytes).getUint32(20)===256;
   return type.includes('image/jpeg')&&b.length>3&&b[0]===255&&b[1]===216&&b[b.length-2]===255&&b[b.length-1]===217;
 }
-async function download(url,signal){
-  const startedGeneration=generation;let failure;
+async function download(url,signal,startedGeneration){
+  let failure;
   // One automatic retry for transport errors, 408/429, or upstream 5xx; never loop.
   for(let attempt=0;attempt<2;attempt++){
     try{
@@ -77,15 +77,17 @@ async function download(url,signal){
   }
   throw failure;
 }
-function fetchTile(url,signal){
+function fetchTile(url,signal,startedGeneration){
   if(!inflight.has(url)){
-    const work=download(url,signal).finally(()=>inflight.delete(url));inflight.set(url,work);
+    const work=download(url,signal,startedGeneration).finally(()=>inflight.delete(url));inflight.set(url,work);
   }
   return inflight.get(url).then(response=>response.clone());
 }
 self.addEventListener('fetch',event=>{
   const url=new URL(event.request.url);
   if(event.request.method!=='GET'||url.origin!=='https://www.ign.es'||!['/wmts/planos','/wmts/mapa-raster'].includes(url.pathname))return;
+  // Include requests still waiting for CacheStorage lookup when clearing starts.
+  const startedGeneration=generation;
   event.respondWith((async()=>{
     try{
       const cache=await storage,cached=await cache?.match(url.href);
@@ -93,11 +95,11 @@ self.addEventListener('fetch',event=>{
         metrics.hits++;
         // Modern cartography may change. Refresh once per worker lifetime while serving immediately.
         if(url.pathname==='/wmts/mapa-raster'&&!refreshed.has(url.href)){
-          refreshed.add(url.href);event.waitUntil(fetchTile(url.href,event.request.signal).catch(()=>{}));
+          refreshed.add(url.href);event.waitUntil(fetchTile(url.href,event.request.signal,startedGeneration).catch(()=>{}));
         }
         return cached;
       }
-      metrics.misses++;return await fetchTile(url.href,event.request.signal);
+      metrics.misses++;return await fetchTile(url.href,event.request.signal,startedGeneration);
     }catch{return new Response('IGN map tile unavailable',{status:503});}
   })());
 });
