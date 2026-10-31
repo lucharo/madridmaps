@@ -6,7 +6,9 @@ Add a visual map gallery, choose any two maps for Slide or Overlay comparison, a
 - [x] Fetch actual map previews and build gallery with one-map and two-map selection.
 - [x] Add Slide, Overlay, Fill screen, Whole sheet, Expand map and Fullscreen.
 - [x] Test real images, comparison clipping, pair selection, pointer controls, resizing, URL reloads, fullscreen and errors; get an independent code review.
-- [ ] Publish the updated private site and hand over each requested change.
+- [x] Publish the updated private site and hand over each requested change.
+
+Updated private publication succeeded on 31 October 2026 at 20:43 Europe/London. Deployment appgdep_6ae652de6e648191b7c4c80e8a3284b4 serves commit 216651da344a316f843c526f2f7070851e333299. The native Sites operation confirmed success and retained owner-only access.
 
 Initial version published at https://madrid-historical-maps-luis.lucharo-dev.chatgpt.site
 Initial deployment: appgdep_6ae64f32482481918b2e023081a5e050. Initial application commit: 53a9026798302ef3c53c9bea1362323f95c7d011.
