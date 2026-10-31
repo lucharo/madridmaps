@@ -13,7 +13,7 @@
     const layers=[];window.madridViewer.map.eachLayer(l=>{if(l instanceof L.TileLayer)layers.push(l._url);});
     assert(layers.length===1,`${m.id}: historical layers stacked`);
     if(m.id==='MadozMadrid'){
-      const rejected={x:16047,y:12352,z:15},accepted={x:16047,y:12353,z:15};
+      const rejected=Object.assign(L.point(16047,12352),{z:15}),accepted=Object.assign(L.point(16047,12353),{z:15});
       assert(!window.madridViewer.historical._isValidTile(rejected),'Madoz requested the TileOutOfRange edge row');
       assert(window.madridViewer.historical._isValidTile(accepted),'Madoz discarded a valid edge row');
     }
