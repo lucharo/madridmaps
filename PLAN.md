@@ -1,12 +1,13 @@
 ## tldr
-Add a visual map gallery, choose any two maps for Slide or Overlay comparison, and add borderless exploration plus browser fullscreen. Open maps at a view that fills the viewport; keep Whole sheet separately. Preserve the private site and all original IGN source links.
+Fix tile failures and zoom blinking, cache visited tiles on the device, and load ahead during panning. Verify the 1940–1960 source against detailed originals and make its first view useful. Preserve gallery, comparison, fullscreen and private access.
 
 ## Tasks
 - [x] Inspect live site, reconcile source, and retain owner-only access.
-- [x] Fetch actual map previews and build gallery with one-map and two-map selection.
-- [x] Add Slide, Overlay, Fill screen, Whole sheet, Expand map and Fullscreen.
-- [x] Test real images, comparison clipping, pair selection, pointer controls, resizing, URL reloads, fullscreen and errors; get an independent code review.
-- [x] Publish the updated private site and hand over each requested change.
+- [x] Reproduce accumulated failure counts; inspect rapid zoom and uncached repeat navigation. Exact physical-iPad failure cause remains unproven.
+- [x] Add bounded persistent caching and responsive loading without changing the chosen map.
+- [x] Verify detailed 1940–1960 originals and improve its initial view and gallery preview.
+- [x] Exercise offline revisits, transient failures, rapid zoom/pan and comparisons, and get review.
+- [ ] Publish and explain client versus server loading with measured verification limits.
 
 Updated private publication succeeded on 31 October 2026 at 20:43 Europe/London. Deployment appgdep_6ae652de6e648191b7c4c80e8a3284b4 serves commit 216651da344a316f843c526f2f7070851e333299. The native Sites operation confirmed success and retained owner-only access.
 

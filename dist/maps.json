@@ -1603,6 +1603,14 @@
         395002,
         395705
       ]
-    }
+    },
+    "detailView": {
+      "center": [
+        40.4167,
+        -3.7033
+      ],
+      "zoom": 17
+    },
+    "preview": "ParcelarioMadrid-detail"
   }
 ]

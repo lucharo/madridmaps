@@ -5,7 +5,8 @@ const state = {a:initial.get('map')||'Texeira', b:initial.get('b')||'Today', mod
 const themes = ['System','Light','Dark'];
 let theme = 'System', maps = [], map, layerA, layerB, expanded = false, nativeRequested = false;
 let galleryMode = 'browse', draft = [], slot = 0;
-let stats = {a:{errors:0,loaded:0},b:{errors:0,loaded:0}};
+const emptyStats=()=>({a:{failed:new Map()},b:{failed:new Map()}});
+let stats=emptyStats();
 for(const key of ['split','opacity']){const n=Number(initial.get(key));if(initial.has(key)&&Number.isFinite(n))state[key]=Math.max(0,Math.min(100,n));}
 if(!['browse','slide','overlay'].includes(state.mode))state.mode='browse';
 try { theme=localStorage.getItem('madrid-theme')||'System'; } catch {}
@@ -37,6 +38,10 @@ function viewBounds(cover){
 }
 function fitView(kind=state.fit){
   state.fit=kind;
+  if(kind==='fill'&&item(state.a).detailView){
+    const view=item(state.a).detailView;map.stop();map.setView(view.center,view.zoom,{animate:false});
+    syncFitButtons();updateStatus();saveView();return;
+  }
   const bounds=viewBounds(kind==='fill');
   const zoom=Math.max(map.getMinZoom(),Math.min(map.getMaxZoom(),map.getBoundsZoom(bounds,kind==='fill')));
   map.stop();map.setView(bounds.getCenter(),zoom,{animate:false});
@@ -49,7 +54,11 @@ function syncFitButtons(){
 function updateStatus(){
   if(!layerA)return;
   const active=['a',...(comparing()?['b']:[])];
-  const errors=active.filter(k=>stats[k].errors).map(k=>`${comparing()?k.toUpperCase()+': ':''}${stats[k].errors} tile request${stats[k].errors===1?'':'s'} failed`);
+  const errors=active.map(k=>{
+    const layer=k==='a'?layerA:layerB;
+    const count=[...stats[k].failed.values()].filter(coords=>map.getBounds().intersects(layer._tileCoordsToBounds(coords))).length;
+    return count?`${comparing()?k.toUpperCase()+': ':''}${count} visible tile${count===1?'':'s'} could not load`:null;
+  }).filter(Boolean);
   const outside=active.filter(k=>!map.getBounds().intersects(L.latLngBounds(item(state[k]).bounds)));
   const loading=layerA.isLoading()||(comparing()&&layerB?.isLoading());
   $('retry').hidden=!errors.length;
@@ -67,11 +76,18 @@ function makeLayer(id,key){
     const limit=this.options.limits?.[coords.z];
     return !limit||(coords.x>=limit[0]&&coords.x<=limit[1]&&coords.y>=limit[2]&&coords.y<=limit[3]);
   }});
-  const layer=new LimitedTiles(m.url,{minZoom:0,minNativeZoom:11,maxZoom:20,maxNativeZoom:20,bounds:m.bounds,limits:m.limits,noWrap:true,updateWhenIdle:true,keepBuffer:2,pane:key==='a'?'mapA':'mapB',attribution:'<a href="https://www.ign.es/">CC BY 4.0 ign.es</a>'});
-  layer.on('tileload',()=>{if((key==='a'?layerA:layerB)===layer)stats[key].loaded++;});
-  layer.on('tileerror',()=>{if((key==='a'?layerA:layerB)===layer){stats[key].errors++;updateStatus();}});
+  const layer=new LimitedTiles(m.url,{minZoom:0,minNativeZoom:11,maxZoom:20,maxNativeZoom:20,bounds:m.bounds,limits:m.limits,noWrap:true,updateWhenIdle:false,updateWhenZooming:false,keepBuffer:2,pane:key==='a'?'mapA':'mapB',attribution:'<a href="https://www.ign.es/">CC BY 4.0 ign.es</a>'});
+  layer.on('tileload tileunload tileabort',event=>{if((key==='a'?layerA:layerB)===layer){stats[key].failed.delete(event.tile);updateStatus();}});
+  layer.on('tileerror',event=>{if((key==='a'?layerA:layerB)===layer){stats[key].failed.set(event.tile,event.coords);updateStatus();}});
   layer.on('loading load',()=>{if((key==='a'?layerA:layerB)===layer)updateStatus();});
   return layer;
+}
+function updateClip(){
+  if(state.mode!=='slide'||!layerA||!layerB)return;
+  const nw=map.containerPointToLayerPoint([0,0]),se=map.containerPointToLayerPoint(map.getSize());
+  const x=nw.x+map.getSize().x*state.split/100;
+  layerA.getContainer().style.clip=`rect(${nw.y}px,${x}px,${se.y}px,${nw.x}px)`;
+  layerB.getContainer().style.clip=`rect(${nw.y}px,${se.x}px,${se.y}px,${x}px)`;
 }
 function updateComparison(){
   const slide=state.mode==='slide';
@@ -85,12 +101,7 @@ function updateComparison(){
   $('swipe').style.left=`${state.split}%`;
   layerA?.setOpacity(state.mode==='overlay'?state.opacity/100:1);
   for(const l of [layerA,layerB])if(l?.getContainer())l.getContainer().style.clip='';
-  if(slide&&layerA&&layerB){
-    const nw=map.containerPointToLayerPoint([0,0]),se=map.containerPointToLayerPoint(map.getSize());
-    const x=nw.x+map.getSize().x*state.split/100;
-    layerA.getContainer().style.clip=`rect(${nw.y}px,${x}px,${se.y}px,${nw.x}px)`;
-    layerB.getContainer().style.clip=`rect(${nw.y}px,${se.x}px,${se.y}px,${x}px)`;
-  }
+  updateClip();
 }
 function syncUI(){
   const a=item(state.a),b=item(state.b);
@@ -115,10 +126,11 @@ function syncUI(){
 }
 function renderLayers(refit=false){
   layerA?.remove();layerB?.remove();layerB=null;
-  stats={a:{errors:0,loaded:0},b:{errors:0,loaded:0}};
+  stats=emptyStats();
   layerA=makeLayer(state.a,'a');layerA.addTo(map);
   if(comparing()){layerB=makeLayer(state.b,'b');layerB.addTo(map);}
-  syncUI();if(refit)fitView();saveView();
+  syncUI();if(refit)fitView();
+  saveView();
 }
 function choosePrimary(id,preserve=true){
   state.a=id;
@@ -185,26 +197,37 @@ async function init(){
   if(!window.L)throw new Error('The map library could not load. Reload this page.');
   const response=await fetch('maps.json');if(!response.ok)throw new Error('The map catalogue could not load. Reload this page.');
   maps=await response.json();
+  // Only public IGN tile images enter this cache. The private application is never cached.
+  if('serviceWorker' in navigator){
+    try{
+      const registration=await navigator.serviceWorker.register('tile-cache.js');
+      const worker=registration.installing||registration.waiting||registration.active;
+      if(worker&&!['activated','redundant'].includes(worker.state))await new Promise(resolve=>worker.addEventListener('statechange',()=>{if(['activated','redundant'].includes(worker.state))resolve();}));
+    }catch{/* A browser that disables service workers can still browse directly. */}
+  }
   const coverage=L.latLngBounds(maps.flatMap(m=>m.bounds));
   maps.push({id:'Today',title:'Today’s IGN map',year:'Today',bounds:[[coverage.getSouth(),coverage.getWest()],[coverage.getNorth(),coverage.getEast()]],description:'Current IGN raster cartography. Map survey and publication dates vary by sheet.',metadata:null,url:'https://www.ign.es/wmts/mapa-raster?layer=MTN&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/jpeg&tilematrix={z}&tilecol={x}&tilerow={y}'});
   if(!item(state.a))state.a='Texeira';if(!item(state.b)||state.b===state.a)state.b=state.a==='Today'?'Texeira':'Today';
   for(const m of maps){
     const option=document.createElement('option');option.value=m.id;option.textContent=m.title;$('map-select').append(option);
     const button=document.createElement('button');button.className='map-card';button.dataset.id=m.id;button.type='button';
-    const image=document.createElement('img');image.src=`previews/${m.id}.jpg`;image.alt='';image.width=840;image.height=560;image.loading='lazy';
+    const image=document.createElement('img');image.src=`previews/${m.preview||m.id}.jpg`;image.alt='';image.width=840;image.height=560;image.loading='lazy';
     const text=document.createElement('span');text.className='card-text';
     const year=document.createElement('strong');year.textContent=m.year;
-    const name=document.createElement('span');name.textContent=shortName(m);
+    const name=document.createElement('span');name.textContent=m.detailView?`${shortName(m)} · detail preview`:shortName(m);
     const badge=document.createElement('span');badge.className='selection-badge';
     text.append(year,name);button.append(image,text,badge);button.onclick=()=>galleryChoose(m.id);$('map-gallery').append(button);
   }
-  map=L.map('map',{minZoom:0,maxZoom:20,zoomControl:false,fadeAnimation:false,zoomAnimation:false,zoomSnap:0.1});
+  map=L.map('map',{minZoom:0,maxZoom:20,zoomControl:false,fadeAnimation:true,zoomAnimation:true,zoomSnap:0.1});
   map.createPane('mapA').style.zIndex=300;map.createPane('mapB').style.zIndex=250;
   L.control.zoom({position:'topright'}).addTo(map);L.control.scale({imperial:false,position:'bottomright'}).addTo(map);
-  map.setView([40.41845,-3.706465],14);renderLayers(true);
+  map.setView([40.41845,-3.706465],14);
   const lat=Number(initial.get('lat')),lng=Number(initial.get('lng')),z=Number(initial.get('z'));
   if(['lat','lng','z'].every(k=>initial.has(k))&&[lat,lng,z].every(Number.isFinite)&&lat>=-85&&lat<=85&&lng>=-180&&lng<=180&&z>=0&&z<=20)map.setView([lat,lng],z,{animate:false});
-  map.on('move zoom resize viewreset',updateComparison);map.on('moveend',()=>{updateStatus();saveView();});
+  else fitView();
+  // Establish the requested camera before mounting tiles, avoiding discarded startup requests.
+  renderLayers();
+  map.on('move zoom resize viewreset',updateClip);map.on('moveend',()=>{updateStatus();saveView();});
   $('map-select').onchange=()=>choosePrimary($('map-select').value);
   $('previous').onclick=()=>choosePrimary(maps[maps.indexOf(item(state.a))-1].id);
   $('next').onclick=()=>choosePrimary(maps[maps.indexOf(item(state.a))+1].id);
