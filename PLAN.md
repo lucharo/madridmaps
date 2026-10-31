@@ -2,15 +2,19 @@
 Make madrid.luischav.es and its GitHub repository public and shareable. Diagnose the DNS failure, retain the 64 MiB browser tile limit Luis approved, and add a way to clear saved tiles.
 
 ## Public sharing tasks
-- [ ] Diagnose and fix normal DNS resolution and remove the owner sign-in restriction.
+- [x] Diagnose DNS resolution and remove the owner sign-in restriction; public and VPN resolvers now answer correctly.
 - [x] Retain the 64 MiB limit and add verified cache clearing without an in-flight refill race.
-- [ ] Check the repository for credentials, update public documentation and publish it.
-- [ ] Verify anonymous cold-load, live maps/search and cache bounds/clearing; get review and deploy.
+- [x] Check the repository for credentials, update public documentation and publish it.
+- [x] Verify anonymous cold-load, live maps/search and cache bounds/clearing; get review and deploy.
 
 ## Public sharing acceptance
 Anonymous visitors can open the exact domain without an address override or login, and load the real maps and address search. GitHub reports PUBLIC. Existing caching remains bounded to 64 MiB of image bodies per browser, evicts oldest images and can be cleared without old in-flight downloads writing themselves back. No keys or authentication material are published. Native physical-iPad confirmation remains separate from isolated browser QA.
 
 Public rollout evidence: the Tailscale resolver and its AdGuard upstream returned the same cached NXDOMAIN with a decreasing SOA lifetime, while Cloudflare and Google returned the domain's two correct A records and a neighbouring hostname resolved through the VPN. The negative cache should expire around 21:56 Europe/London. No VPN or DNS-provider configuration was changed. Removing only this hostname's Cloudflare Access app changed its edge response from login302 to anonymous200. Gitleaks8.30.1 scanned all13 existing commits with no detected secrets. Nineteen unit tests pass, including manual clearing and preventing old in-flight downloads from refilling storage. A real browser cleared2,211,277 cached image bytes to zero and received the UI acknowledgement. Bounded source review found no concrete issue.
+
+Final public release: GitHub confirms PUBLIC and an anonymous repository read returns200. Cloudflare Worker version bb72e265-4432-4786-9412-d782b1176861 serves application source68a8f09e8baffa26110cfdfbe43b056cb108250d. Root, application scripts and catalogue returned200 and matched local assets byte for byte. Twenty unit tests with41 assertions pass. RoboRev710 identified a request waiting on cache lookup that could refill after clearing; regression failed on442a958 and passes after capturing generation before any await. RoboRev711 and the bounded correction review pass.
+
+DNS follow-through: the initial expiry briefly served another stale negative response. Both authoritative servers, public AdGuard and the tailnet resolver subsequently returned correct A and AAAA records. A normal HTTPS read from Arch returned200. An anonymous isolated browser using Arch's fresh resolver through a temporary SOCKS tunnel loaded the real production origin and decoded21 original IGN tiles, and live address/neighbourhood/street-search checks passed. This Mac retained a negative mDNSResponder result even after upstream recovery; privileged flushing required an unavailable administrator password. Unbound remote control was disabled and Pi-hole's cache-reload CLI reported a readonly-variable error, so neither attempted flush was counted as successful. No DNS configuration was changed. An optional iPad VPN-reconnect/retry panel was sent to Luis; physical-iPad success is not claimed.
 
 ## Earlier private-release tasks
 - [x] Reproduce held-pinch loading and test a bounded refresh against Leaflet 1.9.4.
