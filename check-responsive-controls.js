@@ -24,10 +24,27 @@
     for(const mode of ['slide','overlay']){
       $('mode-'+mode).click();await settle();
       const search=$('map-search').getBoundingClientRect(),panel=$('comparison-panel').getBoundingClientRect();
-      check(!overlaps(search,panel),'Search covers comparison controls in '+mode+' mode, expanded='+expanded);
-      for(const id of ['mode-slide','mode-overlay']){
-        const box=$(id).getBoundingClientRect(),hit=document.elementFromPoint(box.x+box.width/2,box.y+box.height/2);
-        check($(id).contains(hit),'Comparison button is not reachable: '+id+', expanded='+expanded);
+      check(search.top>=0&&search.bottom<=innerHeight,'Search leaves the visible screen');
+      const input=$('search-input').getBoundingClientRect(),inputHit=document.elementFromPoint(input.x+input.width/2,input.y+input.height/2);
+      check(inputHit===$('search-input'),'Search input is not reachable');
+      if(!$('map-search').classList.contains('viewport-search')){
+        check(!overlaps(search,panel),'Search covers comparison controls in '+mode+' mode, expanded='+expanded);
+        for(const id of ['mode-slide','mode-overlay']){
+          const box=$(id).getBoundingClientRect(),hit=document.elementFromPoint(box.x+box.width/2,box.y+box.height/2);
+          check($(id).contains(hit),'Comparison button is not reachable: '+id+', expanded='+expanded);
+        }
+      }
+      const original=window.fetch;
+      try{
+        window.fetch=async url=>Response.json(String(url).includes('cartociudad.es')?[]:{features:Array.from({length:8},(_,i)=>({geometry:{coordinates:[-3.7,40.42]},properties:{name:'Lugar de prueba '+i,city:'Madrid'}}))});
+        $('search-input').value='prueba';$('search-form').dispatchEvent(new Event('submit',{cancelable:true}));
+        const start=Date.now();while($('search-results').children.length!==8){if(Date.now()-start>10000)throw new Error('Search results did not settle');await frame();}
+      }finally{window.fetch=original;}
+      await settle();
+      for(const last of [false,true]){
+        const list=$('search-results');list.scrollTop=last?list.scrollHeight:0;await frame();
+        const result=last?list.lastElementChild:list.firstElementChild,box=result.getBoundingClientRect(),hit=document.elementFromPoint(box.x+box.width/2,box.y+box.height/2);
+        check(result.contains(hit),'Search result is not reachable: '+(last?'last':'first'));
       }
     }
     $('search-close').click();

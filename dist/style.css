@@ -20,7 +20,10 @@ body.expanded>header,body.expanded>footer,.expanded .toolbar{display:none}.expan
 #expanded-maps.labelled-button,#expanded-compare.labelled-button,#expanded-info.labelled-button{display:none}
 .expanded #expanded-maps.labelled-button,.expanded #expanded-compare.labelled-button,.expanded #expanded-info.labelled-button{display:inline-flex}
 .map-search,#comparison-panel,.expanded #comparison-panel{top:var(--controls-bottom,64px)}
-.map-search{top:calc(var(--controls-bottom,64px) + var(--comparison-height,0px))}
+.map-search{top:calc(var(--controls-bottom,64px) + var(--comparison-height,0px));display:flex;flex-direction:column;max-height:calc(100% - var(--controls-bottom,64px) - var(--comparison-height,0px) - 8px)}
+.map-search>form,.map-search>p,.map-search>.search-credit{flex-shrink:0}
+#search-results{min-height:0;flex-shrink:1}
+.map-search.viewport-search{position:fixed;top:8px;left:8px;width:calc(100% - 16px);max-height:calc(100dvh - 16px)}
 #info .close.labelled-button{position:absolute;right:22px;top:22px;margin:0;float:none}
 #info .timeline-heading{padding-right:112px}
 #info .timeline-detail>p,#info .map-faq p{font-size:16px;line-height:1.6}

@@ -227,10 +227,15 @@ function galleryChoose(id){
   draft[slot]=id;slot=other;refreshGallery();
 }
 function resizeMap(){requestAnimationFrame(()=>{
-  const controls=document.querySelector('.explore-controls');
-  $('map-stage').style.setProperty('--controls-bottom',`${controls.offsetTop+controls.offsetHeight+8}px`);
-  const comparison=$('comparison-panel');
-  $('map-stage').style.setProperty('--comparison-height',`${comparison.hidden?0:comparison.offsetHeight+8}px`);
+  const stage=$('map-stage'),controls=document.querySelector('.explore-controls'),comparison=$('comparison-panel'),search=$('map-search');
+  const controlsBottom=controls.offsetTop+controls.offsetHeight+8,comparisonHeight=comparison.hidden?0:comparison.offsetHeight+8;
+  stage.style.setProperty('--controls-bottom',`${controlsBottom}px`);
+  stage.style.setProperty('--comparison-height',`${comparisonHeight}px`);
+  const fixedHeight=[...search.children].filter(child=>child.id!=='search-results').reduce((height,child)=>{
+    const style=getComputedStyle(child);return height+child.offsetHeight+parseFloat(style.marginTop)+parseFloat(style.marginBottom);
+  },0);
+  const firstResult=$('search-results').firstElementChild?.offsetHeight||0;
+  search.classList.toggle('viewport-search',!search.hidden&&stage.clientHeight<controlsBottom+comparisonHeight+fixedHeight+firstResult+8);
   map.invalidateSize({pan:false});updateComparison();updateStatus();
 });}
 function setExpanded(on){
@@ -340,7 +345,7 @@ async function init(){
   document.addEventListener('fullscreenchange',fullscreenChanged);document.addEventListener('webkitfullscreenchange',fullscreenChanged);
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&expanded&&!document.querySelector('dialog[open]'))leaveExpanded();});
   const layoutObserver=new ResizeObserver(resizeMap);
-  layoutObserver.observe($('map-stage'));layoutObserver.observe($('comparison-panel'));
+  layoutObserver.observe($('map-stage'));layoutObserver.observe($('comparison-panel'));layoutObserver.observe($('map-search'));
   wireDivider();syncUI();saveView();
   const {initSearch}=await import('./search.js');initSearch(map);
   window.madridViewer={map,state,get current(){return item(state.a);},get historical(){return layerA;},get secondary(){return layerB;},get maps(){return maps;}};
