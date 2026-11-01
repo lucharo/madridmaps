@@ -10,15 +10,15 @@ The website is in Spanish. Primary controls combine icons with visible text, and
 
 ## Use
 
-The gallery icon opens all maps. The comparison icon lets you choose two dates. Use the magnifier to find an address, the expand icon to explore without page borders, and the fit controls to fill the screen or show the whole sheet.
+**Mapas** opens all maps; **Comparar** lets you choose two dates. Use **Buscar dirección** to find an address, **Ampliar mapa** to explore without page borders, and **Llenar pantalla** or **Plano completo** to change the fit.
 
-The information icon opens an illustrated horizontal timeline. Tap a map to select it and read one sentence about why it was made. Original catalogue descriptions and additional archive collections are available below. The timeline includes all twelve historical maps plus today's reference map; additional archive scans are linked separately.
+**Información** opens the illustrated horizontal timeline. Tap a map to select it and read why it was made, followed by short questions and curiosities. Original catalogue descriptions and additional archive collections are available below. The timeline includes all twelve historical maps plus today's reference map; additional archive scans are linked separately.
 
 ## Saved tiles
 
 Tiles download directly from IGN or Ayuntamiento de Madrid as you explore. Each browser saves up to **64 MiB** of image data across both providers, discarding older tiles when full. There is no server-side tile archive or bulk download. Up to six new tile downloads run at once.
 
-Saved tiles can survive closing the browser. Use **About → Clear saved tiles** to remove them. Browser storage settings may also clear or disable the cache.
+Saved tiles can survive closing the browser. Use **Información → Borrar imágenes guardadas** to remove them. Browser storage settings may also clear or disable the cache.
 
 ## Sources
 
@@ -27,6 +27,8 @@ IGN cartography and previews are credited **CC BY 4.0 ign.es**. The [1889 copy o
 Geographic alignment is supplied by the providers and is approximate for older surveys. The 1940–1960 collection contains gaps between sheets. See [map sources and dates](docs/map-sources.md) for the distinction between individual city plans, archive scans and repeated national mapping.
 
 Search uses [CartoCiudad](https://www.cartociudad.es/) addresses and [OpenStreetMap](https://www.openstreetmap.org/copyright) places through [Photon](https://github.com/komoot/photon). Availability depends on those public services. Leaflet 1.9.4 is vendored with its licence.
+
+See the [viewer FAQ](docs/faq/README.md) for alignment, source detail, held-pinch loading and caching questions.
 
 <details>
 <summary>Development and deployment</summary>

@@ -1,5 +1,11 @@
 ## tldr
-Add the official Colubi 1889 atlas and an illustrated horizontal map timeline with short historical context. Preserve public access, comparison modes and the shared 64 MiB tile limit. Earlier release and DNS records remain below as dated history.
+The public Spanish viewer includes twelve historical maps plus today's reference, a thumbnail timeline, address search, slide/overlay comparisons and 33 short questions and curiosities. Primary controls have visible text and icons. Both providers share the 64 MiB browser cache. Earlier release and DNS records remain below as dated history.
+
+## Current application release, 1 November 2026
+
+Application commit `694459f` is published at https://madrid.luischav.es through Cloudflare version `c816a97e-65a8-45be-9321-29b1c1d43d8f`. The HTML, application and catalogue returned anonymous HTTP 200 responses and matched the committed assets byte for byte. All thirteen maps and 33 question/answer entries passed the production timeline check, including decoded Colubi tiles, selection replacement and keyboard navigation. Phone and tablet Spanish-interface checks passed; all 22 unit tests passed with 49 assertions. Independent read-only review and RoboRev 724 reported no actionable issues.
+
+The conversation remains English; the website is Spanish. Extra archive dates are source links, not additional aligned layers. No tile rehosting or DNS changes were added. Physical-iPad Safari remains a device-specific verification limit. The earlier per-release records below describe their dates, not the current deployment.
 
 ## Colubi and chronology, 1 November 2026
 
