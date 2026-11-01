@@ -18,9 +18,12 @@
       assert(window.madridViewer.historical._isValidTile(accepted),'Madoz discarded a valid edge row');
     }
     // Sample an actual image with CORS, not just its successful HTTP status.
-    const centre=window.madridViewer.map.getCenter();const z=15,n=2**z;
+    // Colubi covers parcels around the old city, with a real central gap; sample sheet 01.
+    // The municipal sheet index places it around 40.433 N, 3.711 W.
+    const centre=m.id==='ColubiMadrid'?L.latLng(40.433,-3.711):window.madridViewer.map.getCenter();
+    const z=window.madridViewer.historical._tileZoom,n=2**z;
     const x=Math.floor((centre.lng+180)/360*n),r=centre.lat*Math.PI/180,y=Math.floor((1-Math.asinh(Math.tan(r))/Math.PI)/2*n);
-    const image=new Image();image.crossOrigin='anonymous';image.src=m.url.replace('{z}',z).replace('{x}',x).replace('{y}',y);await image.decode();
+    const image=new Image();image.crossOrigin='anonymous';image.src=window.madridViewer.historical.getTileUrl(Object.assign(L.point(x,y),{z}));await image.decode();
     const canvas=document.createElement('canvas');canvas.width=canvas.height=256;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);
     const pixels=ctx.getImageData(0,0,256,256).data;let opaque=0;const shades=new Set();for(let i=0;i<pixels.length;i+=4){if(pixels[i+3]){opaque++;shades.add(`${pixels[i]},${pixels[i+1]},${pixels[i+2]}`);}}
     assert(opaque>0&&shades.size>10,`${m.id}: sample is blank`);

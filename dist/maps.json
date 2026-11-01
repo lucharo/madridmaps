@@ -143,7 +143,9 @@
         395339,
         395429
       ]
-    }
+    },
+    "context": "Madrid’s earliest printed plan was delivered to the city council in 1622.",
+    "sourceName": "Instituto Geográfico Nacional"
   },
   {
     "id": "Texeira",
@@ -289,7 +291,9 @@
         390695,
         399604
       ]
-    }
+    },
+    "context": "Twenty sheets depict seventeenth-century Madrid, combining a street plan with drawn building façades.",
+    "sourceName": "Instituto Geográfico Nacional"
   },
   {
     "id": "ChalmadrierMadrid",
@@ -435,7 +439,9 @@
         395299,
         395456
       ]
-    }
+    },
+    "context": "Commissioned by Carlos III, this plan records the capital at the start of his reign.",
+    "sourceName": "Instituto Geográfico Nacional"
   },
   {
     "id": "EspinosaMadrid",
@@ -581,7 +587,9 @@
         395314,
         395443
       ]
-    }
+    },
+    "context": "Based on Madrid’s urban cadastral survey, this plan numbers the city’s 557 blocks.",
+    "sourceName": "Instituto Geográfico Nacional"
   },
   {
     "id": "GeometricoMadrid",
@@ -727,7 +735,9 @@
         395310,
         395444
       ]
-    }
+    },
+    "context": "Tomás López brought earlier surveys together to show the city and the urban reforms of Carlos III.",
+    "sourceName": "Instituto Geográfico Nacional"
   },
   {
     "id": "MadozMadrid",
@@ -873,7 +883,9 @@
         395310,
         395444
       ]
-    }
+    },
+    "context": "Published in Coello and Madoz’s atlas, this official city plan reduced a detailed engineering survey of the 1840s.",
+    "sourceName": "Instituto Geográfico Nacional"
   },
   {
     "id": "IbanezMadrid",
@@ -1019,7 +1031,37 @@
         395258,
         395454
       ]
-    }
+    },
+    "context": "Built from kilometre-sheet surveys, this sixteen-sheet parcel plan documented the urban fabric in detail.",
+    "sourceName": "Instituto Geográfico Nacional"
+  },
+  {
+    "id": "ColubiMadrid",
+    "title": "Plano catastral de Carlos Colubi, 1889",
+    "year": "1889",
+    "bounds": [
+      [
+        40.38098785584194,
+        -3.748030653495943
+      ],
+      [
+        40.46410022176169,
+        -3.6555804060712753
+      ]
+    ],
+    "context": "An 1889 copy of Colubi’s cadastral atlas records land ownership and parcels around Madrid.",
+    "description": "Plano catastral del término de Madrid, copia de 1889 del plano levantado por el arquitecto Carlos Colubi por orden de la Junta de Evaluación. Atlas de 36 hojas, digitalizado por la Biblioteca Digital memoriademadrid y georreferenciado por el Departamento de Cartografía del Ayuntamiento de Madrid. El Geoportal fecha esta copia en 1889; el atlas de Colubi también aparece como 1866 en Madrid en sus planos.",
+    "metadata": "https://geoportal.madrid.es/IDEAM_WBGEOPORTAL/dataset.iam?id=SPA_28079_SERIE_CARTOTECA_1889_Carlos_Colubi_1890",
+    "downloads": "https://servpub.madrid.es/fsdescargas/IDEAM_WBGEOPORTAL/CARTOTECA/COLUBI/Malla_Plano_Catastral_Colubi.kml",
+    "downloadsLabel": "Sheet index (KML)",
+    "sourceName": "Ayuntamiento de Madrid · memoriademadrid",
+    "attribution": "<a href=\"https://geoportal.madrid.es/IDEAM_WBGEOPORTAL/dataset.iam?id=SPA_28079_SERIE_CARTOTECA_1889_Carlos_Colubi_1890\">Ayuntamiento de Madrid · memoriademadrid · 1889</a>",
+    "type": "wms",
+    "url": "https://servpub.madrid.es/georaster/CARTOTECA/Carlos_Colubi_1889/ows",
+    "wmsURL": "https://servpub.madrid.es/georaster/CARTOTECA/Carlos_Colubi_1889/ows",
+    "wmsLayer": "Carlos_Colubi_1889",
+    "wmsStyle": "raster",
+    "minNativeZoom": 0
   },
   {
     "id": "FacundoMadrid",
@@ -1165,11 +1207,13 @@
         395131,
         395565
       ]
-    }
+    },
+    "context": "Cañada mapped Madrid and neighbouring towns at the turn of the century, including estimated land values.",
+    "sourceName": "Instituto Geográfico Nacional"
   },
   {
     "id": "NunezMadrid",
-    "title": "Plano de Nuñez Granés, 1910",
+    "title": "Plano de Núñez Granés, 1910",
     "year": "1910",
     "bounds": [
       [
@@ -1311,7 +1355,9 @@
         395145,
         395568
       ]
-    }
+    },
+    "context": "The municipal public-works director combined field measurements and official records to map Madrid and its surroundings.",
+    "sourceName": "Instituto Geográfico Nacional"
   },
   {
     "id": "AyuntamientoMadrid",
@@ -1457,7 +1503,9 @@
         395040,
         395529
       ]
-    }
+    },
+    "context": "This municipal survey accompanied the information prepared for the 1929 competition to plan Madrid’s expansion.",
+    "sourceName": "Instituto Geográfico Nacional"
   },
   {
     "id": "ParcelarioMadrid",
@@ -1611,6 +1659,8 @@
       ],
       "zoom": 17
     },
-    "preview": "ParcelarioMadrid-detail"
+    "preview": "ParcelarioMadrid-detail",
+    "context": "A municipal cadastral survey assembled hundreds of detailed sheets showing land parcels, buildings and elevations.",
+    "sourceName": "Instituto Geográfico Nacional"
   }
 ]

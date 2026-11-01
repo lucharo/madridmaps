@@ -1,4 +1,4 @@
-// Cache only public IGN images, never application HTML or authentication.
+// Cache only allowlisted public map images, never application HTML or authentication.
 const CACHE='madrid-ign-tiles-v1';
 // A sampled 256px PNG is 137 KB: 64 MiB retains roughly ten 48-tile views.
 const BUDGET=64*1024*1024;
@@ -58,7 +58,7 @@ async function download(url,signal,startedGeneration){
     try{
       const response=await limited(async()=>{
         const result=await fetch(url,{mode:'cors',credentials:'omit',signal});
-        if(!result.ok){const error=new Error(`IGN returned ${result.status}`);error.retryable=result.status===408||result.status===429||result.status>=500;throw error;}
+        if(!result.ok){const error=new Error(`Map server returned ${result.status}`);error.retryable=result.status===408||result.status===429||result.status>=500;throw error;}
         const type=result.headers.get('Content-Type')||'',bytes=await result.arrayBuffer();
         if(!validImage(bytes,type)){const error=new Error('IGN did not return a map image');error.retryable=false;throw error;}
         let decoded=false;
@@ -85,7 +85,9 @@ function fetchTile(url,signal,startedGeneration){
 }
 self.addEventListener('fetch',event=>{
   const url=new URL(event.request.url);
-  if(event.request.method!=='GET'||url.origin!=='https://www.ign.es'||!['/wmts/planos','/wmts/mapa-raster'].includes(url.pathname))return;
+  const ign=url.origin==='https://www.ign.es'&&['/wmts/planos','/wmts/mapa-raster'].includes(url.pathname);
+  const colubi=url.origin==='https://servpub.madrid.es'&&url.pathname==='/georaster/CARTOTECA/Carlos_Colubi_1889/ows'&&url.searchParams.get('request')==='GetMap';
+  if(event.request.method!=='GET'||(!ign&&!colubi))return;
   // Include requests still waiting for CacheStorage lookup when clearing starts.
   const startedGeneration=generation;
   event.respondWith((async()=>{

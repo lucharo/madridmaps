@@ -19,7 +19,7 @@ function iconAction(id,glyph,label){const button=$(id);button.classList.add('ico
 for(const [id,glyph,label] of [
   ['catalogue-toggle','maps','All maps'],['compare-open','compare','Compare maps'],['fullscreen','fullscreen','Browser fullscreen'],['info-toggle','info','About the maps'],
   ['previous','left','Previous map'],['next','right','Next map'],['fit','fill','Fill screen'],['whole','whole','Whole sheet'],['end-compare','close','Exit comparison'],
-  ['expand','expand','Expand map'],['expanded-maps','maps','All maps'],['expanded-compare','compare','Compare maps'],['gallery-close','close','Cancel'],['close-info','close','Close map information'],
+  ['expand','expand','Expand map'],['expanded-maps','maps','All maps'],['expanded-compare','compare','Compare maps'],['expanded-info','info','Map timeline'],['timeline-previous','left','Scroll to earlier maps'],['timeline-next','right','Scroll to later maps'],['gallery-close','close','Cancel'],['close-info','close','Close map information'],
   ['search-toggle','search','Search Madrid'],['search-submit','search','Search'],['search-close','close','Close search'],['retry','retry','Retry tiles']
 ])iconAction(id,glyph,label);
 const initial = new URLSearchParams(location.hash.slice(1));
@@ -87,18 +87,22 @@ function updateStatus(){
   $('status-bar').classList.toggle('has-error',!!errors.length);
   $('outside').hidden=!outside.length;
   $('outside').textContent=outside.length?`${comparing()?'Map '+outside.map(k=>k.toUpperCase()).join(' and ')+' is':'You are'} outside its coverage. Use Fill screen.`:'';
-  $('status').textContent=errors.length?`${errors.join('. ')}. Retry to reload.`:loading?'Loading original IGN tiles…':outside.length?'No map tiles in part of this view.':'Original IGN tiles loaded';
+  $('status').textContent=errors.length?`${errors.join('. ')}. Retry to reload.`:loading?'Loading original map tiles…':outside.length?'No map tiles in part of this view.':'Original map tiles loaded';
 }
 function makeLayer(id,key){
   const m=item(id);
   // Leaflet 1.9.4 GridLayer's validity hook also enforces IGN's advertised tile limits.
   // Some WGS84 bounds include tiles that the WMTS itself rejects with TileOutOfRange.
-  const LimitedTiles=L.TileLayer.extend({_isValidTile(coords){
+  const BaseTiles=m.type==='wms'?L.TileLayer.WMS:L.TileLayer;
+  const LimitedTiles=BaseTiles.extend({_isValidTile(coords){
     if(!L.TileLayer.prototype._isValidTile.call(this,coords))return false;
     const limit=this.options.limits?.[coords.z];
     return !limit||(coords.x>=limit[0]&&coords.x<=limit[1]&&coords.y>=limit[2]&&coords.y<=limit[3]);
   }});
-  const layer=new LimitedTiles(m.url,{minZoom:0,minNativeZoom:11,maxZoom:20,maxNativeZoom:20,bounds:m.bounds,limits:m.limits,noWrap:true,updateWhenIdle:false,updateWhenZooming:true,keepBuffer:2,pane:key==='a'?'mapA':'mapB',attribution:'<a href="https://www.ign.es/">CC BY 4.0 ign.es</a>'});
+  const options={minZoom:0,minNativeZoom:m.minNativeZoom??11,maxZoom:20,maxNativeZoom:20,bounds:m.bounds,noWrap:true,updateWhenIdle:false,updateWhenZooming:true,keepBuffer:2,pane:key==='a'?'mapA':'mapB',attribution:m.attribution||'<a href="https://www.ign.es/">CC BY 4.0 ign.es</a>'};
+  if(m.limits)options.limits=m.limits;
+  if(m.type==='wms')Object.assign(options,{layers:m.wmsLayer,styles:m.wmsStyle||'',format:'image/png',transparent:true,version:'1.1.1',crs:L.CRS.EPSG3857});
+  const layer=new LimitedTiles(m.url,options);
   layer.on('tileload tileunload tileabort',event=>{if((key==='a'?layerA:layerB)===layer){stats[key].failed.delete(event.tile);updateStatus();}});
   layer.on('tileerror',event=>{if((key==='a'?layerA:layerB)===layer){stats[key].failed.set(event.tile,event.coords);updateStatus();}});
   layer.on('loading load',()=>{if((key==='a'?layerA:layerB)===layer)updateStatus();});
@@ -141,9 +145,13 @@ function syncUI(){
   const index=maps.indexOf(a);
   $('previous').disabled=index===0;$('next').disabled=index===maps.length-1;
   $('info-title').textContent=a.title;$('description').textContent=a.description;
+  $('info-context').textContent=a.context;$('info-source').textContent=a.sourceName;
   $('metadata').hidden=!a.metadata;if(a.metadata)$('metadata').href=a.metadata;
   const record=a.metadata?.match(/\/(\d+)(?:-marc21\.xml|\.html)/);
-  $('downloads').href=record?`https://centrodedescargas.cnig.es/CentroDescargas/busquedaIdProductor.do?Serie=CAANT&idProductor=T${record[1].padStart(7,'0')}`:'https://centrodedescargas.cnig.es/CentroDescargas/catalogo.do?Serie=CAANT';
+  $('downloads').href=a.downloads||(record?`https://centrodedescargas.cnig.es/CentroDescargas/busquedaIdProductor.do?Serie=CAANT&idProductor=T${record[1].padStart(7,'0')}`:'https://centrodedescargas.cnig.es/CentroDescargas/catalogo.do?Serie=CAANT');
+  $('downloads').textContent=a.downloadsLabel||'Original scans at CNIG';
+  for(const button of $('timeline').children)button.setAttribute('aria-pressed',String(button.dataset.map===state.a));
+  if($('info').open)revealTimelineSelection();
   syncFitButtons();updateComparison();updateStatus();
 }
 function renderLayers(refit=false){
@@ -158,6 +166,45 @@ function choosePrimary(id,preserve=true){
   state.a=id;
   if(state.b===id)state.b=id==='Today'?'Texeira':'Today';
   renderLayers(!preserve||!map.getBounds().intersects(L.latLngBounds(item(id).bounds)));
+}
+function revealTimelineSelection(){
+  const rail=$('timeline'),selected=rail.querySelector('[aria-pressed="true"]');
+  if(!selected)return;
+  const box=selected.getBoundingClientRect(),viewport=rail.getBoundingClientRect();
+  if(box.left<viewport.left||box.right>viewport.right)rail.scrollLeft+=box.left-viewport.left-(viewport.width-box.width)/2;
+}
+function openTimeline(){
+  $('info').showModal();requestAnimationFrame(revealTimelineSelection);
+}
+function buildTimeline(){
+  const rail=$('timeline');
+  for(const m of maps){
+    const button=document.createElement('button');button.type='button';button.className='timeline-card';button.dataset.map=m.id;
+    const image=document.createElement('img');image.src=`previews/${m.preview||m.id}.jpg`;image.alt='';image.width=840;image.height=560;image.loading='lazy';
+    const year=document.createElement('strong');year.textContent=m.year;
+    const name=document.createElement('span');name.className='timeline-name';name.textContent=shortName(m);
+    const context=document.createElement('span');context.className='timeline-card-context';context.textContent=m.context;
+    button.append(image,year,name,context);
+    button.onclick=()=>choosePrimary(m.id);
+    button.onkeydown=event=>{
+      let index=maps.indexOf(m);
+      if(event.key==='ArrowRight')index++;else if(event.key==='ArrowLeft')index--;else if(event.key==='Home')index=0;else if(event.key==='End')index=maps.length-1;else return;
+      event.preventDefault();const next=rail.children[Math.max(0,Math.min(maps.length-1,index))];next.focus();
+    };
+    rail.append(button);
+  }
+  $('timeline-previous').onclick=()=>rail.scrollBy({left:-rail.clientWidth*.75,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  $('timeline-next').onclick=()=>rail.scrollBy({left:rail.clientWidth*.75,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  // This throwaway switch is visible only in a requested design preview.
+  const preview=new URLSearchParams(location.search);
+  if(preview.get('preview')==='timeline'){
+    const variants=document.createElement('div');variants.className='timeline-variants';variants.setAttribute('aria-label','Timeline design preview');
+    const apply=variant=>{document.documentElement.dataset.timeline=variant;for(const b of variants.children)b.setAttribute('aria-pressed',String(b.dataset.variant===variant));requestAnimationFrame(revealTimelineSelection);};
+    for(const [variant,label] of [['A','A · Thumbnail strip'],['B','B · Context cards']]){
+      const b=document.createElement('button');b.textContent=label;b.dataset.variant=variant;b.onclick=()=>apply(variant);variants.append(b);
+    }
+    $('info').prepend(variants);apply(preview.get('timeline')==='B'?'B':'A');
+  }
 }
 function refreshGallery(){
   const pair=galleryMode==='compare';
@@ -219,7 +266,7 @@ async function init(){
   if(!window.L)throw new Error('The map library could not load. Reload this page.');
   const response=await fetch('maps.json');if(!response.ok)throw new Error('The map catalogue could not load. Reload this page.');
   maps=await response.json();
-  // Only public IGN tile images enter this cache. Application files are never cached here.
+  // Only allowlisted public map images enter this cache. Application files are never cached here.
   if('serviceWorker' in navigator){
     try{
       const registration=await navigator.serviceWorker.register('tile-cache.js');
@@ -228,7 +275,7 @@ async function init(){
     }catch{/* A browser that disables service workers can still browse directly. */}
   }
   const coverage=L.latLngBounds(maps.flatMap(m=>m.bounds));
-  maps.push({id:'Today',title:'Today’s IGN map',year:'Today',bounds:[[coverage.getSouth(),coverage.getWest()],[coverage.getNorth(),coverage.getEast()]],description:'Current IGN raster cartography. Map survey and publication dates vary by sheet.',metadata:null,url:'https://www.ign.es/wmts/mapa-raster?layer=MTN&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/jpeg&tilematrix={z}&tilecol={x}&tilerow={y}'});
+  maps.push({id:'Today',title:'Today’s IGN map',year:'Today',bounds:[[coverage.getSouth(),coverage.getWest()],[coverage.getNorth(),coverage.getEast()]],context:'Current national topographic mapping provides a present-day reference; survey and publication dates vary by sheet.',sourceName:'Instituto Geográfico Nacional',description:'Current IGN raster cartography. Map survey and publication dates vary by sheet.',metadata:null,url:'https://www.ign.es/wmts/mapa-raster?layer=MTN&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/jpeg&tilematrix={z}&tilecol={x}&tilerow={y}'});
   if(!item(state.a))state.a='Texeira';if(!item(state.b)||state.b===state.a)state.b=state.a==='Today'?'Texeira':'Today';
   for(const m of maps){
     const option=document.createElement('option');option.value=m.id;option.textContent=m.title;$('map-select').append(option);
@@ -240,6 +287,7 @@ async function init(){
     const badge=document.createElement('span');badge.className='selection-badge';
     text.append(year,name);button.append(image,text,badge);button.onclick=()=>galleryChoose(m.id);$('map-gallery').append(button);
   }
+  buildTimeline();
   map=L.map('map',{minZoom:0,maxZoom:20,zoomControl:false,fadeAnimation:true,zoomAnimation:true,zoomSnap:0.1});
   map.createPane('mapA').style.zIndex=300;map.createPane('mapB').style.zIndex=250;
   L.control.zoom({position:'topright'}).addTo(map);L.control.scale({imperial:false,position:'bottomright'}).addTo(map);
@@ -266,7 +314,7 @@ async function init(){
   $('opacity').oninput=()=>{state.opacity=Number($('opacity').value);updateComparison();saveView();};
   // Recreate at the same view: Leaflet 1.9.4 redraw() can request fractional tile z (#9930).
   $('retry').onclick=()=>renderLayers();
-  $('info-toggle').onclick=()=>$('info').showModal();$('close-info').onclick=()=>$('info').close();
+  $('info-toggle').onclick=openTimeline;$('expanded-info').onclick=openTimeline;$('close-info').onclick=()=>$('info').close();
   $('clear-tiles').onclick=async()=>{
     const button=$('clear-tiles'),status=$('cache-status');button.disabled=true;status.textContent='Clearing saved tiles…';
     try{

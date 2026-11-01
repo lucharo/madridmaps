@@ -11,7 +11,7 @@
   $('fit').click();await wait(settled);const fillZoom=v.map.getZoom();
   assert(fillZoom>wholeZoom,'Fill screen did not enlarge the map');
   assert(L.latLngBounds(v.current.bounds).contains(v.map.getBounds()),'Fill screen did not cover the viewport');
-  $('catalogue-toggle').click();assert($('gallery').open,'Gallery missing');assert(document.querySelectorAll('.map-card').length===12,'Gallery missing maps');$('gallery-close').click();
+  $('catalogue-toggle').click();assert($('gallery').open,'Gallery missing');assert(document.querySelectorAll('.map-card').length===v.maps.length,'Gallery missing maps');$('gallery-close').click();
   $('compare-open').click();assert($('gallery-apply').disabled,'Comparison accepted an incomplete pair');
   document.querySelector('[data-id="FacundoMadrid"]').click();$('gallery-apply').click();await wait(settled);
   assert(v.state.a==='Texeira'&&v.state.b==='FacundoMadrid'&&v.state.mode==='slide','Gallery did not apply the chosen pair');

@@ -4,6 +4,7 @@ const source=await Bun.file(new URL('../dist/tile-cache.js',import.meta.url)).te
 // Original IGN CC BY 4.0 tile: ParcelarioMadrid, GoogleMapsCompatible z17 x64187 y49422.
 const image=await Bun.file(new URL('fixtures/tile.png',import.meta.url)).arrayBuffer();
 const url='https://www.ign.es/wmts/planos?layer=ParcelarioMadrid&tilematrix=17&tilecol=64187&tilerow=49422';
+const municipal='https://servpub.madrid.es/georaster/CARTOTECA/Carlos_Colubi_1889/ows?request=GetMap&layers=Carlos_Colubi_1889&width=256&height=256';
 function worker(fetch,{beforeMatch}={}){
   const events={},entries=new Map();
   const cache={async match(key){await beforeMatch?.();return entries.get(typeof key==='string'?key:key.url)?.clone();},async put(key,response){entries.set(String(key),response.clone());},async keys(){return [...entries.keys()].map(url=>new Request(url));},async delete(key){return entries.delete(typeof key==='string'?key:key.url);}};
@@ -12,6 +13,16 @@ function worker(fetch,{beforeMatch}={}){
   return{entries,async message(type){let reply;const work=[];events.message({data:{type},ports:[{postMessage(value){reply=value;}}],waitUntil(p){work.push(p);}});await Promise.all(work);if(!reply)throw new Error('Worker did not acknowledge '+type);return reply;},async request(target=url){let result;const background=[];events.fetch({request:new Request(target),respondWith(p){result=p;},waitUntil(p){background.push(p);}});const response=await result;await Promise.all(background);return response;}};
 }
 const good=()=>new Response(image.slice(0),{headers:{'Content-Type':'image/png'}});
+test('Colubi images share the bounded cache, while other municipal requests bypass it',async()=>{
+  const calls=[];const w=worker(async(target,options)=>{calls.push({target,mode:options.mode,credentials:options.credentials});return good();});
+  expect((await w.request(municipal)).status).toBe(200);
+  expect((await w.request(municipal)).headers.get('X-Madrid-Decoded')).toBe('1');
+  expect(await w.request(municipal.replace('GetMap','GetCapabilities'))).toBeUndefined();
+  expect(await w.request(municipal.replace('Carlos_Colubi_1889/ows','Other/ows'))).toBeUndefined();
+  expect(calls).toEqual([{target:municipal,mode:'cors',credentials:'omit'}]);
+  expect(await w.message('clear-tiles')).toEqual({ok:true,bytes:0,tiles:0,budget:64*1024*1024});
+  expect([...w.entries.keys()]).toEqual([]);
+});
 test('visited historical tile is served without another upstream request',async()=>{
   let calls=0;const w=worker(async()=>{calls++;return good();});
   expect((await w.request()).status).toBe(200);
