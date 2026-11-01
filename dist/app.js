@@ -183,8 +183,7 @@ function buildTimeline(){
     const image=document.createElement('img');image.src=`previews/${m.preview||m.id}.jpg`;image.alt='';image.width=840;image.height=560;image.loading='lazy';
     const year=document.createElement('strong');year.textContent=m.year;
     const name=document.createElement('span');name.className='timeline-name';name.textContent=shortName(m);
-    const context=document.createElement('span');context.className='timeline-card-context';context.textContent=m.context;
-    button.append(image,year,name,context);
+    button.append(image,year,name);
     button.onclick=()=>choosePrimary(m.id);
     button.onkeydown=event=>{
       let index=maps.indexOf(m);
@@ -195,16 +194,6 @@ function buildTimeline(){
   }
   $('timeline-previous').onclick=()=>rail.scrollBy({left:-rail.clientWidth*.75,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
   $('timeline-next').onclick=()=>rail.scrollBy({left:rail.clientWidth*.75,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
-  // This throwaway switch is visible only in a requested design preview.
-  const preview=new URLSearchParams(location.search);
-  if(preview.get('preview')==='timeline'){
-    const variants=document.createElement('div');variants.className='timeline-variants';variants.setAttribute('aria-label','Timeline design preview');
-    const apply=variant=>{document.documentElement.dataset.timeline=variant;for(const b of variants.children)b.setAttribute('aria-pressed',String(b.dataset.variant===variant));requestAnimationFrame(revealTimelineSelection);};
-    for(const [variant,label] of [['A','A · Thumbnail strip'],['B','B · Context cards']]){
-      const b=document.createElement('button');b.textContent=label;b.dataset.variant=variant;b.onclick=()=>apply(variant);variants.append(b);
-    }
-    $('info').prepend(variants);apply(preview.get('timeline')==='B'?'B':'A');
-  }
 }
 function refreshGallery(){
   const pair=galleryMode==='compare';
@@ -339,5 +328,6 @@ async function init(){
   wireDivider();syncUI();saveView();
   const {initSearch}=await import('./search.js');initSearch(map);
   window.madridViewer={map,state,get current(){return item(state.a);},get historical(){return layerA;},get secondary(){return layerB;},get maps(){return maps;}};
+  if(new URLSearchParams(location.search).get('timeline')==='1')openTimeline();
 }
 init().catch(error=>{$('status').textContent=error.message;});

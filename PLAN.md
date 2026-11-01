@@ -7,7 +7,8 @@ Add the official Colubi 1889 atlas and an illustrated horizontal map timeline wi
 - [x] Add Colubi to browse, gallery and comparisons with provider attribution and the shared bounded cache.
 - [x] Add one-sentence context for all twelve historical maps and today's reference.
 - [x] Provide actual-thumbnail timeline variants and links to additional archive dates and repeated series.
-- [ ] Complete live tile, mobile, keyboard, comparison and cache verification; independent review.
+- [x] Luis selected A, the thumbnail strip. Prototype A/B preserved on `prototype/timeline-layouts` at `6a110a8`; unused option code removed from the selected implementation.
+- [x] Live tiles for all thirteen maps, timeline/keyboard, comparisons and shared-cache checks pass; independent review found no correctness issue. Held pinch loads new tiles while fingers remain down for IGN and Colubi.
 - [ ] Apply Luis's timeline layout choice, publish and verify the public deployment.
 
 Acceptance: thirteen browsable dates including today, stable map IDs and chronology, real Colubi imagery in EPSG:3857, municipal credit and source links, horizontal touch/keyboard navigation and context synchronized with the selected map. Additional archive PDFs must be distinguished from aligned viewer layers. Both providers share the existing six-download queue and 64 MiB cache. Expanded map still fills the viewport.
