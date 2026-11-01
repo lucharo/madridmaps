@@ -11,6 +11,7 @@
     const button=$('timeline').querySelector(`[data-map="${m.id}"]`);assert(button,'Timeline control missing');button.click();
     assert(viewer.state.a===m.id,'Timeline did not select '+m.id);
     assert($('info-context').textContent===m.context&&!!m.context,'Context missing for '+m.id);
+    assert($('description').lang===(m.id==='Today'?'en':'es'),'Wrong catalogue language: '+m.id);
     assert($('map-select').value===m.id,'Select disagrees with timeline');
     assert($('timeline').querySelectorAll('[aria-pressed="true"]').length===1,'Ambiguous timeline selection');
   }

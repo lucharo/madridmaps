@@ -16,7 +16,7 @@ try{
   await sleep(500);
   const box=await evaluate('(()=>{const b=document.getElementById("map").getBoundingClientRect();return{x:b.x+b.width/2,y:b.y+b.height/2};})()');
   const touch=async(type,spread)=>call('Input.dispatchTouchEvent',{type,touchPoints:spread===null?[]:[{x:box.x-spread,y:box.y,id:1},{x:box.x+spread,y:box.y,id:2}]},sessionId);
-  const read=()=>evaluate('(()=>{const v=window.madridViewer;return{held:v.map.touchZoom._zooming,zoom:v.map.getZoom(),tileZoom:v.historical._tileZoom,loaded:Object.values(v.historical._tiles).filter(t=>t.coords.z===v.historical._tileZoom&&t.el.complete&&t.el.naturalWidth===256).length,badURLs:[...document.querySelectorAll(".leaflet-tile")].some(t=>{const p=new URL(t.src).searchParams;return p.has("tilematrix")?!Number.isInteger(Number(p.get("tilematrix"))):p.get("request")!=="GetMap"||p.get("layers")!==v.current.wmsLayer||p.get("srs")!=="EPSG:3857";})};})()');
+  const read=()=>evaluate('(()=>{const v=window.madridViewer;return{held:v.map.touchZoom._zooming,zoom:v.map.getZoom(),tileZoom:v.historical._tileZoom,loaded:Object.values(v.historical._tiles).filter(t=>t.coords.z===v.historical._tileZoom&&t.el.complete&&t.el.naturalWidth===256).length,badURLs:[...v.historical.getContainer().querySelectorAll("img")].some(t=>{const p=new URL(t.src).searchParams;return p.has("tilematrix")?!Number.isInteger(Number(p.get("tilematrix"))):p.get("request")!=="GetMap"||p.get("layers")!==v.current.wmsLayer||p.get("srs")!=="EPSG:3857";})};})()');
   await touch('touchStart',100);await sleep(60);await touch('touchMove',180);
   let zoomed;for(let i=0;i<60;i++){await sleep(100);zoomed=await read();if(zoomed.tileZoom===17&&zoomed.loaded>0)break;}
   console.log(JSON.stringify({phase:'held zoom in',...zoomed}));

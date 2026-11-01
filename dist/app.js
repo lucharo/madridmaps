@@ -144,7 +144,7 @@ function syncUI(){
   $('caption-b').hidden=!comparing();$('year-b').textContent=`B · ${b.year}`;$('name-b').textContent=shortName(b);
   const index=maps.indexOf(a);
   $('previous').disabled=index===0;$('next').disabled=index===maps.length-1;
-  $('info-title').textContent=a.title;$('description').textContent=a.description;
+  $('info-title').textContent=a.title;$('description').textContent=a.description;$('description').lang=a.id==='Today'?'en':'es';
   $('info-context').textContent=a.context;$('info-source').textContent=a.sourceName;
   $('metadata').hidden=!a.metadata;if(a.metadata)$('metadata').href=a.metadata;
   const record=a.metadata?.match(/\/(\d+)(?:-marc21\.xml|\.html)/);
