@@ -20,6 +20,7 @@ body.expanded>header,body.expanded>footer,.expanded .toolbar{display:none}.expan
 #expanded-maps.labelled-button,#expanded-compare.labelled-button,#expanded-info.labelled-button{display:none}
 .expanded #expanded-maps.labelled-button,.expanded #expanded-compare.labelled-button,.expanded #expanded-info.labelled-button{display:inline-flex}
 .map-search,#comparison-panel,.expanded #comparison-panel{top:var(--controls-bottom,64px)}
+.map-search{top:calc(var(--controls-bottom,64px) + var(--comparison-height,0px))}
 #info .close.labelled-button{position:absolute;right:22px;top:22px;margin:0;float:none}
 #info .timeline-heading{padding-right:112px}
 #info .timeline-detail>p,#info .map-faq p{font-size:16px;line-height:1.6}
@@ -27,7 +28,7 @@ body.expanded>header,body.expanded>footer,.expanded .toolbar{display:none}.expan
 #info details p,#info details li,#info .source-links{font-size:15px;line-height:1.6}
 .timeline-name,.card-text>span{font-size:14px}.timeline-name{min-height:38px}
 .map-search p,.search-result strong{font-size:15px}.search-result span{font-size:13px}.search-result{min-height:58px}
-@media(max-width:760px){.tools{width:100%;gap:6px}.tools .labelled-button{flex:none}.view-tools{flex-wrap:wrap}.toolbar{gap:8px}.gallery-header p{font-size:14px}#mode-switch button,#compare-controls button{font-size:15px;min-height:44px}}
+@media(max-width:760px){.tools{width:100%;gap:6px}.tools .labelled-button{flex:none}.view-tools{width:100%;flex-wrap:wrap}.toolbar{gap:8px;flex-wrap:wrap}.date-picker{flex-basis:100%;width:100%}.gallery-header p{font-size:14px}#mode-switch button,#compare-controls button{font-size:15px;min-height:44px}}
 @media(max-width:620px){#info .close.labelled-button{top:14px;right:14px}#info .timeline-heading{padding-right:105px}.explore-controls{max-width:calc(100% - 72px)}.labelled-button,.tools .labelled-button,.view-tools .labelled-button,.explore-controls .labelled-button,.expanded .explore-controls .labelled-button,dialog .close.labelled-button{padding:9px 10px;gap:6px}#info h3{font-size:20px}}
 
 @media(max-width:620px){.explore-controls,.expanded .explore-controls{gap:5px}.explore-controls .labelled-button,.expanded .explore-controls .labelled-button{padding:9px 8px}}

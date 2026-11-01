@@ -229,6 +229,8 @@ function galleryChoose(id){
 function resizeMap(){requestAnimationFrame(()=>{
   const controls=document.querySelector('.explore-controls');
   $('map-stage').style.setProperty('--controls-bottom',`${controls.offsetTop+controls.offsetHeight+8}px`);
+  const comparison=$('comparison-panel');
+  $('map-stage').style.setProperty('--comparison-height',`${comparison.hidden?0:comparison.offsetHeight+8}px`);
   map.invalidateSize({pan:false});updateComparison();updateStatus();
 });}
 function setExpanded(on){
@@ -337,7 +339,8 @@ async function init(){
   const fullscreenChanged=()=>{if(nativeRequested&&!document.fullscreenElement&&!document.webkitFullscreenElement){nativeRequested=false;setExpanded(false);}resizeMap();};
   document.addEventListener('fullscreenchange',fullscreenChanged);document.addEventListener('webkitfullscreenchange',fullscreenChanged);
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&expanded&&!document.querySelector('dialog[open]'))leaveExpanded();});
-  new ResizeObserver(resizeMap).observe($('map-stage'));
+  const layoutObserver=new ResizeObserver(resizeMap);
+  layoutObserver.observe($('map-stage'));layoutObserver.observe($('comparison-panel'));
   wireDivider();syncUI();saveView();
   const {initSearch}=await import('./search.js');initSearch(map);
   window.madridViewer={map,state,get current(){return item(state.a);},get historical(){return layerA;},get secondary(){return layerB;},get maps(){return maps;}};
