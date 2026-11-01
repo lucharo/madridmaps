@@ -237,6 +237,8 @@ function resizeMap(){requestAnimationFrame(()=>{
   const controlsBottom=controls.offsetTop+controls.offsetHeight+8,comparisonHeight=comparison.hidden?0:comparison.offsetHeight+8;
   stage.style.setProperty('--controls-bottom',`${controlsBottom}px`);
   stage.style.setProperty('--comparison-height',`${comparisonHeight}px`);
+  // Always measure the anchored width; switching layouts must not reverse this decision.
+  search.classList.remove('viewport-search');
   const fixedHeight=[...search.children].filter(child=>child.id!=='search-results').reduce((height,child)=>{
     const style=getComputedStyle(child);return height+child.offsetHeight+parseFloat(style.marginTop)+parseFloat(style.marginBottom);
   },0);
