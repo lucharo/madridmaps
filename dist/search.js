@@ -8,19 +8,19 @@ async function json(url,signal){
   if(signal.aborted)abort();else signal.addEventListener('abort',abort,{once:true});
   let timedOut=false;
   const timer=setTimeout(()=>{timedOut=true;abort();},5000);
-  try{const r=await fetch(url,{signal:controller.signal,credentials:'omit'});if(!r.ok)throw new Error('Search service unavailable');return await r.json();}
-  catch(error){if(timedOut&&!signal.aborted)throw new Error('Search timed out. Try again.');throw error;}
+  try{const r=await fetch(url,{signal:controller.signal,credentials:'omit'});if(!r.ok)throw new Error('El servicio de búsqueda no está disponible.');return await r.json();}
+  catch(error){if(timedOut&&!signal.aborted)throw new Error('La búsqueda ha tardado demasiado. Inténtalo de nuevo.');if(signal.aborted)throw error;throw new Error('No se pudo consultar el servicio de búsqueda. Inténtalo de nuevo.');}
   finally{clearTimeout(timer);signal.removeEventListener('abort',abort);}
 }
 export async function searchMadrid(query,signal){
   const official=new URL('https://www.cartociudad.es/geocoder/api/geocoder/candidates');
   official.search=new URLSearchParams({q:query,municipio_filter:'Madrid',limit:'6'});
   const osm=new URL('https://photon.komoot.io/api/');
-  osm.search=new URLSearchParams({q:query,lat:'40.4167',lon:'-3.7033',bbox:`${area.west},${area.south},${area.east},${area.north}`,limit:'6',lang:'en'});
+  osm.search=new URLSearchParams({q:query,lat:'40.4167',lon:'-3.7033',bbox:`${area.west},${area.south},${area.east},${area.north}`,limit:'6',lang:'default'});
   const data=await Promise.allSettled([json(official,signal),json(osm,signal)]);
   if(signal.aborted)throw new DOMException('Aborted','AbortError');
-  if(data.every(r=>r.status==='rejected'))throw new Error('Search is unavailable. Try again.');
-  const carto=data[0].status==='fulfilled'&&Array.isArray(data[0].value)?data[0].value.filter(r=>r.muniCode==='28079'&&r.id&&r.address).map(r=>({label:r.address,detail:r.type==='portal'?'Address · CartoCiudad':'Street or place · CartoCiudad',lat:r.lat,lng:r.lng,id:r.id,type:r.type,source:'carto'})):[];
+  if(data.every(r=>r.status==='rejected'))throw new Error('La búsqueda no está disponible. Inténtalo de nuevo.');
+  const carto=data[0].status==='fulfilled'&&Array.isArray(data[0].value)?data[0].value.filter(r=>r.muniCode==='28079'&&r.id&&r.address).map(r=>({label:r.address,detail:r.type==='portal'?'Dirección · CartoCiudad':'Calle o lugar · CartoCiudad',lat:r.lat,lng:r.lng,id:r.id,type:r.type,source:'carto'})):[];
   const photon=data[1].status==='fulfilled'?(data[1].value.features||[]).flatMap(f=>{
     const p=f.properties||{},[lng,lat]=f.geometry?.coordinates||[];
     if(!located(lat,lng))return [];
@@ -34,10 +34,10 @@ export async function searchMadrid(query,signal){
 }
 export async function resolveResult(result,signal){
   if(located(result.lat,result.lng))return result;
-  if(result.source!=='carto')throw new Error('This place has no usable coordinates.');
+  if(result.source!=='carto')throw new Error('No se ha podido localizar este lugar en el mapa.');
   const url=new URL('https://www.cartociudad.es/geocoder/api/geocoder/find');url.search=new URLSearchParams({id:result.id,type:result.type});
   const found=await json(url,signal);
-  if(!located(found.lat,found.lng))throw new Error('This place has no usable coordinates.');
+  if(!located(found.lat,found.lng))throw new Error('No se ha podido localizar este lugar en el mapa.');
   return {...result,lat:found.lat,lng:found.lng};
 }
 export function initSearch(map){
@@ -52,23 +52,23 @@ export function initSearch(map){
   panel.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){close();$('search-toggle').focus();}if(e.key==='ArrowDown'&&e.target===input){e.preventDefault();list.querySelector('button')?.focus();}});
   $('search-clear-pin').onclick=()=>{marker?.remove();marker=null;$('search-clear-pin').hidden=true;};
   async function choose(result){
-    cancel();const current=sequence;request=new AbortController();status.textContent='Finding this location…';
+    cancel();const current=sequence;request=new AbortController();status.textContent='Localizando este lugar…';
     try{
       const point=await resolveResult(result,request.signal);if(current!==sequence)return;
       marker?.remove();
       const text=document.createElement('span');text.textContent=point.label;
-      marker=L.marker([point.lat,point.lng],{title:point.label,icon:L.divIcon({className:'search-pin',html:'<span></span>',iconSize:[26,36],iconAnchor:[13,36]})}).addTo(map).bindTooltip(text,{direction:'top',offset:[0,-34]});
+      marker=L.marker([point.lat,point.lng],{title:point.label,alt:'Ubicación encontrada',icon:L.divIcon({className:'search-pin',html:'<span></span>',iconSize:[26,36],iconAnchor:[13,36]})}).addTo(map).bindTooltip(text,{direction:'top',offset:[0,-34]});
       map.stop();map.setView([point.lat,point.lng],17,{animate:false});
       input.value=point.label;list.replaceChildren();status.textContent=point.label;$('search-clear-pin').hidden=false;close();
     }catch(error){if(error.name!=='AbortError'&&current===sequence)status.textContent=error.message;}
   }
   async function run(){
     cancel();list.replaceChildren();const query=input.value.trim();
-    if(query.length<3){status.textContent='Enter at least 3 letters. Search uses present-day names.';return;}
-    const current=sequence;request=new AbortController();status.textContent='Searching Madrid…';
+    if(query.length<3){status.textContent='Escribe al menos 3 letras. La búsqueda utiliza los nombres actuales.';return;}
+    const current=sequence;request=new AbortController();status.textContent='Buscando en Madrid…';
     try{
       const results=await searchMadrid(query,request.signal);if(current!==sequence)return;
-      status.textContent=results.length?'Choose a result.':'No matches. Try a street name or nearby landmark.';
+      status.textContent=results.length?'Elige un resultado.':'No hay resultados. Prueba con una calle o un lugar cercano.';
       for(const result of results){
         const button=document.createElement('button');button.type='button';button.className='search-result';
         const label=document.createElement('strong'),detail=document.createElement('span');label.textContent=result.label;detail.textContent=result.detail;button.append(label,detail);button.onclick=()=>choose(result);list.append(button);
@@ -76,6 +76,6 @@ export function initSearch(map){
       }
     }catch(error){if(error.name!=='AbortError'&&current===sequence)status.textContent=error.message;}
   }
-  input.oninput=()=>{cancel();list.replaceChildren();status.textContent=input.value.trim().length<3?'Enter at least 3 letters.':'Searching Madrid…';timer=setTimeout(run,500);};
+  input.oninput=()=>{cancel();list.replaceChildren();status.textContent=input.value.trim().length<3?'Escribe al menos 3 letras.':'Buscando en Madrid…';timer=setTimeout(run,500);};
   $('search-form').onsubmit=event=>{event.preventDefault();run();};
 }

@@ -144,8 +144,12 @@
         395429
       ]
     },
-    "context": "Madrid’s earliest printed plan was delivered to the city council in 1622.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "El plano impreso más antiguo de Madrid se entregó al Ayuntamiento en 1622.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Es el primer plano de Madrid?",
+      "answer": "Se considera el plano impreso más antiguo de la ciudad; la imagen que ves procede de una reproducción de 1923."
+    }
   },
   {
     "id": "Texeira",
@@ -292,8 +296,12 @@
         399604
       ]
     },
-    "context": "Twenty sheets depict seventeenth-century Madrid, combining a street plan with drawn building façades.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "Sus veinte hojas muestran el Madrid del siglo XVII, con las calles y las fachadas de los edificios.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Por qué los edificios parecen estar en tres dimensiones?",
+      "answer": "Texeira combinó el plano de las calles con dibujos de las fachadas para mostrar el aspecto de la villa en 1656."
+    }
   },
   {
     "id": "ChalmadrierMadrid",
@@ -440,8 +448,12 @@
         395456
       ]
     },
-    "context": "Commissioned by Carlos III, this plan records the capital at the start of his reign.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "Carlos III encargó este plano, que muestra la capital al comienzo de su reinado.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Qué Madrid muestra este plano?",
+      "answer": "Recoge la ciudad al inicio del reinado de Carlos III y las mejoras de Fernando VI; en él ya aparece el Palacio Real."
+    }
   },
   {
     "id": "EspinosaMadrid",
@@ -588,8 +600,12 @@
         395443
       ]
     },
-    "context": "Based on Madrid’s urban cadastral survey, this plan numbers the city’s 557 blocks.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "Este plano se basó en el catastro urbano y numeró las 557 manzanas de Madrid.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Qué significan los números de las manzanas?",
+      "answer": "Identifican las 557 manzanas de la Planimetría General de Madrid, el catastro urbano que sirvió de base al plano."
+    }
   },
   {
     "id": "GeometricoMadrid",
@@ -736,8 +752,12 @@
         395444
       ]
     },
-    "context": "Tomás López brought earlier surveys together to show the city and the urban reforms of Carlos III.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "Tomás López reunió planos anteriores para mostrar la ciudad y las reformas urbanas de Carlos III.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Se hizo a partir de un único levantamiento?",
+      "answer": "Tomás López utilizó varias fuentes, entre ellas los planos de Texeira, Espinosa de los Monteros y Chalmandrier."
+    }
   },
   {
     "id": "MadozMadrid",
@@ -884,8 +904,12 @@
         395444
       ]
     },
-    "context": "Published in Coello and Madoz’s atlas, this official city plan reduced a detailed engineering survey of the 1840s.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "Coello y Madoz publicaron este plano oficial a partir de un levantamiento de ingeniería de la década de 1840.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Por qué se llama plano oficial de la villa?",
+      "answer": "Fue declarado plano oficial de Madrid y redujo a escala 1:5.000 un levantamiento más detallado realizado entre 1841 y 1846."
+    }
   },
   {
     "id": "IbanezMadrid",
@@ -1032,8 +1056,12 @@
         395454
       ]
     },
-    "context": "Built from kilometre-sheet surveys, this sixteen-sheet parcel plan documented the urban fabric in detail.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "Este plano parcelario de dieciséis hojas reunió levantamientos kilométricos para representar la ciudad con detalle.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Qué aporta un plano parcelario?",
+      "answer": "Permite distinguir las parcelas y las manzanas con más detalle; este plano reunió dieciséis hojas basadas en los levantamientos de la Junta General de Estadística."
+    }
   },
   {
     "id": "ColubiMadrid",
@@ -1049,11 +1077,11 @@
         -3.6555804060712753
       ]
     ],
-    "context": "An 1889 copy of Colubi’s cadastral atlas records land ownership and parcels around Madrid.",
+    "context": "Esta copia de 1889 del atlas de Colubi representa las parcelas de la periferia de Madrid.",
     "description": "Plano catastral del término de Madrid, copia de 1889 del plano levantado por el arquitecto Carlos Colubi por orden de la Junta de Evaluación. Atlas de 36 hojas, digitalizado por la Biblioteca Digital memoriademadrid y georreferenciado por el Departamento de Cartografía del Ayuntamiento de Madrid. El Geoportal fecha esta copia en 1889; el atlas de Colubi también aparece como 1866 en Madrid en sus planos.",
     "metadata": "https://geoportal.madrid.es/IDEAM_WBGEOPORTAL/dataset.iam?id=SPA_28079_SERIE_CARTOTECA_1889_Carlos_Colubi_1890",
     "downloads": "https://servpub.madrid.es/fsdescargas/IDEAM_WBGEOPORTAL/CARTOTECA/COLUBI/Malla_Plano_Catastral_Colubi.kml",
-    "downloadsLabel": "Sheet index (KML)",
+    "downloadsLabel": "Índice de hojas (KML)",
     "sourceName": "Ayuntamiento de Madrid · memoriademadrid",
     "attribution": "<a href=\"https://geoportal.madrid.es/IDEAM_WBGEOPORTAL/dataset.iam?id=SPA_28079_SERIE_CARTOTECA_1889_Carlos_Colubi_1890\">Ayuntamiento de Madrid · memoriademadrid · 1889</a>",
     "type": "wms",
@@ -1061,7 +1089,11 @@
     "wmsURL": "https://servpub.madrid.es/georaster/CARTOTECA/Carlos_Colubi_1889/ows",
     "wmsLayer": "Carlos_Colubi_1889",
     "wmsStyle": "raster",
-    "minNativeZoom": 0
+    "minNativeZoom": 0,
+    "faq": {
+      "question": "¿Por qué queda un hueco en el centro del mapa?",
+      "answer": "Sus 36 hojas cubren las parcelas de la periferia; el casco urbano central queda fuera de esta colección."
+    }
   },
   {
     "id": "FacundoMadrid",
@@ -1208,8 +1240,12 @@
         395565
       ]
     },
-    "context": "Cañada mapped Madrid and neighbouring towns at the turn of the century, including estimated land values.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "Cañada representó Madrid y los pueblos cercanos al comenzar el siglo XX, con valores aproximados del suelo.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Por qué aparecen precios en el plano?",
+      "answer": "Cañada incluyó el valor aproximado del terreno por metro cuadrado, junto al plano de Madrid y los pueblos colindantes."
+    }
   },
   {
     "id": "NunezMadrid",
@@ -1356,8 +1392,12 @@
         395568
       ]
     },
-    "context": "The municipal public-works director combined field measurements and official records to map Madrid and its surroundings.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "El director municipal de Vías Públicas combinó mediciones sobre el terreno y documentos oficiales para representar Madrid.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Qué representan los edificios destacados?",
+      "answer": "El plano señala los principales edificios públicos y los relaciona con una leyenda que ayuda a localizarlos."
+    }
   },
   {
     "id": "AyuntamientoMadrid",
@@ -1504,8 +1544,12 @@
         395529
       ]
     },
-    "context": "This municipal survey accompanied the information prepared for the 1929 competition to plan Madrid’s expansion.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "Este levantamiento municipal acompañó la información para el concurso de 1929 sobre la expansión de Madrid.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Para qué se elaboró este plano?",
+      "answer": "Formó parte de la información preparada para el concurso de 1929, cuyo objetivo era ordenar y urbanizar la zona exterior al Ensanche."
+    }
   },
   {
     "id": "ParcelarioMadrid",
@@ -1660,7 +1704,11 @@
       "zoom": 17
     },
     "preview": "ParcelarioMadrid-detail",
-    "context": "A municipal cadastral survey assembled hundreds of detailed sheets showing land parcels, buildings and elevations.",
-    "sourceName": "Instituto Geográfico Nacional"
+    "context": "Esta colección catastral reúne cientos de hojas con parcelas, edificios y datos de altitud.",
+    "sourceName": "Instituto Geográfico Nacional",
+    "faq": {
+      "question": "¿Por qué hay huecos entre las hojas?",
+      "answer": "La colección reúne numerosas hojas catastrales y su cobertura no es continua en toda la zona; algunos espacios quedan sin cartografía."
+    }
   }
 ]

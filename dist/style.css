@@ -10,3 +10,27 @@ body.expanded>header,body.expanded>footer,.expanded .toolbar{display:none}.expan
 .icon-button svg{display:block;width:22px;height:22px;flex:none}.expanded #expanded-maps,.expanded #expanded-compare{display:inline-flex}#retry.icon-button{width:44px;min-width:44px;height:44px;min-height:44px;padding:10px}
 .map-search-toggle{position:absolute;left:64px;top:12px;z-index:510;box-shadow:var(--shadow)}.expanded .map-search-toggle{left:160px}.map-search{position:absolute;top:64px;left:12px;z-index:700;width:min(390px,calc(100% - 24px));background:var(--paper);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}.map-search form{display:flex;gap:2px;padding:5px;border-bottom:1px solid var(--line)}.map-search input{min-width:0;width:100%;border:0;background:var(--paper);font-size:16px;padding:6px 8px;outline-offset:-3px}.map-search p{font-size:12px;color:var(--muted);margin:10px 13px}#search-results{max-height:min(380px,45dvh);overflow:auto}.search-result{display:flex;flex-direction:column;gap:3px;text-align:left;width:100%;border:0;border-top:1px solid var(--line);border-radius:0;padding:11px 13px;min-height:54px}.search-result strong{font-size:14px;font-weight:600}.search-result span{font-size:11px;color:var(--muted)}.search-credit{display:flex;align-items:center;justify-content:space-between;gap:6px;border-top:1px solid var(--line);padding:9px 12px;font-size:10px;color:var(--muted)}.search-credit button{font-size:11px;padding:4px 8px;min-height:32px}.search-pin{background:none;border:none}.search-pin span{display:block;width:26px;height:26px;border:3px solid white;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#165a89;box-shadow:0 1px 5px #0007}.search-pin span:after{content:'';position:absolute;inset:6px;border-radius:50%;background:white}#info h3{font-size:15px;margin-top:24px}
 @media(max-width:760px){.tools{width:auto}.tools .icon-button{padding:10px}.view-tools{width:auto}.map-search-toggle{top:9px;left:58px}.expanded .map-search-toggle{left:156px}.expanded .explore-controls .icon-button{padding:10px}.map-search{top:60px;left:9px;width:min(390px,calc(100% - 18px))}.toolbar{flex-wrap:nowrap}.date-picker{min-width:0;width:auto}.date-picker select{max-width:none}.view-tools{flex-wrap:nowrap}#compare-controls{width:auto}.versus{display:none}}
+
+/* Visible action labels */
+.labelled-button,.tools .labelled-button,.view-tools .labelled-button,.explore-controls .labelled-button,.expanded .explore-controls .labelled-button,dialog .close.labelled-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:auto;min-width:44px;min-height:44px;padding:9px 12px;font-size:16px;line-height:1.3;white-space:nowrap;flex:none}
+.labelled-button svg{display:block;width:22px;height:22px;flex:none}.labelled-button span{display:block}
+#theme.labelled-button{max-width:none}
+.explore-controls{flex-wrap:wrap;max-width:calc(100% - 86px);gap:6px}
+.explore-controls .map-search-toggle{position:static;left:auto;top:auto}
+#expanded-maps.labelled-button,#expanded-compare.labelled-button,#expanded-info.labelled-button{display:none}
+.expanded #expanded-maps.labelled-button,.expanded #expanded-compare.labelled-button,.expanded #expanded-info.labelled-button{display:inline-flex}
+.map-search,#comparison-panel,.expanded #comparison-panel{top:var(--controls-bottom,64px)}
+#info .close.labelled-button{position:absolute;right:22px;top:22px;margin:0;float:none}
+#info .timeline-heading{padding-right:112px}
+#info .timeline-detail>p,#info .map-faq p{font-size:16px;line-height:1.6}
+#info .map-faq{margin:18px 0}#info .map-faq p{margin:5px 0}#info .map-faq strong{font-weight:700}
+#info details p,#info details li,#info .source-links{font-size:15px;line-height:1.6}
+.timeline-name,.card-text>span{font-size:14px}.timeline-name{min-height:38px}
+.map-search p,.search-result strong{font-size:15px}.search-result span{font-size:13px}.search-result{min-height:58px}
+@media(max-width:760px){.tools{width:100%;gap:6px}.tools .labelled-button{flex:none}.view-tools{flex-wrap:wrap}.toolbar{gap:8px}.gallery-header p{font-size:14px}#mode-switch button,#compare-controls button{font-size:15px;min-height:44px}}
+@media(max-width:620px){#info .close.labelled-button{top:14px;right:14px}#info .timeline-heading{padding-right:105px}.explore-controls{max-width:calc(100% - 72px)}.labelled-button,.tools .labelled-button,.view-tools .labelled-button,.explore-controls .labelled-button,.expanded .explore-controls .labelled-button,dialog .close.labelled-button{padding:9px 10px;gap:6px}#info h3{font-size:20px}}
+
+@media(max-width:620px){.explore-controls,.expanded .explore-controls{gap:5px}.explore-controls .labelled-button,.expanded .explore-controls .labelled-button{padding:9px 8px}}
+
+#retry.labelled-button{min-height:44px;min-width:44px;padding:9px 12px;font-size:16px}
+.leaflet-control-zoom a{min-width:44px;min-height:44px;line-height:44px}

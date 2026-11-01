@@ -11,7 +11,10 @@
     const button=$('timeline').querySelector(`[data-map="${m.id}"]`);assert(button,'Timeline control missing');button.click();
     assert(viewer.state.a===m.id,'Timeline did not select '+m.id);
     assert($('info-context').textContent===m.context&&!!m.context,'Context missing for '+m.id);
-    assert($('description').lang===(m.id==='Today'?'en':'es'),'Wrong catalogue language: '+m.id);
+    assert($('description').lang==='es','Wrong catalogue language: '+m.id);
+    assert($('faq-question').tagName==='STRONG'&&$('faq-question').textContent===m.faq.question&&m.faq.question.startsWith('¿'),'FAQ question missing or not bold: '+m.id);
+    assert($('faq-answer').textContent===m.faq.answer&&m.faq.answer.length>30,'FAQ answer missing: '+m.id);
+    assert($('faq-question').parentElement.nextElementSibling===$('faq-answer'),'FAQ answer is not directly below its question');
     assert($('map-select').value===m.id,'Select disagrees with timeline');
     assert($('timeline').querySelectorAll('[aria-pressed="true"]').length===1,'Ambiguous timeline selection');
   }
@@ -23,7 +26,7 @@
   const params=new URL(images[0].src).searchParams;
   assert(params.get('srs')==='EPSG:3857'&&params.get('layers')==='Carlos_Colubi_1889','Wrong WMS projection or layer');
   assert(document.querySelector('.leaflet-control-attribution').textContent.includes('Ayuntamiento de Madrid'),'Municipal attribution missing');
-  assert($('downloads').textContent==='Sheet index (KML)'&&$('downloads').href.includes('Colubi.kml'),'Municipal source incorrectly points to CNIG');
+  assert($('downloads').textContent==='Índice de hojas (KML)'&&$('downloads').href.includes('Colubi.kml'),'Municipal source incorrectly points to CNIG');
   selected.focus();selected.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));
   assert(document.activeElement.dataset.map==='FacundoMadrid','Arrow navigation failed');
   $('timeline').scrollLeft=0;$('timeline-next').click();await wait(()=>$('timeline').scrollLeft>0);
