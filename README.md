@@ -4,7 +4,7 @@
 
 Browse twelve historical maps of Madrid from 1622 to 1960, compare any two with a sliding divider or overlay, and search for present-day streets, addresses and neighbourhoods. No account is required.
 
-The website is in Spanish. Primary controls combine icons with visible text, and each map has one short question and answer in its information panel.
+The website is in Spanish. Primary controls combine icons with visible text, and each map has short questions, answers and historical curiosities in its information panel.
 
 ![Madrid's 1929 survey, provided by IGN](dist/previews/AyuntamientoMadrid.jpg)
 

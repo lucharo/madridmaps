@@ -153,7 +153,13 @@ function syncUI(){
   $('previous').disabled=index===0;$('next').disabled=index===maps.length-1;
   $('info-title').textContent=a.title;$('description').textContent=a.description;$('description').lang='es';
   $('info-context').textContent=a.context;$('info-source').textContent=a.sourceName;
-  $('faq-question').textContent=a.faq.question;$('faq-answer').textContent=a.faq.answer;
+  const faqs=document.createDocumentFragment();
+  for(const faq of a.faqs){
+    const entry=document.createElement('div'),question=document.createElement('p'),bold=document.createElement('strong'),answer=document.createElement('p');
+    entry.className='map-faq';bold.textContent=faq.question;answer.textContent=faq.answer;
+    question.append(bold);entry.append(question,answer);faqs.append(entry);
+  }
+  $('map-faqs').replaceChildren(faqs);
   $('metadata').hidden=!a.metadata;if(a.metadata)$('metadata').href=a.metadata;
   const record=a.metadata?.match(/\/(\d+)(?:-marc21\.xml|\.html)/);
   $('downloads').href=a.downloads||(record?`https://centrodedescargas.cnig.es/CentroDescargas/busquedaIdProductor.do?Serie=CAANT&idProductor=T${record[1].padStart(7,'0')}`:'https://centrodedescargas.cnig.es/CentroDescargas/catalogo.do?Serie=CAANT');
@@ -283,7 +289,7 @@ async function init(){
     }catch{/* A browser that disables service workers can still browse directly. */}
   }
   const coverage=L.latLngBounds(maps.flatMap(m=>m.bounds));
-  maps.push({id:'Today',title:'Mapa actual del IGN',year:'Hoy',bounds:[[coverage.getSouth(),coverage.getWest()],[coverage.getNorth(),coverage.getEast()]],context:'La cartografía actual del IGN sirve de referencia; las fechas de los levantamientos varían según la hoja.',faq:{question:'¿La búsqueda encuentra direcciones antiguas?',answer:'La búsqueda localiza direcciones actuales. Úsalas como referencia para comparar ese lugar con los planos históricos.'},sourceName:'Instituto Geográfico Nacional',description:'Cartografía ráster actual del IGN. Las fechas de levantamiento y publicación varían según la hoja.',metadata:null,url:'https://www.ign.es/wmts/mapa-raster?layer=MTN&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/jpeg&tilematrix={z}&tilecol={x}&tilerow={y}'});
+  maps.push({id:'Today',title:'Mapa actual del IGN',year:'Hoy',bounds:[[coverage.getSouth(),coverage.getWest()],[coverage.getNorth(),coverage.getEast()]],context:'La cartografía actual del IGN sirve de referencia; las fechas de los levantamientos varían según la hoja.',faqs:[{question:'¿La búsqueda encuentra direcciones antiguas?',answer:'La búsqueda localiza direcciones actuales. Úsalas como referencia para comparar ese lugar con los planos históricos.'},{question:'¿Tiene una única fecha?',answer:'No: las fechas de los levantamientos y las publicaciones varían según la hoja. Se utiliza como referencia actual para la comparación.'}],sourceName:'Instituto Geográfico Nacional',description:'Cartografía ráster actual del IGN. Las fechas de levantamiento y publicación varían según la hoja.',metadata:null,url:'https://www.ign.es/wmts/mapa-raster?layer=MTN&style=default&tilematrixset=GoogleMapsCompatible&service=WMTS&request=GetTile&version=1.0.0&format=image/jpeg&tilematrix={z}&tilecol={x}&tilerow={y}'});
   if(!item(state.a))state.a='Texeira';if(!item(state.b)||state.b===state.a)state.b=state.a==='Today'?'Texeira':'Today';
   for(const m of maps){
     const option=document.createElement('option');option.value=m.id;option.textContent=m.title;$('map-select').append(option);

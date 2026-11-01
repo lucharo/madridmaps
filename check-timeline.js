@@ -12,9 +12,17 @@
     assert(viewer.state.a===m.id,'Timeline did not select '+m.id);
     assert($('info-context').textContent===m.context&&!!m.context,'Context missing for '+m.id);
     assert($('description').lang==='es','Wrong catalogue language: '+m.id);
-    assert($('faq-question').tagName==='STRONG'&&$('faq-question').textContent===m.faq.question&&m.faq.question.startsWith('¿'),'FAQ question missing or not bold: '+m.id);
-    assert($('faq-answer').textContent===m.faq.answer&&m.faq.answer.length>30,'FAQ answer missing: '+m.id);
-    assert($('faq-question').parentElement.nextElementSibling===$('faq-answer'),'FAQ answer is not directly below its question');
+    assert(Array.isArray(m.faqs)&&m.faqs.length>=2,'Multiple questions missing for '+m.id);
+    const entries=[...$('map-faqs').children];
+    assert(entries.length===m.faqs.length,'Questions left over or missing after selecting '+m.id);
+    const rendered=entries.map(entry=>{
+      const question=entry.querySelector('strong'),answer=entry.lastElementChild;
+      assert(question&&Number(getComputedStyle(question).fontWeight)>=600,'Question is not bold for '+m.id);
+      assert(question.parentElement.nextElementSibling===answer&&answer.tagName==='P','Answer is not directly below its question');
+      return{question:question.textContent,answer:answer.textContent};
+    });
+    assert(JSON.stringify(rendered)===JSON.stringify(m.faqs),'Wrong questions or order for '+m.id);
+    assert(new Set(rendered.map(faq=>faq.question)).size===rendered.length&&rendered.every(faq=>faq.question.startsWith('¿')&&faq.answer.length>30),'Question content is missing or repeated for '+m.id);
     assert($('map-select').value===m.id,'Select disagrees with timeline');
     assert($('timeline').querySelectorAll('[aria-pressed="true"]').length===1,'Ambiguous timeline selection');
   }
@@ -32,5 +40,5 @@
   $('timeline').scrollLeft=0;$('timeline-next').click();await wait(()=>$('timeline').scrollLeft>0);
   assert(document.documentElement.scrollWidth===innerWidth,'Timeline overflows the page');
   $('close-info').click();
-  return{maps:viewer.maps.length,colubiTiles:images.length,projection:params.get('srs'),context:$('info-context').textContent,scrolling:true,keyboard:true};
+  return{maps:viewer.maps.length,questions:viewer.maps.reduce((n,m)=>n+m.faqs.length,0),colubiTiles:images.length,projection:params.get('srs'),context:$('info-context').textContent,scrolling:true,keyboard:true};
 })();

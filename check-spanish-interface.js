@@ -43,8 +43,12 @@
   }finally{window.fetch=original;$('search-close').click();}
   $('expand').click();await frame();await frame();
   $('info-toggle').click();
-  assert($('faq-question').tagName==='STRONG'&&Number(getComputedStyle($('faq-question')).fontWeight)>=600,'FAQ question is not visibly bold');
-  assert($('faq-question').parentElement.nextElementSibling===$('faq-answer'),'FAQ answer is not under its question');
+  const faqs=[...$('map-faqs').children];assert(faqs.length>=2,'Multiple map questions are missing');
+  for(const entry of faqs){
+    const question=entry.querySelector('strong');
+    assert(question&&Number(getComputedStyle(question).fontWeight)>=600,'FAQ question is not visibly bold');
+    assert(question.parentElement.nextElementSibling===entry.lastElementChild,'FAQ answer is not under its question');
+  }
   const cacheDetails=$('clear-tiles').closest('details');cacheDetails.open=true;$('clear-tiles').click();
   await wait(()=>$('clear-tiles').disabled===false);
   assert(['Se han borrado las imágenes guardadas.','Este navegador no está guardando imágenes del mapa.'].includes($('cache-status').textContent),'Cache feedback is not Spanish');

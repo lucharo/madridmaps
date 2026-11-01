@@ -146,10 +146,16 @@
     },
     "context": "El plano impreso más antiguo de Madrid se entregó al Ayuntamiento en 1622.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Es el primer plano de Madrid?",
-      "answer": "Se considera el plano impreso más antiguo de la ciudad; la imagen que ves procede de una reproducción de 1923."
-    }
+    "faqs": [
+      {
+        "question": "¿Es el primer plano de Madrid?",
+        "answer": "Se considera el plano impreso más antiguo de la ciudad; la imagen que ves procede de una reproducción de 1923."
+      },
+      {
+        "question": "¿A quién se entregó el plano original?",
+        "answer": "Antonio Mancelli lo entregó al Concejo de la Villa en 1622, según la descripción del IGN."
+      }
+    ]
   },
   {
     "id": "Texeira",
@@ -298,10 +304,20 @@
     },
     "context": "Sus veinte hojas muestran el Madrid del siglo XVII, con las calles y las fachadas de los edificios.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Por qué los edificios parecen estar en tres dimensiones?",
-      "answer": "Texeira combinó el plano de las calles con dibujos de las fachadas para mostrar el aspecto de la villa en 1656."
-    }
+    "faqs": [
+      {
+        "question": "¿Por qué los edificios parecen estar en tres dimensiones?",
+        "answer": "Texeira combinó el plano de las calles con dibujos de las fachadas para mostrar el aspecto de la villa en 1656."
+      },
+      {
+        "question": "¿Era una sola hoja de papel?",
+        "answer": "No: el plano consta de veinte hojas. El visor las reúne en una sola imagen para que puedas recorrerlas."
+      },
+      {
+        "question": "¿La imagen que vemos es de 1656?",
+        "answer": "Representa el Madrid de 1656, pero procede de una reproducción de 1881. Su ajuste a las coordenadas actuales es aproximado."
+      }
+    ]
   },
   {
     "id": "ChalmadrierMadrid",
@@ -450,10 +466,16 @@
     },
     "context": "Carlos III encargó este plano, que muestra la capital al comienzo de su reinado.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Qué Madrid muestra este plano?",
-      "answer": "Recoge la ciudad al inicio del reinado de Carlos III y las mejoras de Fernando VI; en él ya aparece el Palacio Real."
-    }
+    "faqs": [
+      {
+        "question": "¿Qué Madrid muestra este plano?",
+        "answer": "Recoge la ciudad al inicio del reinado de Carlos III y las mejoras de Fernando VI; en él ya aparece el Palacio Real."
+      },
+      {
+        "question": "¿Qué había antes del Palacio Real?",
+        "answer": "En su emplazamiento estaba el antiguo palacio, destruido por un incendio en 1734. Este plano ya muestra el nuevo Palacio Real."
+      }
+    ]
   },
   {
     "id": "EspinosaMadrid",
@@ -602,10 +624,16 @@
     },
     "context": "Este plano se basó en el catastro urbano y numeró las 557 manzanas de Madrid.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Qué significan los números de las manzanas?",
-      "answer": "Identifican las 557 manzanas de la Planimetría General de Madrid, el catastro urbano que sirvió de base al plano."
-    }
+    "faqs": [
+      {
+        "question": "¿Qué significan los números de las manzanas?",
+        "answer": "Identifican las 557 manzanas de la Planimetría General de Madrid, el catastro urbano que sirvió de base al plano."
+      },
+      {
+        "question": "¿Quién encargó este plano?",
+        "answer": "Se hizo por orden del conde de Aranda. Su autor, Antonio Espinosa de los Monteros, pertenecía a la Real Academia de San Fernando."
+      }
+    ]
   },
   {
     "id": "GeometricoMadrid",
@@ -754,10 +782,20 @@
     },
     "context": "Tomás López reunió planos anteriores para mostrar la ciudad y las reformas urbanas de Carlos III.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Se hizo a partir de un único levantamiento?",
-      "answer": "Tomás López utilizó varias fuentes, entre ellas los planos de Texeira, Espinosa de los Monteros y Chalmandrier."
-    }
+    "faqs": [
+      {
+        "question": "¿Se hizo a partir de un único levantamiento?",
+        "answer": "Tomás López utilizó varias fuentes, entre ellas los planos de Texeira, Espinosa de los Monteros y Chalmandrier."
+      },
+      {
+        "question": "¿Para qué sirve la cuadrícula?",
+        "answer": "Permite localizar las calles con ayuda del callejero que aparece en los laterales, como en un índice de calles en papel."
+      },
+      {
+        "question": "¿Qué limita la ciudad en este plano?",
+        "answer": "El plano muestra la expansión urbana delimitada por la cerca de Felipe IV y recoge las reformas ordenadas por Carlos III."
+      }
+    ]
   },
   {
     "id": "MadozMadrid",
@@ -906,10 +944,20 @@
     },
     "context": "Coello y Madoz publicaron este plano oficial a partir de un levantamiento de ingeniería de la década de 1840.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Por qué se llama plano oficial de la villa?",
-      "answer": "Fue declarado plano oficial de Madrid y redujo a escala 1:5.000 un levantamiento más detallado realizado entre 1841 y 1846."
-    }
+    "faqs": [
+      {
+        "question": "¿Por qué se llama plano oficial de la villa?",
+        "answer": "Fue declarado plano oficial de Madrid y redujo a escala 1:5.000 un levantamiento más detallado realizado entre 1841 y 1846."
+      },
+      {
+        "question": "¿Qué representan los dibujos de los márgenes?",
+        "answer": "Las cartelas incluyen vistas del Museo del Prado, el Observatorio, el Palacio Real y la Puerta de Alcalá."
+      },
+      {
+        "question": "¿Cómo se buscaba una calle?",
+        "answer": "Los laterales contienen una lista alfabética de calles. La cuadrícula de letras y números ayuda a encontrar lugares en el plano."
+      }
+    ]
   },
   {
     "id": "IbanezMadrid",
@@ -1058,10 +1106,16 @@
     },
     "context": "Este plano parcelario de dieciséis hojas reunió levantamientos kilométricos para representar la ciudad con detalle.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Qué aporta un plano parcelario?",
-      "answer": "Permite distinguir las parcelas y las manzanas con más detalle; este plano reunió dieciséis hojas basadas en los levantamientos de la Junta General de Estadística."
-    }
+    "faqs": [
+      {
+        "question": "¿Qué aporta un plano parcelario?",
+        "answer": "Permite distinguir las parcelas y las manzanas con más detalle; este plano reunió dieciséis hojas basadas en los levantamientos de la Junta General de Estadística."
+      },
+      {
+        "question": "¿Qué relación tiene su autor con el IGN?",
+        "answer": "Carlos Ibáñez e Ibáñez de Íbero fundó el Instituto Geográfico en 1870, cinco años antes de la fecha de este plano."
+      }
+    ]
   },
   {
     "id": "ColubiMadrid",
@@ -1090,10 +1144,20 @@
     "wmsLayer": "Carlos_Colubi_1889",
     "wmsStyle": "raster",
     "minNativeZoom": 0,
-    "faq": {
-      "question": "¿Por qué queda un hueco en el centro del mapa?",
-      "answer": "Sus 36 hojas cubren las parcelas de la periferia; el casco urbano central queda fuera de esta colección."
-    }
+    "faqs": [
+      {
+        "question": "¿Por qué queda un hueco en el centro del mapa?",
+        "answer": "Sus 36 hojas cubren las parcelas de la periferia; el casco urbano central queda fuera de esta colección."
+      },
+      {
+        "question": "¿Por qué aparece 1889 y también se habla de 1866?",
+        "answer": "El Geoportal fecha esta copia en 1889. La publicación municipal Madrid en sus planos incluye el atlas de Colubi bajo 1866."
+      },
+      {
+        "question": "¿Quién preparó la versión digital?",
+        "answer": "Memoriademadrid digitalizó las hojas y el Departamento de Cartografía del Ayuntamiento las ajustó a coordenadas para poder verlas sobre un mapa."
+      }
+    ]
   },
   {
     "id": "FacundoMadrid",
@@ -1242,10 +1306,20 @@
     },
     "context": "Cañada representó Madrid y los pueblos cercanos al comenzar el siglo XX, con valores aproximados del suelo.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Por qué aparecen precios en el plano?",
-      "answer": "Cañada incluyó el valor aproximado del terreno por metro cuadrado, junto al plano de Madrid y los pueblos colindantes."
-    }
+    "faqs": [
+      {
+        "question": "¿Por qué aparecen precios en el plano?",
+        "answer": "Cañada incluyó el valor aproximado del terreno por metro cuadrado, junto al plano de Madrid y los pueblos colindantes."
+      },
+      {
+        "question": "¿Por qué hay pueblos en recuadros?",
+        "answer": "El plano incluye mapas de los pueblos colindantes en recuadros alrededor de Madrid, para mostrar también sus alrededores."
+      },
+      {
+        "question": "¿Recibió algún premio este plano?",
+        "answer": "Por este trabajo, Facundo Cañada recibió en 1902 el Premio de Honor de la Cámara Internacional de Industria, Comercio y Ciencias de Madrid."
+      }
+    ]
   },
   {
     "id": "NunezMadrid",
@@ -1394,10 +1468,20 @@
     },
     "context": "El director municipal de Vías Públicas combinó mediciones sobre el terreno y documentos oficiales para representar Madrid.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Qué representan los edificios destacados?",
-      "answer": "El plano señala los principales edificios públicos y los relaciona con una leyenda que ayuda a localizarlos."
-    }
+    "faqs": [
+      {
+        "question": "¿Qué representan los edificios destacados?",
+        "answer": "El plano señala los principales edificios públicos y los relaciona con una leyenda que ayuda a localizarlos."
+      },
+      {
+        "question": "¿De dónde salió la información?",
+        "answer": "Se combinaron datos del Instituto Geográfico Estadístico, archivos municipales y mediciones tomadas directamente sobre el terreno."
+      },
+      {
+        "question": "¿Cómo se imprimió?",
+        "answer": "Se reprodujo mediante heliograbado sobre planchas de cobre, en la sección de artes gráficas del Instituto Geográfico."
+      }
+    ]
   },
   {
     "id": "AyuntamientoMadrid",
@@ -1546,10 +1630,16 @@
     },
     "context": "Este levantamiento municipal acompañó la información para el concurso de 1929 sobre la expansión de Madrid.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Para qué se elaboró este plano?",
-      "answer": "Formó parte de la información preparada para el concurso de 1929, cuyo objetivo era ordenar y urbanizar la zona exterior al Ensanche."
-    }
+    "faqs": [
+      {
+        "question": "¿Para qué se elaboró este plano?",
+        "answer": "Formó parte de la información preparada para el concurso de 1929, cuyo objetivo era ordenar y urbanizar la zona exterior al Ensanche."
+      },
+      {
+        "question": "¿Por qué tiene tanto detalle?",
+        "answer": "Se publicó a escala 1:2.000 y consta de ochenta y cinco hojas. Aquí están unidas para recorrerlas como un solo mapa."
+      }
+    ]
   },
   {
     "id": "ParcelarioMadrid",
@@ -1706,9 +1796,19 @@
     "preview": "ParcelarioMadrid-detail",
     "context": "Esta colección catastral reúne cientos de hojas con parcelas, edificios y datos de altitud.",
     "sourceName": "Instituto Geográfico Nacional",
-    "faq": {
-      "question": "¿Por qué hay huecos entre las hojas?",
-      "answer": "La colección reúne numerosas hojas catastrales y su cobertura no es continua en toda la zona; algunos espacios quedan sin cartografía."
-    }
+    "faqs": [
+      {
+        "question": "¿Por qué hay huecos entre las hojas?",
+        "answer": "La colección reúne numerosas hojas catastrales y su cobertura no es continua en toda la zona; algunos espacios quedan sin cartografía."
+      },
+      {
+        "question": "¿Representa Madrid en un único año?",
+        "answer": "No: es una colección de hojas de 1940 a 1960. El IGN la identifica como la cuarta edición, comenzada en 1944."
+      },
+      {
+        "question": "¿Qué significan planimetría y altimetría?",
+        "answer": "La planimetría sitúa calles, parcelas y edificios; la altimetría representa las alturas y el relieve. Este plano recoge ambas."
+      }
+    ]
   }
 ]

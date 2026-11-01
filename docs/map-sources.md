@@ -4,7 +4,9 @@ Verified 1 November 2026. This is a curated collection, not an inventory of ever
 
 ## Maps available in the viewer
 
-The eleven original dates and Spanish catalogue descriptions come from [IGN’s historical web map](https://nco.ign.es/portal/home/webmap/viewer.html?webmap=8eda9d617ce540778acf62c0b9fcfed1). Their geographic extents and tile limits come from [IGN WMTS capabilities](https://www.ign.es/wmts/planos?SERVICE=WMTS&REQUEST=GetCapabilities). The short English contexts summarise those descriptions; they are separate from the preserved source text.
+The eleven original dates and Spanish catalogue descriptions come from [IGN’s historical web map](https://nco.ign.es/portal/home/webmap/viewer.html?webmap=8eda9d617ce540778acf62c0b9fcfed1). Their geographic extents and tile limits come from [IGN WMTS capabilities](https://www.ign.es/wmts/planos?SERVICE=WMTS&REQUEST=GetCapabilities). The short Spanish contexts and questions summarise those descriptions; they are separate from the preserved source text.
+
+The additional questions and curiosities use those same official layer descriptions, checked against the live WMTS capabilities on 1 November 2026. Madoz's border illustrations and street index are also described in [its IGN catalogue record](https://www.ign.es/web/catalogo-cartoteca/resources/html/001526.html). Colubi's copy date and digitisation credits come from the municipal series record below; the municipal publication supplies the separate 1866 reference. The current-map questions explain the viewer's present-day search and the different dates of the source sheets.
 
 | Date | Map | Context |
 | --- | --- | --- |
