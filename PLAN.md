@@ -1,6 +1,10 @@
 ## tldr
 The public Spanish viewer includes twelve historical maps plus today's reference, a thumbnail timeline, address search, slide/overlay comparisons and 33 short questions and curiosities. Primary controls have visible text and icons. Both providers share the 64 MiB browser cache. Earlier release and DNS records remain below as dated history.
 
+## Phone layout release, 2 November 2026
+
+Application commit `8882258` is published through Cloudflare version `86420eb8-57c7-4a61-ad84-c11c330bdcb2` and is on `main`. Luis chose layout B (floating actions over a full-screen map) from three in-app prototypes, preserved on `prototype/mobile-layouts` at `423ca8e`. Portrait comparisons split top/bottom, the overlay slider is labelled with the two map years, Ubicación shows a live dot only inside the maps' coverage, the fullscreen button is hidden where the browser cannot use it, and a web manifest supports adding the site to the home screen. Live assets matched the committed files. All browser checks, including the new `check-location.js`, passed against production at 390×844 and 1280×800, and real-touch divider, pan and pinch passed locally. RoboRev 740, 749, 756 and 759 were fixed and closed; the third round's findings concerned the previous round's additions, so the loop stopped there. Real iPhone Safari (location prompt, home-screen launch) remains a device check for Luis.
+
 ## Current application release, 1 November 2026
 
 Application commit `9a8843a` is published at https://madrid.luischav.es through Cloudflare version `c3c2848f-5fa1-4836-b6a2-3c78462b421c` and is integrated into `main`. The HTML, application, catalogue, search and styles returned anonymous HTTP 200 responses and matched the committed assets byte for byte. All thirteen maps and 33 question/answer entries passed the production timeline check, including decoded Colubi tiles, selection replacement and keyboard navigation. Phone and tablet Spanish-interface checks passed; all 22 unit tests passed with 49 assertions.
