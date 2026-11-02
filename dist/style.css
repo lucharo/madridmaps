@@ -45,9 +45,47 @@ body.expanded>header,body.expanded>footer,.expanded .toolbar{display:none}.expan
 #overlay-control{display:flex;align-items:center;gap:10px;padding:2px 8px 4px;font-size:15px}
 .overlay-year{font-weight:700;min-width:44px;text-align:center;font-size:17px;letter-spacing:-.3px}
 #overlay-control input[type=range]{flex:1;width:auto;min-width:0;min-height:44px}
-#map-stage .map-caption{bottom:calc(var(--comparison-height,0px) + 30px)}
+#map-stage .map-caption{bottom:max(25px,calc(var(--comparison-height,0px) + 4px))}
 #swipe-handle{transform:translate(calc(-50% + var(--handle-shift,0px)),-50%)}
 #swipe.vertical{left:0;right:0;width:auto;height:2px;bottom:auto}
 #swipe.vertical #swipe-handle{left:50%;top:0;transform:translate(-50%,calc(-50% + var(--handle-shift,0px))) rotate(90deg);cursor:ns-resize}
 .split-vertical .caption-a{bottom:auto!important;top:var(--controls-bottom,64px)}
 .split-vertical .caption-b{left:12px;right:auto;align-items:flex-start;text-align:left}
+
+/* Location, notes and the "Más opciones" sheet */
+#phone-more{display:none!important}
+#locate[aria-pressed=true]{color:var(--accent);border-color:var(--accent);background:var(--selected)}
+#view-note{display:inline-flex;align-items:center;gap:10px;text-align:left}#view-note svg{width:20px;height:20px;flex:none}
+#more-sheet{max-width:440px}#more-sheet h2{font-size:20px;margin-bottom:14px}
+.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.more-grid .labelled-button{justify-content:flex-start;width:100%}
+
+/* Phones: the map fills the screen; date, actions and comparison float over it */
+@media(max-width:620px),(max-height:500px){
+  body>header,body>footer,.view-tools,#expand,#expanded-info,.leaflet-control-zoom{display:none!important}
+  .status-bar,.expanded .status-bar{display:none}
+  .status-bar.has-error,.expanded .status-bar.has-error{display:flex;position:absolute;left:10px;right:10px;bottom:max(34px,calc(var(--comparison-height,0px) + 8px));z-index:560;background:var(--paper);border:1px solid var(--line);border-radius:8px}
+  #map-stage,.expanded #map-stage{min-height:0}
+  .toolbar,.expanded .toolbar{position:absolute;top:calc(10px + env(safe-area-inset-top));left:calc(10px + env(safe-area-inset-left));right:calc(78px + env(safe-area-inset-right));z-index:800;display:flex;flex-wrap:nowrap;gap:0;background:none;border:0;padding:0}
+  .date-picker,#compare-controls{flex:1;width:auto;min-width:0;flex-wrap:nowrap;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:3px;gap:3px}
+  .date-picker button,.date-picker select,#compare-controls button{border-color:transparent}
+  #pair-a,#pair-b{flex:1;min-width:0;font-size:15px;padding:8px 6px}#end-compare span{display:none}.versus{display:none}
+  .explore-controls,.expanded .explore-controls{position:absolute;top:calc(10px + env(safe-area-inset-top));right:calc(10px + env(safe-area-inset-right));left:auto;max-width:none;flex-direction:column;flex-wrap:nowrap;gap:8px}
+  .explore-controls .labelled-button,.expanded .explore-controls .labelled-button{flex-direction:column;gap:1px;width:58px;min-width:58px;height:58px;padding:5px 0;border-radius:16px;font-size:11px;line-height:1.1}
+  .explore-controls .labelled-button span{display:none}
+  .explore-controls .labelled-button::after{content:attr(data-short)}
+  #expanded-maps.labelled-button,#expanded-compare.labelled-button,#phone-more.labelled-button{display:inline-flex!important}
+  #expanded-maps{order:1}#expanded-compare{order:2}#search-toggle{order:3}#locate{order:4}#phone-more{order:5}
+  .map-search{left:10px;width:calc(100% - 98px)}.map-search.viewport-search{width:calc(100% - 16px)}
+  #comparison-panel,.expanded #comparison-panel{bottom:calc(26px + env(safe-area-inset-bottom))}
+}
+@media(max-height:500px){
+  .toolbar,.expanded .toolbar{right:calc(66px + env(safe-area-inset-right))}
+  .explore-controls,.expanded .explore-controls{gap:6px}
+  .explore-controls .labelled-button,.expanded .explore-controls .labelled-button{width:46px;min-width:46px;height:46px;border-radius:12px}
+  .explore-controls .labelled-button::after{content:none}
+  .map-search{width:calc(100% - 86px)}
+  .caption-b{right:calc(66px + env(safe-area-inset-right))}
+}
+#view-note{bottom:max(80px,calc(var(--comparison-height,0px) + 70px))}
+@media(max-width:620px){.more-grid{grid-template-columns:1fr}#more-sheet{padding:20px}}
+.map-search.viewport-search{z-index:900}

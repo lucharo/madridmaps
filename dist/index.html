@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Explora los planos históricos de Madrid desde 1622 hasta hoy, incluido el atlas catastral de Carlos Colubi. Recorre las fechas, busca direcciones y compara mapas.">
-<meta name="theme-color" content="#ffffff"><title>Madrid a través del tiempo</title>
+<meta name="theme-color" content="#ffffff"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Madrid"><title>Madrid a través del tiempo</title>
 <link rel="stylesheet" href="vendor/leaflet.css"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="timeline.css">
 <script defer src="vendor/leaflet.js"></script><script defer src="app.js"></script>
 </head>
@@ -21,7 +21,7 @@
     </div>
     <div id="map-stage">
       <div id="map" aria-label="Mapa histórico interactivo de Madrid"></div>
-      <div class="explore-controls"><button id="expand" aria-pressed="false">Ampliar mapa</button><button id="search-toggle" class="map-search-toggle" aria-label="Buscar dirección" title="Buscar dirección" aria-expanded="false" aria-controls="map-search"></button><button id="expanded-maps">Mapas</button><button id="expanded-compare">Comparar</button><button id="expanded-info">Información</button></div>
+      <div class="explore-controls"><button id="expand" aria-pressed="false">Ampliar mapa</button><button id="search-toggle" class="map-search-toggle" data-short="Buscar" aria-label="Buscar dirección" title="Buscar dirección" aria-expanded="false" aria-controls="map-search"></button><button id="expanded-maps" data-short="Mapas">Mapas</button><button id="expanded-compare" data-short="Comparar">Comparar</button><button id="expanded-info">Información</button><button id="locate" data-short="Ubicación" aria-pressed="false">Mi ubicación</button><button id="phone-more" data-short="Más" aria-haspopup="dialog">Más opciones</button></div>
       <section id="map-search" class="map-search" hidden aria-label="Buscar una dirección o un lugar">
         <form id="search-form" role="search"><label class="sr-only" for="search-input">Buscar direcciones y lugares de Madrid</label><input id="search-input" type="search" placeholder="Dirección, calle o barrio…" autocomplete="off" spellcheck="false" maxlength="180" aria-controls="search-results"><button id="search-submit" type="submit" aria-label="Buscar" title="Buscar"></button><button id="search-close" type="button" aria-label="Cerrar búsqueda" title="Cerrar búsqueda"></button></form>
         <p id="search-status" role="status" aria-live="polite">Busca una dirección actual. Prueba Gran Vía 28 o Malasaña.</p>
@@ -33,12 +33,13 @@
       <label class="sr-only" for="split-range">Posición del separador</label><input class="sr-only" id="split-range" type="range" min="0" max="100" value="50" tabindex="-1" aria-hidden="true">
       <div class="map-caption caption-a"><strong id="map-year"></strong><span id="map-name"></span></div>
       <div id="caption-b" class="map-caption caption-b" hidden><strong id="year-b"></strong><span id="name-b"></span></div>
-      <button id="view-note" hidden></button>
+      <button id="view-note" hidden><span id="view-note-text"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button>
     </div>
     <div id="status-bar" class="status-bar"><span id="status" role="status" aria-live="polite">Cargando la colección…</span><button id="retry" hidden>Reintentar carga</button><span id="outside" hidden></span></div>
   </section>
 </main>
 <dialog id="gallery" aria-labelledby="gallery-title" aria-describedby="gallery-hint"><div class="gallery-header"><div><h2 id="gallery-title">Explora los mapas</h2><p id="gallery-hint">Elige un mapa para verlo.</p></div><button id="gallery-close">Cancelar</button></div><div id="selection" hidden><button id="slot-0" aria-pressed="true"></button><button id="slot-1" aria-pressed="false"></button></div><div id="map-gallery"></div><div class="gallery-footer"><span>Mapas originales del IGN y del Ayuntamiento de Madrid</span><button id="gallery-apply" hidden disabled>Comparar estos mapas</button></div></dialog>
+<dialog id="more-sheet" aria-labelledby="more-title"><h2 id="more-title">Más opciones</h2><div class="more-grid"><button id="more-info" type="button"></button><button id="more-fill" type="button"></button><button id="more-whole" type="button"></button><button id="more-theme" type="button"></button><button id="more-fullscreen" type="button"></button><button id="more-close" type="button"></button></div></dialog>
 <footer><span>Cartografía: <a href="https://www.ign.es/" target="_blank" rel="noopener">IGN · CC BY 4.0</a> / <a href="https://geoportal.madrid.es/" target="_blank" rel="noopener">Ayuntamiento de Madrid</a></span><span>Madrid a través del tiempo</span></footer>
 <dialog id="info" aria-labelledby="timeline-title">
   <button id="close-info" class="close" aria-label="Cerrar información">×</button>

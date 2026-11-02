@@ -13,24 +13,27 @@ try{
   const evaluate=async expression=>{const result=await call('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true},sessionId);if(result.exceptionDetails)throw new Error(result.exceptionDetails.text);return result.result.value;};
   await call('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2},sessionId);
   await evaluate(`document.getElementById('compare-open').click();document.querySelector('[data-id="Today"]').click();document.getElementById('gallery-apply').click();`);
-  const box=await evaluate(`(()=>{const b=document.getElementById('swipe-handle').getBoundingClientRect(),s=document.getElementById('map-stage').getBoundingClientRect();return{x:b.x+b.width/2,y:b.y+b.height/2,left:s.left,width:s.width};})()`);
-  const destination=box.left+box.width*.72;
+  const box=await evaluate(`(()=>{const b=document.getElementById('swipe-handle').getBoundingClientRect(),s=document.getElementById('map-stage').getBoundingClientRect();return{x:b.x+b.width/2,y:b.y+b.height/2,left:s.left,top:s.top,width:s.width,height:s.height,upright:s.height>s.width};})()`);
+  // Portrait stages drag the divider down; landscape ones drag it right.
+  const destination=box.upright?{x:box.x,y:box.top+box.height*.72}:{x:box.left+box.width*.72,y:box.y};
   await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x,y:box.y,id:1}]},sessionId);
-  await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:destination,y:box.y,id:1}]},sessionId);
+  await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{...destination,id:1}]},sessionId);
   await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]},sessionId);
   const divider=await evaluate(`({split:window.madridViewer.state.split,dragging:window.madridViewer.map.dragging.enabled()})`);
   if(Math.abs(divider.split-72)>.5||!divider.dragging)throw new Error('Real touch divider did not move or release map dragging');
   // Touch pan elsewhere in the map proves divider handling did not disable normal gestures.
   const before=await evaluate('window.madridViewer.map.getCenter().lng');
-  await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:200,y:500,id:1}]},sessionId);
-  await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:280,y:500,id:1}]},sessionId);
+  const cx=box.left+box.width/2,cy=box.top+box.height*.35;
+  await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:cx-40,y:cy,id:1}]},sessionId);
+  await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:cx+40,y:cy,id:1}]},sessionId);
   await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]},sessionId);
   await new Promise(resolve=>setTimeout(resolve,500));
   const after=await evaluate('window.madridViewer.map.getCenter().lng');
   if(before===after)throw new Error('Touch pan did not move the map');
   const startZoom=await evaluate('window.madridViewer.map.getZoom()');
-  await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:350,y:550,id:1},{x:550,y:550,id:2}]},sessionId);
-  await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:250,y:550,id:1},{x:650,y:550,id:2}]},sessionId);
+  const spread=Math.min(100,box.width/4);
+  await call('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:cx-spread/2,y:cy,id:1},{x:cx+spread/2,y:cy,id:2}]},sessionId);
+  await call('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:cx-spread*1.5,y:cy,id:1},{x:cx+spread*1.5,y:cy,id:2}]},sessionId);
   await call('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]},sessionId);
   await new Promise(resolve=>setTimeout(resolve,500));
   const endZoom=await evaluate('window.madridViewer.map.getZoom()');

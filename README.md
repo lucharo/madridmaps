@@ -12,6 +12,8 @@ The website is in Spanish. Primary controls combine icons with visible text, and
 
 **Mapas** opens all maps; **Comparar** lets you choose two dates. Use **Buscar dirección** to find an address, **Ampliar mapa** to explore without page borders, and **Llenar pantalla** or **Plano completo** to change the fit.
 
+On phones the map fills the screen: the date sits at the top and **Mapas**, **Comparar**, **Buscar**, **Ubicación** and **Más** float down the right edge. Comparisons split top/bottom on a portrait screen. **Ubicación** asks for location permission when tapped and shows a live dot only inside the area the maps cover. Adding the site to the home screen opens it without browser bars.
+
 **Información** opens the illustrated horizontal timeline. Tap a map to select it and read why it was made, followed by short questions and curiosities. Original catalogue descriptions and additional archive collections are available below. The timeline includes all twelve historical maps plus today's reference map; additional archive scans are linked separately.
 
 ## Saved tiles

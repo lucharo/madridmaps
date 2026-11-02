@@ -9,14 +9,17 @@
   if(v.state.mode!=='browse')$('end-compare').click();
   if(document.body.classList.contains('expanded'))$('expand').click();
   await frame();await frame();
-  const expected=['Mapas','Comparar','Pantalla completa','Información'];
-  assert(JSON.stringify([...document.querySelectorAll('header .labelled-button')].slice(0,4).map(b=>b.textContent.trim()))===JSON.stringify(expected),'Primary action labels changed or missing');
-  for(const id of ['catalogue-toggle','compare-open','fullscreen','info-toggle','theme','expand','search-toggle','fit','whole']){
+  // Phones hide the header and float short-labelled actions over the map.
+  const phone=matchMedia('(max-width:620px),(max-height:500px)').matches,expected=['Mapas','Comparar','Pantalla completa','Información'];
+  if(!phone)assert(JSON.stringify([...document.querySelectorAll('header .labelled-button')].slice(0,4).map(b=>b.textContent.trim()))===JSON.stringify(expected),'Primary action labels changed or missing');
+  const visibleLabel=b=>phone&&b.closest('.explore-controls')?(getComputedStyle(b,'::after').content.replace(/"/g,'')||(innerHeight<=500&&b.getAttribute('aria-label'))):b.querySelector('span')?.textContent.trim();
+  for(const id of phone?['expanded-maps','expanded-compare','search-toggle','locate','phone-more','previous','next']:['catalogue-toggle','compare-open','fullscreen','info-toggle','theme','expand','search-toggle','fit','whole']){
     const b=$(id),box=b.getBoundingClientRect();
-    assert(b.querySelector('svg')&&b.querySelector('span')?.textContent.trim(),'Icon and visible label missing: '+id);
+    if(!['previous','next'].includes(id))assert(b.querySelector('svg')&&visibleLabel(b),'Icon and visible label missing: '+id);
     assert(box.height>=44&&box.width>=44,'Small primary touch target: '+id);
   }
-  $('retry').hidden=false;assert($('retry').getBoundingClientRect().height>=44,'Retry touch target is too small');$('retry').hidden=true;
+  // Retry only appears with a load error, which also reveals the status bar on phones.
+  $('retry').hidden=false;$('status-bar').classList.add('has-error');assert($('retry').getBoundingClientRect().height>=44,'Retry touch target is too small');$('retry').hidden=true;$('status-bar').classList.remove('has-error');
   assert(document.querySelector('.leaflet-control-zoom-in').getAttribute('aria-label')==='Acercar','Zoom label remains English');
   assert(document.querySelector('.leaflet-control-zoom-out').getAttribute('aria-label')==='Alejar','Zoom label remains English');
   const themeBefore=$('theme').textContent;
@@ -31,7 +34,8 @@
   }
   $('search-toggle').click();await frame();await frame();
   const searchBox=$('map-search').getBoundingClientRect();
-  assert(searchBox.top>=Math.max(...actions.map(b=>b.getBoundingClientRect().bottom))+5,'Search covers the action buttons');
+  if(phone)assert(actions.every(b=>!overlaps(searchBox,b.getBoundingClientRect())),'Search covers the action buttons');
+  else assert(searchBox.top>=Math.max(...actions.map(b=>b.getBoundingClientRect().bottom))+5,'Search covers the action buttons');
   $('search-input').value='ab';$('search-form').dispatchEvent(new Event('submit',{cancelable:true}));
   assert($('search-status').textContent.includes('Escribe al menos 3 letras'),'Short-query message is not Spanish');
   const original=window.fetch;

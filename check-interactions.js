@@ -18,11 +18,15 @@
   let count=0;v.map.eachLayer(l=>{if(l instanceof L.TileLayer)count++;});assert(count===2,'Comparison did not mount exactly two layers');
   const range=$('split-range');range.value=30;range.dispatchEvent(new Event('input'));
   const clipValues=l=>l.getContainer().style.clip.match(/[-\d.]+/g).map(Number);
-  let a=clipValues(v.historical),b=clipValues(v.secondary),nw=v.map.containerPointToLayerPoint([0,0]),size=v.map.getSize();
-  assert(Math.abs(a[1]-(nw.x+size.x*.3))<1&&Math.abs(b[3]-a[1])<1,'Divider clips do not meet at the requested position');
-  v.map.panBy([70,30],{animate:false});await wait(settled);a=clipValues(v.historical);nw=v.map.containerPointToLayerPoint([0,0]);assert(Math.abs(a[1]-(nw.x+v.map.getSize().x*.3))<1,'Clip drift after pan');
-  const z=v.map.getZoom();document.querySelector('.leaflet-control-zoom-in').click();await wait(()=>Math.abs(v.map.getZoom()-(z+1))<.01&&settled());
-  a=clipValues(v.historical);nw=v.map.containerPointToLayerPoint([0,0]);assert(Math.abs(a[1]-(nw.x+v.map.getSize().x*.3))<1,'Clip drift after zoom');
+  let a=clipValues(v.historical),b=clipValues(v.secondary);
+  // Portrait stages split top/bottom: compare the clip's bottom edge instead of its right edge.
+  const upright=$('map-stage').clientHeight>$('map-stage').clientWidth,edge=upright?2:1,start=upright?0:3,axis=upright?'y':'x';
+  const expected=()=>v.map.containerPointToLayerPoint([0,0])[axis]+v.map.getSize()[axis]*.3;
+  assert(Math.abs(a[edge]-expected())<1&&Math.abs(b[start]-a[edge])<1,'Divider clips do not meet at the requested position');
+  assert($('swipe').classList.contains('vertical')===upright,'Divider orientation does not follow the screen');
+  v.map.panBy([70,30],{animate:false});await wait(settled);a=clipValues(v.historical);assert(Math.abs(a[edge]-expected())<1,'Clip drift after pan');
+  const z=v.map.getZoom();v.map.setZoom(z+1);await wait(()=>Math.abs(v.map.getZoom()-(z+1))<.01&&settled());
+  a=clipValues(v.historical);assert(Math.abs(a[edge]-expected())<1,'Clip drift after zoom');
   $('mode-overlay').click();$('opacity').value=65;$('opacity').dispatchEvent(new Event('input'));
   assert(v.historical.options.opacity===.35&&v.historical.getContainer().style.clip===''&&v.secondary.getContainer().style.clip==='','Overlay did not clear Slide clipping');
   $('retry').click();await wait(settled);

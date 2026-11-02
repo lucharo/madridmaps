@@ -13,6 +13,8 @@ const glyphs={
   whole:'<path d="M3 8V3h5m8 0h5v5M3 16v5h5m13-5v5h-5"/><rect x="7" y="7" width="10" height="10" rx="1"/>',
   left:'<path d="m15 5-7 7 7 7"/>',right:'<path d="m9 5 7 7-7 7"/>',
   close:'<path d="m6 6 12 12M6 18 18 6"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',
+  locate:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/>',
+  more:'<circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/>',
   retry:'<path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a7 7 0 0 1 12-1l2 3M4 15l2 3a7 7 0 0 0 12-1"/>'
 };
 const compactActions=new Set(['previous','next','timeline-previous','timeline-next','search-submit','search-close']);
@@ -27,7 +29,8 @@ for(const [id,glyph,label] of [
   ['catalogue-toggle','maps','Mapas'],['compare-open','compare','Comparar'],['fullscreen','fullscreen','Pantalla completa'],['info-toggle','info','Información'],
   ['previous','left','Mapa anterior'],['next','right','Mapa siguiente'],['fit','fill','Llenar pantalla'],['whole','whole','Plano completo'],['end-compare','close','Salir de la comparación'],
   ['expand','expand','Ampliar mapa'],['expanded-maps','maps','Mapas'],['expanded-compare','compare','Comparar'],['expanded-info','info','Información'],['timeline-previous','left','Ver mapas anteriores'],['timeline-next','right','Ver mapas posteriores'],['gallery-close','close','Cancelar'],['close-info','close','Cerrar'],
-  ['search-toggle','search','Buscar dirección'],['search-submit','search','Buscar'],['search-close','close','Cerrar búsqueda'],['retry','retry','Reintentar carga']
+  ['search-toggle','search','Buscar dirección'],['locate','locate','Mi ubicación'],['phone-more','more','Más opciones'],
+  ['more-info','info','Información'],['more-fill','fill','Llenar pantalla'],['more-whole','whole','Plano completo'],['more-fullscreen','fullscreen','Pantalla completa'],['more-close','close','Cerrar'],['search-submit','search','Buscar'],['search-close','close','Cerrar búsqueda'],['retry','retry','Reintentar carga']
 ])iconAction(id,glyph,label);
 const initial = new URLSearchParams(location.hash.slice(1));
 const state = {a:initial.get('map')||'Texeira', b:initial.get('b')||'Today', mode:initial.get('mode')||(initial.get('modern')==='1'?'overlay':'browse'),split:50,opacity:70,fit:initial.get('fit')==='whole'?'whole':'fill'};
@@ -43,13 +46,23 @@ if(!themes.includes(theme))theme='System';
 function applyTheme(){
   if(theme==='System')delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme=theme.toLowerCase();
-  iconAction('theme','theme',`Tema: ${{System:"sistema",Light:"claro",Dark:"oscuro"}[theme]}`);
+  const label=`Tema: ${{System:"sistema",Light:"claro",Dark:"oscuro"}[theme]}`;
+  iconAction('theme','theme',label);iconAction('more-theme','theme',label);
 }
 applyTheme();
 $('theme').onclick=()=>{theme=themes[(themes.indexOf(theme)+1)%themes.length];applyTheme();try{localStorage.setItem('madrid-theme',theme);}catch{}};
 const item = id => maps.find(m=>m.id===id);
 const shortName = m => m.title.replace(/,? \d{4}(?:-\d{4})?$/,'');
 const comparing = () => state.mode!=='browse';
+// Phones float the date and actions over a full-screen map (style.css uses the same query).
+const phoneLayout = matchMedia('(max-width:620px),(max-height:500px)');
+// iPhone Safari cannot hide its own bars for a page, so offer only what the browser supports.
+const canFullscreen = !!(document.fullscreenEnabled||document.webkitFullscreenEnabled);
+let noteTimer;
+function showNote(text){
+  const note=$('view-note');$('view-note-text').textContent=text;note.setAttribute('aria-label',`${text} Pulsa para cerrar.`);
+  note.hidden=false;clearTimeout(noteTimer);noteTimer=setTimeout(()=>{note.hidden=true;},6000);
+}
 // Portrait screens split top/bottom so each map keeps a usable width.
 const vertical = () => { const stage=$('map-stage'); return stage.clientHeight>stage.clientWidth; };
 function saveView(){
@@ -81,6 +94,7 @@ function fitView(kind=state.fit){
 function syncFitButtons(){
   $('fit').setAttribute('aria-pressed',String(state.fit==='fill'));
   $('whole').setAttribute('aria-pressed',String(state.fit==='whole'));
+  $('more-fill').setAttribute('aria-pressed',String(state.fit==='fill'));$('more-whole').setAttribute('aria-pressed',String(state.fit==='whole'));
 }
 function updateStatus(){
   if(!layerA)return;
@@ -249,10 +263,11 @@ function galleryChoose(id){
   draft[slot]=id;slot=other;refreshGallery();
 }
 function resizeMap(){requestAnimationFrame(()=>{
-  const stage=$('map-stage'),controls=document.querySelector('.explore-controls'),comparison=$('comparison-panel'),search=$('map-search');
-  const controlsBottom=controls.offsetTop+controls.offsetHeight+8,comparisonHeight=comparison.hidden?0:comparison.offsetHeight+8;
-  stage.style.setProperty('--controls-bottom',`${controlsBottom}px`);
-  stage.style.setProperty('--comparison-height',`${comparisonHeight}px`);
+  const stage=$('map-stage'),scope=stage.parentElement,controls=document.querySelector(phoneLayout.matches?'.toolbar':'.explore-controls'),comparison=$('comparison-panel'),search=$('map-search');
+  const controlsBottom=controls.offsetTop+controls.offsetHeight+8,comparisonHeight=comparison.hidden?0:stage.clientHeight-comparison.offsetTop+8;
+  // comparisonHeight is the strip plus its gap from the bottom edge.
+  scope.style.setProperty('--controls-bottom',`${controlsBottom}px`);
+  scope.style.setProperty('--comparison-height',`${comparisonHeight}px`);
   // Always measure the anchored width; switching layouts must not reverse this decision.
   search.classList.remove('viewport-search');
   const fixedHeight=[...search.children].filter(child=>child.id!=='search-results').reduce((height,child)=>{
@@ -282,7 +297,7 @@ async function fullscreen(){
     if(root.requestFullscreen){nativeRequested=true;await root.requestFullscreen();}
     else if(root.webkitRequestFullscreen){nativeRequested=true;await root.webkitRequestFullscreen();}
     else throw new Error('Unavailable');
-  }catch{nativeRequested=false;$('view-note').textContent='El mapa está ampliado. Este navegador no permite ocultar sus propias barras.';$('view-note').hidden=false;}
+  }catch{nativeRequested=false;showNote('El mapa está ampliado. Este navegador no permite ocultar sus propias barras.');}
 }
 function wireDivider(){
   const handle=$('swipe-handle');let pointer=null,wasDragging=false;
@@ -364,6 +379,13 @@ async function init(){
     finally{button.disabled=false;}
   };
   $('expand').onclick=()=>expanded?leaveExpanded():setExpanded(true);$('fullscreen').onclick=fullscreen;
+  $('fullscreen').hidden=!canFullscreen;$('more-fullscreen').hidden=!canFullscreen;
+  const sheet=$('more-sheet'),fromSheet=run=>()=>{sheet.close();run();};
+  $('phone-more').onclick=()=>sheet.showModal();$('more-close').onclick=()=>sheet.close();
+  sheet.onclick=event=>{if(event.target===sheet)sheet.close();};
+  $('more-info').onclick=fromSheet(openTimeline);$('more-fill').onclick=fromSheet(()=>fitView('fill'));$('more-whole').onclick=fromSheet(()=>fitView('whole'));
+  $('more-fullscreen').onclick=fromSheet(fullscreen);$('more-theme').onclick=()=>$('theme').click();
+  phoneLayout.addEventListener('change',resizeMap);
   $('view-note').onclick=()=>{$('view-note').hidden=true;};
   const fullscreenChanged=()=>{if(nativeRequested&&!document.fullscreenElement&&!document.webkitFullscreenElement){nativeRequested=false;setExpanded(false);}resizeMap();};
   document.addEventListener('fullscreenchange',fullscreenChanged);document.addEventListener('webkitfullscreenchange',fullscreenChanged);
@@ -372,6 +394,7 @@ async function init(){
   layoutObserver.observe($('map-stage'));layoutObserver.observe($('comparison-panel'));layoutObserver.observe($('map-search'));
   wireDivider();syncUI();saveView();
   const {initSearch}=await import('./search.js');initSearch(map);
+  const {initLocation}=await import('./location.js');initLocation(map,coverage,showNote);
   window.madridViewer={map,state,get current(){return item(state.a);},get historical(){return layerA;},get secondary(){return layerB;},get maps(){return maps;}};
   if(new URLSearchParams(location.search).get('timeline')==='1')openTimeline();
 }

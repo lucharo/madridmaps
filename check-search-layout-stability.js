@@ -19,10 +19,15 @@
       const style=getComputedStyle(child);return height+child.offsetHeight+parseFloat(style.marginTop)+parseFloat(style.marginBottom);
     },0)+$('search-results').firstElementChild.offsetHeight;
     // Measure both text widths synchronously, before resize callbacks can run.
-    search.classList.remove('viewport-search');const anchored=minimum();
-    search.classList.add('viewport-search');const viewport=minimum();
+    // Lengthen the fixture until it wraps differently at the two widths, whatever the screen size.
+    let anchored,viewport;const name=$('search-results').firstElementChild.querySelector('strong');
+    for(let i=0;i<40;i++){
+      search.classList.remove('viewport-search');anchored=minimum();
+      search.classList.add('viewport-search');viewport=minimum();
+      if(anchored>viewport)break;name.textContent+=' Madrid';
+    }
     assert(anchored>viewport,'Fixture must wrap differently at anchored and viewport widths');
-    const controls=document.querySelector('.explore-controls'),comparison=$('comparison-panel'),stage=$('map-stage');
+    const controls=document.querySelector(matchMedia('(max-width:620px),(max-height:500px)').matches?'.toolbar':'.explore-controls'),comparison=$('comparison-panel'),stage=$('map-stage');
     const target=controls.offsetTop+controls.offsetHeight+8+comparison.offsetHeight+8+(anchored+viewport)/2+8;
     // This creates the same map height as a short browser viewport without a second process.
     document.body.style.height=(document.body.clientHeight-stage.clientHeight+target)+'px';
