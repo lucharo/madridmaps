@@ -73,3 +73,13 @@ That project would need coverage and zoom selection, image preparation, storage 
 Sources: [saved tiles](../../README.md#saved-tiles), [cache limits and clearing](../../dist/tile-cache.js), [clear-during-download regression checks](../../test/tile-cache.test.mjs).
 
 _Created: 2026-11-01 · Updated: 2026-11-01 · Verified: 2026-11-01_
+
+## Can the viewer show where I am?
+
+**Short answer:** Yes: tap **Ubicación** (**Mi ubicación** on larger screens) and allow location access; a live blue dot appears only while you are inside the area the maps cover.
+
+The browser asks for permission on that tap, never when the page opens. Outside the coverage, or if access is refused, the viewer explains why and stops watching your position. Tap the button again to stop. The position is used only in your browser and is never sent to a server.
+
+Sources: [location module](../../dist/location.js), [behaviour check](../../check-location.js).
+
+_Created: 2026-11-02 · Updated: 2026-11-02 · Verified: 2026-11-02_
