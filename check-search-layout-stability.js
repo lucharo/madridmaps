@@ -28,7 +28,7 @@
     }
     assert(anchored>viewport,'Fixture must wrap differently at anchored and viewport widths');
     const controls=document.querySelector(matchMedia('(max-width:620px),(max-height:500px)').matches?'.toolbar':'.explore-controls'),comparison=$('comparison-panel'),stage=$('map-stage');
-    const target=controls.offsetTop+controls.offsetHeight+8+comparison.offsetHeight+8+(anchored+viewport)/2+8;
+    const target=controls.offsetTop+controls.offsetHeight+8+(stage.clientHeight-comparison.offsetTop+8)+(anchored+viewport)/2+8;
     // This creates the same map height as a short browser viewport without a second process.
     document.body.style.height=(document.body.clientHeight-stage.clientHeight+target)+'px';
     await settle();

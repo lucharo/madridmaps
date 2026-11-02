@@ -61,6 +61,8 @@ const canFullscreen = !!(document.fullscreenEnabled||document.webkitFullscreenEn
 let noteTimer;
 function showNote(text){
   const note=$('view-note');$('view-note-text').textContent=text;note.setAttribute('aria-label',`${text} Pulsa para cerrar.`);
+  // The visual note goes away; the live region keeps the text for screen readers.
+  $('note-live').textContent=text;
   note.hidden=false;clearTimeout(noteTimer);noteTimer=setTimeout(()=>{note.hidden=true;},6000);
 }
 // Portrait screens split top/bottom so each map keeps a usable width.
@@ -108,6 +110,7 @@ function updateStatus(){
   const loading=layerA.isLoading()||(comparing()&&layerB?.isLoading());
   $('retry').hidden=!errors.length;
   $('status-bar').classList.toggle('has-error',!!errors.length);
+  $('status-bar').classList.toggle('has-notice',!!outside.length);
   $('outside').hidden=!outside.length;
   $('outside').textContent=outside.length?(comparing()?`${outside.length===1?'El mapa':'Los mapas'} ${outside.map(k=>k.toUpperCase()).join(' y ')} ${outside.length===1?'está':'están'} fuera de su cobertura. Pulsa Llenar pantalla.`:'Estás fuera de la zona cubierta por el plano. Pulsa Llenar pantalla.'):'';
   $('status').textContent=errors.length?`${errors.join('. ')}. Pulsa Reintentar carga.`:loading?'Cargando imágenes originales…':outside.length?'Parte de esta vista queda fuera de la cobertura.':'Imágenes originales cargadas';
@@ -402,4 +405,4 @@ async function init(){
   window.madridViewer={map,state,get current(){return item(state.a);},get historical(){return layerA;},get secondary(){return layerB;},get maps(){return maps;}};
   if(new URLSearchParams(location.search).get('timeline')==='1')openTimeline();
 }
-init().catch(error=>{console.error(error);$('status').textContent='No se pudo iniciar el visor. Recarga esta página.';});
+init().catch(error=>{console.error(error);$('status').textContent='No se pudo iniciar el visor. Recarga esta página.';$('status-bar').classList.add('has-error');});
