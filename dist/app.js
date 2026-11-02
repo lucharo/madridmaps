@@ -50,6 +50,8 @@ $('theme').onclick=()=>{theme=themes[(themes.indexOf(theme)+1)%themes.length];ap
 const item = id => maps.find(m=>m.id===id);
 const shortName = m => m.title.replace(/,? \d{4}(?:-\d{4})?$/,'');
 const comparing = () => state.mode!=='browse';
+// Portrait screens split top/bottom so each map keeps a usable width.
+const vertical = () => { const stage=$('map-stage'); return stage.clientHeight>stage.clientWidth; };
 function saveView(){
   if(!map||!layerA)return;
   const c=map.getCenter();
@@ -117,8 +119,14 @@ function makeLayer(id,key){
 }
 function updateClip(){
   if(state.mode!=='slide'||!layerA||!layerB)return;
-  const nw=map.containerPointToLayerPoint([0,0]),se=map.containerPointToLayerPoint(map.getSize());
-  const x=nw.x+map.getSize().x*state.split/100;
+  const nw=map.containerPointToLayerPoint([0,0]),se=map.containerPointToLayerPoint(map.getSize()),size=map.getSize();
+  if(vertical()){
+    const y=nw.y+size.y*state.split/100;
+    layerA.getContainer().style.clip=`rect(${nw.y}px,${se.x}px,${y}px,${nw.x}px)`;
+    layerB.getContainer().style.clip=`rect(${y}px,${se.x}px,${se.y}px,${nw.x}px)`;
+    return;
+  }
+  const x=nw.x+size.x*state.split/100;
   layerA.getContainer().style.clip=`rect(${nw.y}px,${x}px,${se.y}px,${nw.x}px)`;
   layerB.getContainer().style.clip=`rect(${nw.y}px,${se.x}px,${se.y}px,${x}px)`;
 }
@@ -128,10 +136,17 @@ function updateComparison(){
   $('overlay-control').hidden=state.mode!=='overlay';
   $('split-range').value=state.split;
   $('split-range').setAttribute('aria-valuetext',`${state.split}% de la vista muestra el mapa A`);
-  $('swipe-handle').setAttribute('aria-valuenow',String(Math.round(state.split)));
-  $('opacity').value=state.opacity;
-  $('opacity-value').value=`${state.opacity}%`;
-  $('swipe').style.left=`${state.split}%`;
+  const upright=vertical(),handle=$('swipe-handle'),stage=$('map-stage');
+  handle.setAttribute('aria-valuenow',String(Math.round(state.split)));
+  handle.setAttribute('aria-orientation',upright?'vertical':'horizontal');
+  // The slider runs from A to B, so moving it right shows more of B.
+  $('opacity').value=100-state.opacity;
+  $('opacity').setAttribute('aria-valuetext',`${state.opacity}% ${item(state.a)?.year??'A'}, ${100-state.opacity}% ${item(state.b)?.year??'B'}`);
+  $('swipe').classList.toggle('vertical',upright);stage.classList.toggle('split-vertical',slide&&upright);
+  $('swipe').style.left=upright?'':`${state.split}%`;$('swipe').style.top=upright?`${state.split}%`:'';
+  // Keep the whole handle on screen at either end of the divider.
+  const length=upright?stage.clientHeight:stage.clientWidth,at=length*state.split/100,inside=Math.max(28,Math.min(length-28,at))-at;
+  handle.style.setProperty('--handle-shift',`${inside}px`);
   layerA?.setOpacity(state.mode==='overlay'?state.opacity/100:1);
   for(const l of [layerA,layerB])if(l?.getContainer())l.getContainer().style.clip='';
   updateClip();
@@ -144,6 +159,7 @@ function syncUI(){
   $('comparison-panel').hidden=!comparing();
   iconAction('compare-open','compare',comparing()?'Cambiar mapas':'Comparar');
   $('end-compare').hidden=!comparing();
+  $('overlay-a').textContent=a.year;$('overlay-b').textContent=b.year;
   $('mode-slide').setAttribute('aria-pressed',String(state.mode==='slide'));
   $('mode-overlay').setAttribute('aria-pressed',String(state.mode==='overlay'));
   $('map-year').textContent=comparing()?`A · ${a.year}`:a.year;
@@ -270,12 +286,12 @@ async function fullscreen(){
 }
 function wireDivider(){
   const handle=$('swipe-handle');let pointer=null,wasDragging=false;
-  const position=event=>{const box=$('map-stage').getBoundingClientRect();state.split=Math.max(0,Math.min(100,(event.clientX-box.left)/box.width*100));updateComparison();};
+  const position=event=>{const box=$('map-stage').getBoundingClientRect();state.split=Math.max(0,Math.min(100,vertical()?(event.clientY-box.top)/box.height*100:(event.clientX-box.left)/box.width*100));updateComparison();};
   handle.onpointerdown=event=>{if(event.button!==0||pointer!==null)return;event.preventDefault();event.stopPropagation();pointer=event.pointerId;wasDragging=map.dragging.enabled();map.dragging.disable();handle.setPointerCapture(pointer);position(event);};
   handle.onpointermove=event=>{if(event.pointerId===pointer)position(event);};
   const release=event=>{if(event.pointerId!==pointer)return;pointer=null;if(wasDragging)map.dragging.enable();saveView();};
   handle.onpointerup=release;handle.onpointercancel=release;handle.onlostpointercapture=release;
-  handle.onkeydown=event=>{let value=state.split;if(event.key==='ArrowLeft')value-=1;else if(event.key==='ArrowRight')value+=1;else if(event.key==='Home')value=0;else if(event.key==='End')value=100;else return;event.preventDefault();state.split=Math.max(0,Math.min(100,value));updateComparison();saveView();};
+  handle.onkeydown=event=>{let value=state.split;if(event.key==='ArrowLeft'||event.key==='ArrowUp')value-=1;else if(event.key==='ArrowRight'||event.key==='ArrowDown')value+=1;else if(event.key==='Home')value=0;else if(event.key==='End')value=100;else return;event.preventDefault();state.split=Math.max(0,Math.min(100,value));updateComparison();saveView();};
   $('split-range').oninput=()=>{state.split=Number($('split-range').value);updateComparison();saveView();};
 }
 async function init(){
@@ -328,7 +344,7 @@ async function init(){
   $('mode-slide').onclick=()=>{state.mode='slide';syncUI();saveView();};
   $('mode-overlay').onclick=()=>{state.mode='overlay';syncUI();saveView();};
   $('end-compare').onclick=()=>{state.mode='browse';renderLayers();};
-  $('opacity').oninput=()=>{state.opacity=Number($('opacity').value);updateComparison();saveView();};
+  $('opacity').oninput=()=>{state.opacity=100-Number($('opacity').value);updateComparison();saveView();};
   // Recreate at the same view: Leaflet 1.9.4 redraw() can request fractional tile z (#9930).
   $('retry').onclick=()=>renderLayers();
   $('info-toggle').onclick=openTimeline;$('expanded-info').onclick=openTimeline;$('close-info').onclick=()=>$('info').close();
