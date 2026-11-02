@@ -78,7 +78,7 @@ _Created: 2026-11-01 · Updated: 2026-11-01 · Verified: 2026-11-01_
 
 **Short answer:** Yes: tap **Ubicación** (**Mi ubicación** on larger screens) and allow location access; a live blue dot appears only while you are inside the area the maps cover.
 
-The browser asks for permission on that tap, never when the page opens. Outside the coverage, or if access is refused, the viewer explains why and stops watching your position. Tap the button again to stop. The position is used only in your browser and is never sent to a server.
+The browser asks for permission on that tap, never when the page opens. Outside the coverage, or if access is refused, the viewer explains why and stops watching your position. Tap the button again to stop. The viewer does not send your position anywhere, although the map images for the area you are looking at load from IGN or the Ayuntamiento as usual.
 
 Sources: [location module](../../dist/location.js), [behaviour check](../../check-location.js).
 
