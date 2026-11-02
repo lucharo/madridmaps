@@ -158,8 +158,12 @@ function updateComparison(){
   $('opacity').setAttribute('aria-valuetext',`${state.opacity}% ${item(state.a)?.year??'A'}, ${100-state.opacity}% ${item(state.b)?.year??'B'}`);
   $('swipe').classList.toggle('vertical',upright);stage.classList.toggle('split-vertical',slide&&upright);
   $('swipe').style.left=upright?'':`${state.split}%`;$('swipe').style.top=upright?`${state.split}%`:'';
-  // Keep the whole handle on screen at either end of the divider.
-  const length=upright?stage.clientHeight:stage.clientWidth,at=length*state.split/100,inside=Math.max(28,Math.min(length-28,at))-at;
+  // Keep the whole handle on screen and clear of floating controls at either end of the divider.
+  const length=upright?stage.clientHeight:stage.clientWidth,at=length*state.split/100,panel=$('comparison-panel');
+  const toolbar=document.querySelector('.toolbar'),actions=document.querySelector('.explore-controls');
+  const before=upright&&phoneLayout.matches?toolbar.offsetTop+toolbar.offsetHeight:0;
+  const after=upright?(panel.hidden?0:length-panel.offsetTop):(phoneLayout.matches?length-actions.offsetLeft:0);
+  const inside=Math.max(before+28,Math.min(length-after-28,at))-at;
   handle.style.setProperty('--handle-shift',`${inside}px`);
   layerA?.setOpacity(state.mode==='overlay'?state.opacity/100:1);
   for(const l of [layerA,layerB])if(l?.getContainer())l.getContainer().style.clip='';
