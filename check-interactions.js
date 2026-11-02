@@ -23,7 +23,7 @@
   v.map.panBy([70,30],{animate:false});await wait(settled);a=clipValues(v.historical);nw=v.map.containerPointToLayerPoint([0,0]);assert(Math.abs(a[1]-(nw.x+v.map.getSize().x*.3))<1,'Clip drift after pan');
   const z=v.map.getZoom();document.querySelector('.leaflet-control-zoom-in').click();await wait(()=>Math.abs(v.map.getZoom()-(z+1))<.01&&settled());
   a=clipValues(v.historical);nw=v.map.containerPointToLayerPoint([0,0]);assert(Math.abs(a[1]-(nw.x+v.map.getSize().x*.3))<1,'Clip drift after zoom');
-  $('mode-overlay').click();$('opacity').value=35;$('opacity').dispatchEvent(new Event('input'));
+  $('mode-overlay').click();$('opacity').value=65;$('opacity').dispatchEvent(new Event('input'));
   assert(v.historical.options.opacity===.35&&v.historical.getContainer().style.clip===''&&v.secondary.getContainer().style.clip==='','Overlay did not clear Slide clipping');
   $('retry').click();await wait(settled);
   assert([...document.querySelectorAll('.leaflet-tile')].every(i=>Number.isInteger(Number(new URL(i.src).searchParams.get('tilematrix')))),'Retry requested a fractional tile level');

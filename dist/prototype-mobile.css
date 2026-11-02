@@ -1,0 +1,41 @@
+/* PROTOTYPE, throwaway: phone layouts A/B/C. See prototype-mobile.js. */
+#proto-switcher{position:fixed;top:6px;left:50%;transform:translateX(-50%);z-index:5000;display:flex;align-items:center;gap:6px;background:#111;color:#ff0;border-radius:99px;padding:3px 8px;font:600 12px system-ui;box-shadow:0 2px 10px #0008}
+#proto-switcher button{min-height:30px;padding:0 10px;background:#333;color:#ff0;border:0;border-radius:99px}
+#proto-toast{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:900;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow);font-size:16px}
+#proto-more{max-width:420px}#proto-more h2{font-size:20px}
+.proto-more-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.proto-more-grid .labelled-button{justify-content:flex-start;width:100%}
+@media(max-width:620px){
+  /* Shared: drop the page frame so the map gets the height */
+  .proto>footer,.proto .identity span{display:none}
+  .proto .status-bar{display:none}.proto .status-bar.has-error{display:flex}
+  .proto #expand,.proto #fullscreen{display:none!important}
+
+  /* A: slim date row on top, tab bar at the bottom */
+  .v-a>header,.v-a .view-tools,.v-a .explore-controls{display:none!important}
+  .v-a .toolbar{padding:6px 8px;flex-wrap:nowrap}.v-a .date-picker{flex:1}
+  .v-a #compare-controls{width:100%;flex-wrap:nowrap}.v-a #pair-a,.v-a #pair-b{flex:1;font-size:14px}
+  .v-a #end-compare span{display:none}
+  #proto-tabbar{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);background:var(--paper);padding:4px 4px max(4px,env(safe-area-inset-bottom))}
+  #proto-tabbar .labelled-button{flex-direction:column;gap:2px;border:0;padding:6px 0;font-size:12px;min-height:54px;background:none}
+  .v-a .leaflet-top{top:0}
+
+  /* B: everything floats over a full-bleed map */
+  .v-b>header,.v-b .view-tools,.v-b .explore-controls,.v-b .leaflet-control-zoom{display:none!important}
+  .v-b .toolbar{position:absolute;top:10px;left:10px;right:72px;z-index:800;background:none;border:0;padding:0;flex-wrap:nowrap}
+  .v-b .date-picker{flex:1;background:var(--paper);border-radius:12px;box-shadow:var(--shadow);padding:3px;gap:3px}
+  .v-b .date-picker button,.v-b .date-picker select{border:0}
+  .v-b #compare-controls{flex-wrap:nowrap;width:100%;background:var(--paper);border-radius:12px;box-shadow:var(--shadow);padding:3px;gap:3px}
+  .v-b #pair-a,.v-b #pair-b{flex:1;font-size:14px;border:0}.v-b #end-compare span{display:none}
+  #proto-fabs{position:absolute;top:10px;right:10px;z-index:800;display:flex;flex-direction:column;gap:8px}
+  #proto-fabs .labelled-button{flex-direction:column;gap:0;width:54px;height:54px;min-height:54px;padding:4px 0;border-radius:16px;box-shadow:var(--shadow);font-size:10px;line-height:1.1}
+  .v-b .map-search{top:66px!important;width:calc(100% - 92px)}
+  .v-b .split-vertical .caption-a{top:66px}
+
+  /* C: one header row with ⋯, one date row, search and location on the map */
+  .v-c>header{flex-wrap:nowrap;padding:6px 8px;gap:6px}.v-c .identity{min-width:0;flex:1}
+  .v-c h1{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .v-c .tools{width:auto;flex-wrap:nowrap;gap:4px}.v-c #info-toggle,.v-c #theme{display:none!important}
+  .v-c .tools .labelled-button{padding:9px 8px;font-size:14px}.v-c #head-more span{display:none}
+  .v-c .view-tools{display:none!important}.v-c .toolbar{padding:6px 8px;flex-wrap:nowrap}
+  .v-c #compare-controls{width:100%;flex-wrap:nowrap}.v-c #pair-a,.v-c #pair-b{flex:1;font-size:14px}.v-c #end-compare span{display:none}
+}
